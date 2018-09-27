@@ -1,1 +1,1 @@
-print "hola Paco"
+print 2 + 2;
