@@ -29,7 +29,8 @@ ventana = QtGui.QWidget()
 ventana.setWindowTitle('Primera ventana') 
 ventana.resize(220, 150)  
 ventana.move(200, 200) 
-ventana.show()  
+ventana.show()
+
 
 
 sys.exit(aplicacion.exec_())
