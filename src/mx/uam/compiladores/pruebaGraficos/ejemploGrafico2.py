@@ -31,8 +31,8 @@ class Ventana (QtGui.QMainWindow):
         # Se agrega un evento
         EventoSalir = QtGui.QAction(QtGui.QIcon("salir.jpg"),"salir",self) 
 
-        # Se agrega un atajo
-        EventoSalir.setShortcut("Ctrl + Q")
+        # Se agrega un atajo, debe ir junto la cadena
+        EventoSalir.setShortcut("Ctrl+Q")
 
         #
         EventoSalir.setStatusTip('Sali de la aplicacion')
