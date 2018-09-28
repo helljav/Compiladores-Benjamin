@@ -22,14 +22,14 @@ class Ventana (QtGui.QMainWindow):
         self.setWindowTitle("Segunda Ventana de prueba")
 
         # Se Agrega un Icono al Grafico
-        self.setWindowIcon(QtGui.QIcon('salir.jpg'))
+        self.setWindowIcon(QtGui.QIcon('logo.png'))
         
         #########################################################################
         ###########  Construccion de un Menu en el Grafico  #####################
         #########################################################################
 
         # Se agrega un evento
-        EventoSalir = QtGui.QAction(QtGui.QIcon("salir.jpg"),"salir",self) 
+        EventoSalir = QtGui.QAction(QtGui.QIcon("salir.png"),"salir",self) 
 
         # Se agrega un atajo, debe ir junto la cadena
         EventoSalir.setShortcut("Ctrl+Q")
