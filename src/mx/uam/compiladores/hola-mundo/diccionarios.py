@@ -1,8 +1,8 @@
 # Diccionarios
 fili = {
         "id": 1,
-        "Nombre": "Angel",
-        "Apellido": "Rebollo"
+        "name": "Angel",
+        "lastName": "Rebollo"
     }
 
 print fili
@@ -11,42 +11,39 @@ print fili
 DB = [
         {
             "id": 1,
-            "Nombre": "Angel",
-            "Apat": "Rebollo",
-            "Amat": "Lopez",
-            "Edad": 22,
+            "name": "Angel",
+            "lastName": "Rebollo",
+            "gender": "Masculine",
+            "age": 22,
         },
         {
             "id": 2,
-            "Nombre": "Paco",
-            "Apat": "Carrillo",
-            "Amat": "Pachueco",
-            "Edad": 22,
+            "name": "Francisco",
+            "lastName": "Pachueco",
+            "gender": "Masculine",
+            "age": 22,
         },
         {
             "id": 3,
-            "Nombre": "Ricardo",
-            "Apat": "Chula",
-            "Amat": "Raya",
-            "Edad": 22,
+            "name": "Ricardo",
+            "lastName": "Raya",
+            "gender": "Masculine",
+            "age": 22,
         },
         {
             "id": 4,
-            "Nombre": "Mary",
-            "Apat": "Contreras",
-            "Amat": "Vidal",
-            "Edad": 22,
+            "name": "Maribel",
+            "lastName": "Vidal",
+            "gender": "Femenine",
+            "age": 22,
         }
     ]
 
 print
-print(DB[0])
-
-print
-print(DB[1])
-
-print
-print(DB[2])
-
-print
-print(DB[3])
+for person in DB:
+    print "ID: ", person['id']
+    print "Name: ", person['name']
+    print "Last Name:", person['lastName']
+    print "Gender: ", person['gender']
+    print "Age: ", person['age'], "Years Old"
+    print
