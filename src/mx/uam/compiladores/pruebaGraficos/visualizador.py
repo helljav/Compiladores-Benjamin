@@ -15,8 +15,7 @@ cFloat = 0
 cBoolean = 0
 
 # Metodo que verifica si el termino es un digito (0-9)
-def esDigito(termino):
-    
+def esDigito(termino):    
     # Exp. Regular de entre 0 y 9
     numeros = re.compile('[0-9]')
     
