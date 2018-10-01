@@ -1,14 +1,91 @@
+
 # coding=utf-8
 
 # importa el módulo sys
 import sys
+import re
 
 # importa el sub-módulo QtGui del módulo PyQt4
 from PyQt4 import QtGui
 
+cCadena = 0
+cEntero = 0
+cChar = 0
+cFloat = 0
+cBoolean = 0
+
+# Metodo que verifica si el termino es un digito (0-9)
+def esDigito(termino):    
+    # Exp. Regular de entre 0 y 9
+    numeros = re.compile('[0-9]')
+    
+    # si el termino es un digito
+    # search regresa el numero de ocurrencias en la Exp. Regular
+    if numeros.search(termino) > 0:
+            return True
+    return False
+
+# Metodo que verifica si el termino es un numero Flotante
+def esFlotante(termino):
+    
+    # Exp. Regular de entre 0 y 9 fija un punto y entre 0-9
+    flotantes = re.compile('[0-9].[0-9]')
+    
+    # si el termino es un flotante
+    # search regresa el numero de ocurrencias en la Exp. Regular
+    if flotantes.search(termino) > 0:
+            return True
+    return False
+
+def esCadena(termino):
+
+    # Expresion regular tipo estrella de klean a la z min y A a la Z
+    letras = re.compile('[a-zA-Z]')
+
+    if letras.search(termino) > 0:
+            return True
+    else:
+        return False
+
+# Metodo pra saber los tipos
+def tipoVariable(termino):
+
+    # Determinar si es el termino tiene longitud 1
+    # y no es un digito
+    if len(termino) == 1 and esDigito(termino) == False:
+        
+        global cChar
+        cChar = cChar + 1
+
+    else:
+        # Compara si el termino corresponde a un boolean
+        if termino == 'True' or termino == 'False':
+            
+            global cBoolean
+            cBoolean = cBoolean + 1
+
+        else:
+            # Verifica si es un numero 
+            if esDigito(termino) == True:
+                # Verifica si es flotante (que haya un punto)
+                if esFlotante(termino) == True:
+                    
+                    global cFloat
+                    cFloat = cFloat + 1
+                else:
+                    # Si no hay punto es un entero
+                    
+                    global cEntero
+                    cEntero = cEntero + 1
+            else:
+                # Si no es todo lo anterior es cadena
+                if esCadena(termino) == True:
+                    
+                    global cCadena
+                    cCadena = cCadena + 1
+    
+       
 # Clase Ventana que hereda de QtGui.QMainWindow
-
-
 class Ventana (QtGui.QMainWindow):
 
     # Constructor de la Ventana
@@ -105,6 +182,9 @@ class Ventana (QtGui.QMainWindow):
             QtGui.QIcon('salir.png'), 'Salir del Programa', self)
         self.EventoSalirLocal.triggered.connect(self.cierra_aplicacion)
         self.BarraOpciones.addAction(self.EventoSalirLocal)
+        
+        #Evento para el boton
+        self.btn_tokens.clicked.connect(self.despliegaContadores)
 
         # Lo que va en el parentesis es (eje x, eje y)
         # Configuracion de tamaño y ubicacion de los elementos en el Grafico
@@ -143,6 +223,15 @@ class Ventana (QtGui.QMainWindow):
         self.show()
     #
 
+    def despliegaContadores(self):
+        self.box_int.setText(str(cEntero) )
+        self.box_float.setText(str(cFloat))
+        self.box_boolean.setText(str(cBoolean))
+        self.box_char.setText(str(cChar))
+        self.box_string.setText(str(cCadena))
+
+
+
     def abrir_archivo(self):
         vOpenfilename = QtGui.QFileDialog.getOpenFileName(
             self, 'Open File', filter="*.txt")
@@ -156,8 +245,18 @@ class Ventana (QtGui.QMainWindow):
         #en ñla variable vTextstring almacena toda la cadena del arcchivo de texto
         #Con la funcion split se dividimos las palablas apartir de un espacio y se almacena
         #en un arreglo (palabras)
+
+        vTextstring = vTextstring.replace('\n',' ')
         self.palabras = vTextstring.split(" ")
-        print(type(1212))#te de vuelve el tipo de la cadena
+        
+        for termino in self.palabras:
+            tipoVariable(termino)
+        #se declaran estas variables de esta forma para poder utilizarlos en este metodo
+        global cCadena
+        global cEntero
+        global cChar
+        global cFloat
+        global cBoolean
 
         f.close() #cierra el archivo
         self.bandera_abrir = True
@@ -180,7 +279,11 @@ def main():
     app = QtGui.QApplication(sys.argv)
     # Creacion de un objeto de la clase ventana
     GUI = Ventana()
+    
     sys.exit(app.exec_())
+
+   
+
 
 
 # Se corre el main
