@@ -95,7 +95,7 @@ class Ventana (QtGui.QMainWindow):
         super(Ventana, self).__init__()
 
         # Se Define la posicion y tamaño para el Grafico
-        self.setGeometry(50, 50, 620, 500)
+        self.setGeometry(50, 50, 700, 500)
         # Se agrega un titulo al Grafico
         self.setWindowTitle("Visualizador de Archivos")
         # Se Agrega un Icono al Grafico
