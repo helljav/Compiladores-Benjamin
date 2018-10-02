@@ -53,14 +53,14 @@ def tipoVariable(termino):
     # Determinar si es el termino tiene longitud 1
     # y no es un digito
     if len(termino) == 1 and esDigito(termino) == False:
-        print termino, "es un caracter"
+        
         global cChar
         cChar = cChar + 1
 
     else:
         # Compara si el termino corresponde a un boolean
         if termino == 'True' or termino == 'False':
-            print termino, "es un Booleano"
+            
             global cBoolean
             cBoolean = cBoolean + 1
 
@@ -69,18 +69,18 @@ def tipoVariable(termino):
             if esDigito(termino) == True:
                 # Verifica si es flotante (que haya un punto)
                 if esFlotante(termino) == True:
-                    print termino, " es un Flotante"
+                    
                     global cFloat
                     cFloat = cFloat + 1
                 else:
                     # Si no hay punto es un entero
-                    print termino, " es un numero"
+                    
                     global cEntero
                     cEntero = cEntero + 1
             else:
                 # Si no es todo lo anterior es cadena
                 if esCadena(termino) == True:
-                    print termino, " es una cadena"
+                    
                     global cCadena
                     cCadena = cCadena + 1
     
@@ -182,6 +182,9 @@ class Ventana (QtGui.QMainWindow):
             QtGui.QIcon('salir.png'), 'Salir del Programa', self)
         self.EventoSalirLocal.triggered.connect(self.cierra_aplicacion)
         self.BarraOpciones.addAction(self.EventoSalirLocal)
+        
+        #Evento para el boton
+        self.btn_tokens.clicked.connect(self.despliegaContadores)
 
         # Lo que va en el parentesis es (eje x, eje y)
         # Configuracion de tamaño y ubicacion de los elementos en el Grafico
@@ -220,6 +223,15 @@ class Ventana (QtGui.QMainWindow):
         self.show()
     #
 
+    def despliegaContadores(self):
+        self.box_int.setText(str(cEntero) )
+        self.box_float.setText(str(cFloat))
+        self.box_boolean.setText(str(cBoolean))
+        self.box_char.setText(str(cChar))
+        self.box_string.setText(str(cCadena))
+
+
+
     def abrir_archivo(self):
         vOpenfilename = QtGui.QFileDialog.getOpenFileName(
             self, 'Open File', filter="*.txt")
@@ -237,26 +249,14 @@ class Ventana (QtGui.QMainWindow):
         vTextstring = vTextstring.replace('\n',' ')
         self.palabras = vTextstring.split(" ")
         
-        print vTextstring.split(" ")
-
-        for termino in self.palabras:
-            print termino
-
         for termino in self.palabras:
             tipoVariable(termino)
-        
+        #se declaran estas variables de esta forma para poder utilizarlos en este metodo
         global cCadena
         global cEntero
         global cChar
         global cFloat
         global cBoolean
-
-        print
-        print "numero de cadenas: ", cCadena
-        print "numero de enteros: ", cEntero
-        print "numero de char: ", cChar
-        print "numero de float: ", cFloat
-        print "numero de boolean: ", cBoolean
 
         f.close() #cierra el archivo
         self.bandera_abrir = True
