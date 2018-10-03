@@ -3,6 +3,8 @@
 
 # importa el módulo sys
 import sys
+
+# Libreria de expresiones regulares
 import re
 
 # importa el sub-módulo QtGui del módulo PyQt4
@@ -74,7 +76,6 @@ def tipoVariable(termino):
                     cFloat = cFloat + 1
                 else:
                     # Si no hay punto es un entero
-                    
                     global cEntero
                     cEntero = cEntero + 1
             else:
@@ -83,6 +84,7 @@ def tipoVariable(termino):
                     
                     global cCadena
                     cCadena = cCadena + 1
+
     
        
 # Clase Ventana que hereda de QtGui.QMainWindow
@@ -281,9 +283,6 @@ def main():
     GUI = Ventana()
     
     sys.exit(app.exec_())
-
-   
-
 
 
 # Se corre el main
