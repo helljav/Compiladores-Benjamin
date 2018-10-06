@@ -63,7 +63,7 @@ class Ventana (QtGui.QMainWindow):
         self.label_titulo.setFont(QtGui.QFont('SansSerif', 14))
         self.label_titulo.setGeometry( 120, 65, 300, 50 )
 
-        self.label_imagen.setGeometry( 50, 90, 500, 190 )
+        self.label_imagen.setGeometry( 120, 90, 500, 190 )
         self.label_imagen.setPixmap(QtGui.QPixmap("captura.jpg"))
 
         self.label_alfabeto.setGeometry( 50, 250, 150, 50 )
