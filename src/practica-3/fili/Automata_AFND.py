@@ -1,4 +1,7 @@
-class Automata(object):
+class AFND(object):
+
+    def __init__( self ):
+      print "constructor Automata AFND"
 
     def edo_Q0( self, cadena, contador, lista ):
 
