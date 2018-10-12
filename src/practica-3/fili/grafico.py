@@ -1,6 +1,7 @@
 import sys
 from PyQt4 import QtGui
-from Automata_AFD import Automata
+from Automata_AFND import AFND
+from Automata_AFND_e import AFND_e
 
 
 class Ventana (QtGui.QMainWindow):
@@ -12,7 +13,7 @@ class Ventana (QtGui.QMainWindow):
         super(Ventana, self).__init__()
 
         # Config Ventana
-        self.setGeometry(350, 100, 550, 600)
+        self.setGeometry(350, 50, 550, 670)
         self.setWindowTitle("Practica2: Implementacion de un AFD")
         self.setWindowIcon(QtGui.QIcon("logo.png"))
 
@@ -45,7 +46,7 @@ class Ventana (QtGui.QMainWindow):
     # Componentes
 
         # Labels
-        self.label_titulo = QtGui.QLabel( 'Automata Finito Determinista (AFD)', self )
+        self.label_titulo = QtGui.QLabel( 'Automata Finito NO Determinista (AFND)', self )
         self.label_alfabeto = QtGui.QLabel( 'Lenguaje Sigma = { 0, 1 }', self )
         self.label_cadenaEvaluar = QtGui.QLabel( 'Proporcione una cadena a evaluar: ', self )
         self.label_selectAutomata = QtGui.QLabel( 'Selecciona el tipo de automata: ', self )
@@ -66,7 +67,7 @@ class Ventana (QtGui.QMainWindow):
     # Diseno de Componentes en la Ventana
 
         self.label_titulo.setFont(QtGui.QFont('SansSerif', 14))
-        self.label_titulo.setGeometry( 120, 65, 300, 50 )
+        self.label_titulo.setGeometry( 80, 65, 350, 50 )
 
         self.label_imagen.setGeometry( 120, 90, 500, 190 )
         self.label_imagen.setPixmap(QtGui.QPixmap(""))
@@ -145,7 +146,8 @@ class Ventana (QtGui.QMainWindow):
 
         # Se inicia el Automata
         else:
-            print "logica AFND"
+            contador = 0
+            afnd = AFND()
     
     ##
     # Metodo para Validar la logica del
@@ -169,7 +171,8 @@ class Ventana (QtGui.QMainWindow):
 
         # Se inicia el Automata
         else:
-            print "logica AFND-e"
+            contador = 0
+            afnd_e = AFND_e()
 
     
     ##
@@ -187,10 +190,39 @@ class Ventana (QtGui.QMainWindow):
         # Imagen para el AFND
         elif cadAutomata == "AFND":
             self.label_imagen.setPixmap(QtGui.QPixmap("afnd.jpg"))
+            self.label_imagen.setGeometry( 120, 90, 500, 190 )
+
+            self.label_alfabeto.setGeometry( 50, 250, 150, 50 )
+
+            self.label_cadenaEvaluar.setGeometry( 50, 270, 200, 50 )
+            self.textField_cadenaEvaluar.setGeometry( 230, 285, 290, 20 )
+
+            self.label_selectAutomata.setGeometry( 50, 315, 150, 30 )
+            self.cb_selectAutomata.setGeometry( 210, 320, 290, 20 )
+
+            self.btn_comenzar.setGeometry( 50, 345, 150, 30 )
+
+            self.label_resultadoEvaluar.setGeometry( 50, 370, 150, 50 )
+            self.textArea_resultadoEvaluar.setGeometry( 190, 387, 290, 200 )
 
         # Imagen para el afnd-e
         elif cadAutomata == "AFND-e":
+
             self.label_imagen.setPixmap(QtGui.QPixmap("afnd-e.jpg"))
+            self.label_imagen.setGeometry( 150, 120, 500, 200 )
+
+            self.label_alfabeto.setGeometry( 50, 310, 150, 50 )
+
+            self.label_cadenaEvaluar.setGeometry( 50, 330, 200, 50 )
+            self.textField_cadenaEvaluar.setGeometry( 230, 345, 290, 20 )
+
+            self.label_selectAutomata.setGeometry( 50, 375, 150, 30 )
+            self.cb_selectAutomata.setGeometry( 210, 380, 290, 20 )
+
+            self.btn_comenzar.setGeometry( 50, 405, 150, 30 )
+
+            self.label_resultadoEvaluar.setGeometry( 50, 430, 150, 50 )
+            self.textArea_resultadoEvaluar.setGeometry( 190, 447, 290, 200 )
         
 ##
 # Metodo Main
