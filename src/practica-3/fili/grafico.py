@@ -69,7 +69,7 @@ class Ventana (QtGui.QMainWindow):
         self.label_titulo.setGeometry( 120, 65, 300, 50 )
 
         self.label_imagen.setGeometry( 120, 90, 500, 190 )
-        self.label_imagen.setPixmap(QtGui.QPixmap("afnd.jpg"))
+        self.label_imagen.setPixmap(QtGui.QPixmap(""))
 
         self.label_alfabeto.setGeometry( 50, 250, 150, 50 )
 
@@ -101,7 +101,7 @@ class Ventana (QtGui.QMainWindow):
     
     ##
     # Metodo para mostrar resultado de la evaluacion 
-    # en el field de la aplicacion
+    # del automata en la aplicacion
     ##
     def verResultado( self ):
 
@@ -117,8 +117,15 @@ class Ventana (QtGui.QMainWindow):
         elif cadAutomata == "AFND-e":
             self.validaAFND_e( cadena )
 
+    ##
+    # Metodo para Validar la logica del
+    # Automata tipo AFND
+    # @Param: String
+    # con la cadena a evaluar en el automata
+    ##
     def validaAFND( self, cadena ):
         contador = 0
+
         # Se valida que la cadena solo sean 1 y 0
         for letra in cadena:
             if letra != "1" and letra != "0":
@@ -140,9 +147,16 @@ class Ventana (QtGui.QMainWindow):
         else:
             print "logica AFND"
     
+    ##
+    # Metodo para Validar la logica del
+    # Automata tipo AFND-e
+    # @Param: String
+    # con la cadena a evaluar en el automata
+    ##
     def validaAFND_e( self, cadena ):
         contador = 0
-        # Se valida que la cadena solo sean 1 y 0
+
+        # Se valida que la cadena solo sean 1, 0 y espacio vacio
         for letra in cadena:
             if letra != "1" and letra != "0" and letra != "":
                 contador = contador + 1
@@ -157,21 +171,27 @@ class Ventana (QtGui.QMainWindow):
         else:
             print "logica AFND-e"
 
+    
+    ##
+    # Metodo para cambiar la imagen 
+    # del automata en la aplicacion
+    ##
     def cambiaImagen( self ):
 
         cadAutomata = self.cb_selectAutomata.currentText()
 
+        # Sin imagen
         if cadAutomata == '':
             self.label_imagen.setPixmap(QtGui.QPixmap(""))
         
+        # Imagen para el AFND
         elif cadAutomata == "AFND":
             self.label_imagen.setPixmap(QtGui.QPixmap("afnd.jpg"))
 
+        # Imagen para el afnd-e
         elif cadAutomata == "AFND-e":
             self.label_imagen.setPixmap(QtGui.QPixmap("afnd-e.jpg"))
         
-        
-
 ##
 # Metodo Main
 ##
