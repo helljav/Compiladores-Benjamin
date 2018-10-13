@@ -146,8 +146,15 @@ class Ventana (QtGui.QMainWindow):
 
         # Se inicia el Automata
         else:
-            contador = 0
             afnd = AFND()
+            lista = []
+            
+            afnd.vueltaAtras( cadena )
+
+            print "LISTAS POSIBLES"
+            for lista in afnd.Listas:
+                print lista
+            print
     
     ##
     # Metodo para Validar la logica del
