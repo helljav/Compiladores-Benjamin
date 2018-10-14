@@ -151,10 +151,14 @@ class Ventana (QtGui.QMainWindow):
             
             afnd.vueltaAtras( cadena )
 
+            mensaje = ""
+
             print "LISTAS POSIBLES"
             for lista in afnd.Listas:
-                print lista
-            print
+                mensaje = mensaje + " ".join(lista).replace(" ", "->").replace("Camino->Invalido", "Camino Invalido").replace("Camino->VALIDO", "Camino VALIDO") + "\n\n"
+            print mensaje
+
+            self.textArea_resultadoEvaluar.setText(str(mensaje))
     
     ##
     # Metodo para Validar la logica del
