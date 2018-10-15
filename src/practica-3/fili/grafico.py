@@ -153,10 +153,8 @@ class Ventana (QtGui.QMainWindow):
 
             mensaje = ""
 
-            print "LISTAS POSIBLES"
             for lista in afnd.Listas:
                 mensaje = mensaje + " ".join(lista).replace(" ", "->").replace("Camino->Invalido", "Camino Invalido").replace("Camino->VALIDO", "Camino VALIDO") + "\n\n"
-            print mensaje
 
             self.textArea_resultadoEvaluar.setText(str(mensaje))
     
@@ -184,6 +182,17 @@ class Ventana (QtGui.QMainWindow):
         else:
             contador = 0
             afnd_e = AFND_e()
+            res = afnd_e.edo_Q0( cadena )
+            afnd_e.Listas
+
+            mensaje = ""
+
+            for lista in afnd_e.Listas:
+                mensaje = mensaje + " ".join(lista).replace(" ", "->") + "\n\n"
+
+            mensaje = res + "\n\n" + mensaje
+
+            self.textArea_resultadoEvaluar.setText(str(mensaje))
 
     
     ##
