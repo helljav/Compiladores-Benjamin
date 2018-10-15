@@ -14,3 +14,13 @@ Contador de Palabras reservadas
 AFD (Automata Finito Determinista)
 
 <img src="https://image.ibb.co/mtB91z/practica_2.jpg" alt="practica_2" border="0">
+
+### Practica 3
+
+Automata AFND y AFND-e con sus posibles caminos, los validos e invalidos
+
+El AFND reconoce todas las combinaciones de 1 y 0 que forzosamente terminen con "01"
+
+El AFND-e reconoce las cadenas que contengas numero impar de 0 y las cadenas donde las cadenas no puedan tener como multiplo de 3 a el numero 1
+
+<img src="https://image.ibb.co/fWcGFf/afnd-e.jpg" alt="afnd-e" border="0">
