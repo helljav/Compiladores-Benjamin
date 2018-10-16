@@ -8,7 +8,6 @@ class AFND_e(object):
       boleano = False
       mensaje = ""
       
-      # Aplico Fuerza Bruta
       res = self.edo_Q1( cadena, 0, ["(e,Q1)"] )
       boleano = res[0]
 
