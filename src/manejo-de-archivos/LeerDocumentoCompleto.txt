@@ -1,0 +1,1 @@
+Es necesario saber, que cada vez que abrimos un archivo estamos creando un puntero, el cual se posicionara dentro del archivo en un lugar determinado (al comienzo o al final) y este puntero podra moverse dentro de ese archivo, eligiendo su nueva posicion, mediante el numero de byte correspondiente.
