@@ -3,7 +3,7 @@ class Uami(object):
 
     def __init__( self ):
         
-        # Cadena para crear el archivo tupla (*.tpl)
+        # un variable tipo fopen para abrir el archivo 
         self.f_tpl = ""
         # Cadena para crear el archivo Error (*.err)
         self.err = ""
