@@ -20,5 +20,16 @@ class Alex(object):
                         "tamano": 0,
                         "cadena" :"" 
                       }
-    
+
+    def Llena_Buffer(self):
+        if self.contador < len (self.contenido_del_archivo[:]):
+            Cadena = self.contenido_del_archivo[self.contador] + " "
+            self.Buffer["pos_leida"] = 0
+            self.Buffer["cadena"] = Cadena
+            self.Buffer["tamano"] = len(Cadena)
+        else:
+            self.Buffer["pos_leida"] = 0
+            self.Buffer["cadena"] = "null"
+            self.Buffer["tamano"] = 0
+            
     
