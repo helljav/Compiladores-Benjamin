@@ -6,3 +6,5 @@ class Palabras_Reservadas(object):
         self.suma = "SUMA"
         self.incremento = "INCREMENTO"
         self.entero = "ENTERO"
+        self.error = "ERROR"
+        self.hecho = "FINAL DE ARCHIVO"

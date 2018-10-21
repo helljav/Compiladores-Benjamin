@@ -51,7 +51,8 @@ class Archivo(object):
     def leerArchivo( self, url ):
         archivo = open( url, "r")
         contenido = archivo.read()
-        print contenido
+        indice = archivo.tell()
+        print contenido, "\n El indice ya recorrido es:", indice
 
     ##
     # Lee contenido haciendo pruebas
@@ -85,7 +86,8 @@ class Archivo(object):
         print "La posicion del puntero reseteada: ", puntero
         contenido = archivo.read()
         print "Contenido Completo"
-        print contenido
+        indice = archivo.tell()
+        print contenido, "\n El indice ya recorrido es:", indice
 
         print
 
@@ -106,6 +108,7 @@ class Archivo(object):
     def cerrarArchivo( self, url):
         archivo = open( url, "r") 
         contenido = archivo.read()
+    
         archivo.close()
 
 

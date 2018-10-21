@@ -1,61 +1,24 @@
 
 from PR import Palabras_Reservadas
-
+from PyQt4 import QtGui,QtCore
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 class Alex(object):
 
     ##
     # Constructor de la clase
     ##
-    def __init__( self ):
+    def __init__( self, contenido_GUI ):
         self.pr = Palabras_Reservadas()
+        self.contenidodelArchivo = str(contenido_GUI.toPlainText()).split("\n")
+        print 
+        print self.contenidodelArchivo
+        self.contador = 0
+
+        self.Buffer = {
+                        "pos_leida":0,
+                        "tamano": 0,
+                        "cadena" :"" 
+                      }
     
-    ##
-    # Gramatica que reconoce operador Producto
-    # @return: diccionario con el token (PRODUCTO) y su lexema (VALOR)
-    # 
-    def opeProducto( self, cadena, cont ):
-
-        if cadena[cont] == "*":
-            return  { 
-                        "token": self.pr.producto,
-                        "lexema": cadena[cont]
-                    }
-
-    ##
-    # Gramatica que reconoce operador Producto
-    # @return: diccionario con el token (SUMA) y su lexema (VALOR)
-    # 
-    def opeSuma( self, cadena, cont ):
-        
-        pass
-        
-
-
-    ##
-    # Gramatica que reconoce operador Producto
-    #   
-    # @Parametros: la referencia de la clase,
-    #              la cadena a evaluar
-    #              el contador que recorre la cadena
-    #  
-    # @return: diccionario con el token (ENTERO) y su lexema (VALOR)
-    # 
-    def opeEntero( self, cadena, cont ):
-        pass
-
-
-    ##
-    # Gramatica que reconoce operador Producto
-    #   
-    # @Parametros: la referencia de la clase,
-    #              la cadena a evaluar
-    #              el contador que recorre la cadena
-    #  
-    # @return: diccionario con el token (INCREMENTO) y su lexema (VALOR)
-    # 
-
-    def opeIncremento( self, cadena, cont ):
-        pass
-
-
-
+    

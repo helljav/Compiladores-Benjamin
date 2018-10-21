@@ -1,6 +1,6 @@
 import sys
 from PyQt4 import QtGui
-#from Automata_AFND import AFND
+from UAMI import Uami
 #from Automata_AFND_e import AFND_e
 
 
@@ -10,6 +10,7 @@ class Ventana (QtGui.QMainWindow):
     ##
     def __init__(self):
         super(Ventana, self).__init__()
+        self.URL =""
 
         # Config Ventana
         self.setGeometry(350, 50, 650, 570)
@@ -87,9 +88,11 @@ class Ventana (QtGui.QMainWindow):
     # Metodo para abrir el archivo
     # #    
     def abrir_archivo(self):
-            vOpenfilename = QtGui.QFileDialog.getOpenFileName(self, 'Open File', filter="*.txt")
-            
-            f = open(vOpenfilename, "r")
+            self.txb_AF.setText("")
+            archivo = QtGui.QFileDialog
+            self.URL = archivo.getOpenFileName(self, 'Open File', filter="*.fte")
+            # print archivo       
+            f = open(self.URL, "r")
             self.vTextstring = f.read()
             self.txb_AF.setText(self.vTextstring)
     
@@ -97,7 +100,9 @@ class Ventana (QtGui.QMainWindow):
     #Metodo para el compilador
     ##
     def iniciarCompilacion(self):
-        pass
+        
+        uami = Uami()
+        uami.iniciaCompilacion( self.URL, self.txb_AF )
        
 
 
