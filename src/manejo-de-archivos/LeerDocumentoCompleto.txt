@@ -1,0 +1,4 @@
+Es necesario saber
+.split("\n")
+Es necesario saber
+.split("\n")
