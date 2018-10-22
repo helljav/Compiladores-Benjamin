@@ -103,9 +103,6 @@ class Ventana (QtGui.QMainWindow):
         
         uami = Uami()
         uami.iniciaCompilacion( self.URL, self.txb_AF )
-       
-
-
     
     
 ##
