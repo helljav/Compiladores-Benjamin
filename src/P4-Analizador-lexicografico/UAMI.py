@@ -22,7 +22,6 @@ class Uami(object):
         
         # Generar la url a nivel de la carpeta origen del archivo abierto
         URL = '/'.join(str(e) for e in lista) + "/"
-        print URL
         
         # Creacion de los Archivos
         self.f_tpl = open( URL + "/tupla.tpl", "w+")
@@ -68,8 +67,16 @@ class Uami(object):
         
         while self.lineas < len(alex.contenido_del_archivo):
             diccionario = alex.Alexico(self)
-
+            
+            # Cuendo sea Error
             if diccionario["token"] == pr.error:
+                self.f_tpl.write("Linea: " + str(self.lineas) + "\t\t" +"<<<<< Error Caracter \"" + diccionario["lexema"] + "\" no permitido >>>>>")
+                break
+
+            elif diccionario["token"] == pr.hecho:
+                self.f_tpl.write( 
+                                    "Linea: " + str(self.lineas) + "\t\t" + "Token: " + diccionario["token"] + "\t\t" + "Lexema: " + diccionario["lexema"] + "\n"
+                                )
                 break
 
             else:

@@ -10,17 +10,23 @@ class Alex(object):
     # Constructor de la clase
     ##
     def __init__( self, contenido_GUI ):
-        self.pr = Palabras_Reservadas()
-        self.contenido_del_archivo = str(contenido_GUI.toPlainText()).split("\n")  
-        # print 
-        print self.contenido_del_archivo
+        self.contenido_del_archivo = str(contenido_GUI.toPlainText())
         self.contador = 0
-
         self.Buffer = {
                         "pos_leida":0,
                         "tamano": 0,
                         "cadena" :"" 
                       }
+        self.init()
+    
+    ##
+    # Inicializa el contenido del archivo,
+    # Crear las palabras Reservadas
+    # y llena el buffer
+    ##
+    def init( self ):
+        self.pr = Palabras_Reservadas()
+        self.contenido_del_archivo = self.contenido_del_archivo.split("\n") 
         self.Llena_Buffer()
 
     def Llena_Buffer(self):
@@ -70,12 +76,8 @@ class Alex(object):
         elif c is '+':
 
             c2 = self.leerCaracter()
-            print "c1 = ", c
-            print "c2 = ", c2
 
             if c2 is '+':
-
-                print c + c2
 
                 return {
                             "token": self.pr.incremento,
@@ -98,7 +100,7 @@ class Alex(object):
             while numeros.search(c) > 0:
                 cad = cad + c
                 c = self.leerCaracter()
-            
+                
             self.Deslee()
 
             return {
