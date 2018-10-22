@@ -11,9 +11,9 @@ class Alex(object):
     ##
     def __init__( self, contenido_GUI ):
         self.pr = Palabras_Reservadas()
-        self.contenido_del_archivo = str(contenido_GUI.toPlainText()).split("\n")
+        self.contenido_del_archivo = str(contenido_GUI.toPlainText()).split("\n")  
         # print 
-        # print self.contenido_del_archivo
+        print self.contenido_del_archivo
         self.contador = 0
 
         self.Buffer = {
@@ -21,6 +21,7 @@ class Alex(object):
                         "tamano": 0,
                         "cadena" :"" 
                       }
+        self.Llena_Buffer()
 
     def Llena_Buffer(self):
         if self.contador < len (self.contenido_del_archivo[:]):
@@ -35,12 +36,11 @@ class Alex(object):
 
 
     ##
-    # Leer Cadena
+    # Leer Caracter de cadena
     ##
     def leerCaracter( self ):
 
         if self.Buffer["pos_leida"] == self.Buffer["tamano"]:
-            
             self.contador = self.contador + 1
             self.Llena_Buffer()
         
@@ -54,14 +54,10 @@ class Alex(object):
         else:
             return "\0"
     
-    def Alexico (self, obj_UAMI):
-
+    def Alexico(self, obj_UAMI):
         # Exp. Regular de entre 0 y 9
         numeros = re.compile('[0-9]')
-        self.Llena_Buffer()
-
         obj_UAMI.lineas = self.contador
-
         c = self.leerCaracter()
 
         if c is '*':
@@ -93,7 +89,7 @@ class Alex(object):
                             "token": self.pr.suma,
                             "lexema": c
                         }
-        
+
         # search regresa el numero de ocurrencias en la Exp. Regular
         elif numeros.search(c) > 0: 
 
@@ -123,6 +119,7 @@ class Alex(object):
                         "token": self.pr.error,
                         "lexema": c
                     }
+        
     ##
     # Simula el signo de pesos de ENTERO y SUMA
     ##

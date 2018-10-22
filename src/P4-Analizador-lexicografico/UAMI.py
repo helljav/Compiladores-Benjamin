@@ -67,11 +67,10 @@ class Uami(object):
         self.crearArchivos( URL, contenido_GUI )
         
         while self.lineas < len(alex.contenido_del_archivo):
-
             diccionario = alex.Alexico(self)
 
             if diccionario["token"] == pr.error:
-                pass
+                break
 
             else:
                 self.f_tpl.write( 
