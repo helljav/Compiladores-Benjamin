@@ -103,6 +103,19 @@ class Ventana (QtGui.QMainWindow):
         
         uami = Uami()
         uami.iniciaCompilacion( self.URL, self.txb_AF )
+
+        
+        # Eliminar nombre de archivo abierto y guararlo en lista
+        lista = str(self.URL).split("/")
+        lista = lista[0:len(lista)-1]
+        
+        # Generar la url a nivel de la carpeta origen del archivo abierto
+        self.URL = '/'.join(str(e) for e in lista) + "/tupla.tpl"
+
+        tupla = open(self.URL, "r")
+        contenido_t = tupla.read()
+
+        self.txb_AG.setText( contenido_t )
     
     
 ##
