@@ -15,22 +15,22 @@ class Ventana(QtGui.QMainWindow):
         # Config Ventana
         self.setGeometry(350, 50, 630, 570)
         self.setWindowTitle("Practica4 Analizador Lexicgrafico")
-        self.setWindowIcon(QtGui.QIcon("logo.png"))
+        self.setWindowIcon(QtGui.QIcon("img/logo.png"))
 
         #Evento para abrir los archivos
-        self.EventoAbrirLocal = QtGui.QAction(QtGui.QIcon("open.png"), 'Abrir un Archivo', self )
+        self.EventoAbrirLocal = QtGui.QAction(QtGui.QIcon("img/open.png"), 'Abrir un Archivo', self )
         self.EventoAbrirLocal.setShortcut("Ctrl+O")
         self.EventoAbrirLocal.triggered.connect(self.abrirArchivo)
 
         # Evento Salir
         self.EventoSalir = QtGui.QAction(QtGui.QIcon(
-            "salir.png"), "Salir del Programa", self)
+            "img/salir.png"), "Salir del Programa", self)
         self.EventoSalir.setShortcut("Ctrl+Q")
         self.EventoSalir.setStatusTip('Salir de la aplicacion')
         self.EventoSalir.triggered.connect(self.cierraAplicacion)
 
         #Evento para compilar
-        self.EventoCompilar = QtGui.QAction(QtGui.QIcon("comp.png"), 'compilar',self)
+        self.EventoCompilar = QtGui.QAction(QtGui.QIcon("img/comp.png"), 'compilar',self)
         self.EventoCompilar.setShortcut("Ctrl+R")
         self.EventoCompilar.setStatusTip('Inicia la compilacion')
         self.EventoCompilar.triggered.connect(self.iniciarCompilacion)
@@ -106,17 +106,10 @@ class Ventana(QtGui.QMainWindow):
         uami = Uami()
         uami.iniciaCompilacion( self.fuenteUrl, self.txtAreaFuente )
 
-        
-        # Eliminar nombre de archivo abierto y guararlo en lista
-        lista = str(self.fuenteUrl).split("/")
-        lista = lista[0:len(lista)-1]
-        
-        # Generar la url a nivel de la carpeta origen del archivo abierto
-        self.fuenteUrl = '/'.join(str(e) for e in lista) + "/tupla.tpl"
+        archivo = open( uami.archivoTpl, "r")
+        contenido_t = archivo.read()
 
-        tupla = open(self.fuenteUrl, "r")
-        contenido_t = tupla.read()
-
+        uami.cierraArchivo( archivo )
         self.txtAreaResultado.setText( contenido_t )
     
     

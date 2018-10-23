@@ -1,3 +1,4 @@
+import os
 from Alex import Alex
 from PR import Palabras_Reservadas
 
@@ -5,7 +6,7 @@ class Uami(object):
 
     def __init__( self ):
         
-        self.achivoTpl = ""
+        self.archivoTpl = ""
         self.archivoErr = ""
         self.lineas = 0
 
@@ -20,14 +21,18 @@ class Uami(object):
 
         # Eliminar nombre de archivo abierto y guararlo en lista
         lista = str(fuenteUrl).split("/")
+        nombreFuente = lista[len(lista)-1].replace(".fte", "")
+        # print nombreFuente
         lista = lista[0:len(lista)-1]
         
-        # Generar la fuenteUrl a nivel de la carpeta origen del archivo abierto
-        fuenteUrl = '/'.join(str(e) for e in lista) + "/"
+        # Generar la Url a nivel de la carpeta origen del archivo abierto
+        fuenteUrl = '/'.join(str(e) for e in lista) + "/dist"
+        
+        print fuenteUrl
         
         # Creacion de los Archivos
-        self.achivoTpl = open( fuenteUrl + "/tupla.tpl", "w+")
-        self.archivoErr = open( fuenteUrl + "/error.err", "w+")
+        self.archivoTpl = fuenteUrl + "/" + nombreFuente + ".tpl"
+        self.archivoErr = fuenteUrl + "/" + nombreFuente + ".err"
 
         # Texto Default
         textoTupla = [
@@ -41,8 +46,6 @@ class Uami(object):
                         "\n\n"
                      ]
 
-        self.achivoTpl.writelines(textoTupla)
-
         textoError = [
                         "* Archivo Error *\n",
                         "En esta etapa del desarrollo del compilador este archivo solo\n",
@@ -51,15 +54,19 @@ class Uami(object):
                         contenido
                      ]
 
-        self.archivoErr.writelines(textoError)
+        archivo = open( self.archivoTpl, "w+")
+        archivo.writelines(textoTupla)
+        self.cierraArchivo( archivo )
 
-        self.cierraArchivo()
-        self.achivoTpl = open( fuenteUrl + "/tupla.tpl", "a+")
-        self.archivoErr = open( fuenteUrl + "/tupla.tpl", "a+")
+        archivo = open( self.archivoErr, "w+")
+        archivo.writelines(textoError)
+        self.cierraArchivo( archivo )
+
+        # Cerrar archivos modo w+
+        # self.cierraArchivo()
     
-    def cierraArchivo( self ):
-        self.achivoTpl.close()
-        self.archivoErr.close()
+    def cierraArchivo( self, archivo ):
+        archivo.close()
     
     def iniciaCompilacion( self, fuenteUrl, txtAreaFuente ):
         
@@ -67,18 +74,21 @@ class Uami(object):
 
         pr = Palabras_Reservadas()
         self.crearArchivos( fuenteUrl, txtAreaFuente )
+        # Creacion de los Archivos
+        archivo = open( self.archivoTpl, "a+")
+        self.archivoErr = open( self.archivoErr, "a+")
         
         while self.lineas < len( alex.contenidoFuente ):
             diccionario = alex.alexico(self)
             
             # Cuendo sea Error
             if diccionario["token"] == pr.error:
-                self.achivoTpl.write("Linea: " + str(self.lineas) + "\t\t" +"<<<<< Error Caracter \"" + diccionario["lexema"] + "\" no permitido >>>>>")
+                archivo.write("Linea: " + str(self.lineas) + "\t\t" +"<<<<< Error Caracter \"" + diccionario["lexema"] + "\" no permitido >>>>>")
                 break
 
             # Cuando sea Fin de Archivo
             elif diccionario["token"] == pr.hecho:
-                self.achivoTpl.write( 
+                archivo.write( 
                                     "Linea: " + str(self.lineas) + "\t" + "Token: " + diccionario["token"] + "\t" + "Lexema: " + diccionario["lexema"] + "\n"
                                 )
                 break
@@ -86,24 +96,24 @@ class Uami(object):
             # Cuando sea Aceptado el token
             elif (diccionario["token"] == pr.incremento):
 
-                self.achivoTpl.write( 
+                archivo.write( 
                                    "Linea: " + str(self.lineas) + "\t" + "Token: " + diccionario["token"] + "\t" + "Lexema: " + diccionario["lexema"] + "\n" 
                                 )
 
             elif (diccionario["token"] == pr.producto):
 
-                self.achivoTpl.write( 
+                archivo.write( 
                                    "Linea: " + str(self.lineas) + "\t" + "Token: " + diccionario["token"] + "\t" + "Lexema: " + diccionario["lexema"] + "\n" 
                                 )
             
             elif (diccionario["token"] == pr.entero):
-                self.achivoTpl.write( 
+                archivo.write( 
                                 "Linea: " + str(self.lineas) + "\t" + "Token: " + diccionario["token"] + "\t\t" + "Lexema: " + diccionario["lexema"] + "\n"
                             )
 
             elif (diccionario["token"] == pr.suma):
-                self.achivoTpl.write( 
+                archivo.write( 
                                 "Linea: " + str(self.lineas) + "\t" + "Token: " + diccionario["token"] + "\t\t" + "Lexema: " + diccionario["lexema"] + "\n"
                             )
         
-        self.cierraArchivo()
+        archivo.close()
