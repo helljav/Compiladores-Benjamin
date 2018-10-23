@@ -32,9 +32,9 @@ class Uami(object):
                         "En este archivo se encuentran los lexemas reconocidos\n",
                         "por el analizador lexicografico\n",
                         "\n\n",
-                        "\t\t\t\t\t",
+                        "\t",
                         "Token",
-                        "\t\t\t",
+                        "\t\t",
                         "Lexema",
                         "\n\n"
                      ]
@@ -73,15 +73,34 @@ class Uami(object):
                 self.f_tpl.write("Linea: " + str(self.lineas) + "\t\t" +"<<<<< Error Caracter \"" + diccionario["lexema"] + "\" no permitido >>>>>")
                 break
 
+            # Cuando sea Fin de Archivo
             elif diccionario["token"] == pr.hecho:
                 self.f_tpl.write( 
-                                    "Linea: " + str(self.lineas) + "\t\t" + "Token: " + diccionario["token"] + "\t\t" + "Lexema: " + diccionario["lexema"] + "\n"
+                                    "Linea: " + str(self.lineas) + "\t" + "Token: " + diccionario["token"] + "\t" + "Lexema: " + diccionario["lexema"] + "\n"
                                 )
                 break
 
-            else:
+            # Cuando sea Aceptado el token
+            elif (diccionario["token"] == pr.incremento):
+
                 self.f_tpl.write( 
-                                    "Linea: " + str(self.lineas) + "\t\t" + "Token: " + diccionario["token"] + "\t\t" + "Lexema: " + diccionario["lexema"] + "\n"
+                                   "Linea: " + str(self.lineas) + "\t" + "Token: " + diccionario["token"] + "\t" + "Lexema: " + diccionario["lexema"] + "\n" 
                                 )
+
+            elif (diccionario["token"] == pr.producto):
+
+                self.f_tpl.write( 
+                                   "Linea: " + str(self.lineas) + "\t" + "Token: " + diccionario["token"] + "\t" + "Lexema: " + diccionario["lexema"] + "\n" 
+                                )
+            
+            elif (diccionario["token"] == pr.entero):
+                self.f_tpl.write( 
+                                "Linea: " + str(self.lineas) + "\t" + "Token: " + diccionario["token"] + "\t\t" + "Lexema: " + diccionario["lexema"] + "\n"
+                            )
+
+            elif (diccionario["token"] == pr.suma):
+                self.f_tpl.write( 
+                                "Linea: " + str(self.lineas) + "\t" + "Token: " + diccionario["token"] + "\t\t" + "Lexema: " + diccionario["lexema"] + "\n"
+                            )
         
         self.cierraArchivo()
