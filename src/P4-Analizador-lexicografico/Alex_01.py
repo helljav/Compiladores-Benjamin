@@ -17,17 +17,9 @@ class Ventana (QtGui.QMainWindow):
         self.setWindowTitle("Practica4 Analizador Lexicgrafico")
         self.setWindowIcon(QtGui.QIcon("logo.png"))
 
-        # Config del Menu
-        self.MenuPrincipal = self.menuBar()
-        self.hearth = QtGui.QAction(QtGui.QIcon("comp.jpg"), '&Compilar', self)
-        self.hearth.setShortcut("Crtl+P")
-        self.MenuArchivo = self.MenuPrincipal.addMenu('&Archivo')
-        self.MenuCompilar = self.MenuPrincipal.addMenu('&Compilar')
-
-        # Barra de opciones
-        self.BarraOpciones = self.addToolBar("Archivo")
         #Evento para abrir los archivos
-        self.EventoAbrirLocal = QtGui.QAction(QtGui.QIcon("open.png"), 'Abrir un Archivo', self)
+        self.EventoAbrirLocal = QtGui.QAction(QtGui.QIcon("open.png"), 'Abrir un Archivo', self )
+        self.EventoAbrirLocal.setShortcut("Ctrl+O")
         self.EventoAbrirLocal.triggered.connect(self.abrir_archivo)
 
         # Evento Salir
@@ -39,15 +31,24 @@ class Ventana (QtGui.QMainWindow):
 
         #Evento para compilar
         self.EventoCompilar = QtGui.QAction(QtGui.QIcon("comp.png"), 'compilar',self)
+        self.EventoCompilar.setShortcut("Ctrl+R")
         self.EventoCompilar.setStatusTip('Inicia la compilacion')
         self.EventoCompilar.triggered.connect(self.iniciarCompilacion)
 
-        # Se agrega el listener del evento "EventoSalir" al menu
+        # Config del Menu Principal
+        self.MenuPrincipal = self.menuBar()
+
+        # Se crea el menu archivo y se agregan los eventos
+        self.MenuArchivo = self.MenuPrincipal.addMenu('&Archivo')
         self.MenuArchivo.addAction(self.EventoSalir)
-        # Se agrega el listener de los eventos a la Barra de Opciones
-        self.BarraOpciones.addAction(self.EventoAbrirLocal)
-        self.BarraOpciones.addAction(self.EventoSalir)
-        self.BarraOpciones.addAction(self.EventoCompilar)
+        self.MenuArchivo.addAction(self.EventoCompilar)
+        self.MenuArchivo.addAction(self.EventoAbrirLocal)
+
+        # Se crea el Toolbar y se agregan los eventos
+        self.Toolbar = self.addToolBar("Archivo")
+        self.Toolbar.addAction(self.EventoAbrirLocal)
+        self.Toolbar.addAction(self.EventoSalir)
+        self.Toolbar.addAction(self.EventoCompilar)
         
         self.diseno()
 
@@ -91,8 +92,7 @@ class Ventana (QtGui.QMainWindow):
             self.txb_AF.setText("")
             self.txb_AG.setText("")
             archivo = QtGui.QFileDialog
-            self.URL = archivo.getOpenFileName(self, 'Open File', filter="*.fte")
-            # print archivo       
+            self.URL = archivo.getOpenFileName(self, 'Open File', filter="*.fte")     
             f = open(self.URL, "r")
             self.vTextstring = f.read()
             self.txb_AF.setText(self.vTextstring)
