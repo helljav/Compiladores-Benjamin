@@ -9,12 +9,12 @@ class Alex(object):
     ##
     # Constructor de la clase
     ##
-    def __init__( self, contenido_GUI ):
-        self.contenido_del_archivo = str(contenido_GUI.toPlainText())
+    def __init__( self, txtAreaFuente ):
+        self.contenidoFuente = str(txtAreaFuente.toPlainText())
         self.contador = 0
-        self.Buffer = {
+        self.buffer = {
                         "pos_leida":0,
-                        "tamano": 0,
+                        "longitud": 0,
                         "cadena" :"" 
                       }
         self.init()
@@ -26,19 +26,23 @@ class Alex(object):
     ##
     def init( self ):
         self.pr = Palabras_Reservadas()
-        self.contenido_del_archivo = self.contenido_del_archivo.split("\n") 
-        self.Llena_Buffer()
+        self.contenidoFuente = self.contenidoFuente.split("\n") 
+        self.llenaBuffer()
 
-    def Llena_Buffer(self):
-        if self.contador < len (self.contenido_del_archivo[:]):
-            Cadena = str(self.contenido_del_archivo[self.contador])
-            self.Buffer["pos_leida"] = 0
-            self.Buffer["cadena"] = Cadena
-            self.Buffer["tamano"] = len(Cadena)
+
+    ##
+    # 
+    ##
+    def llenaBuffer(self):
+        if self.contador < len (self.contenidoFuente[:]):
+            Cadena = str(self.contenidoFuente[self.contador])
+            self.buffer["pos_leida"] = 0
+            self.buffer["cadena"] = Cadena
+            self.buffer["longitud"] = len(Cadena)
         else:
-            self.Buffer["pos_leida"] = 0
-            self.Buffer["cadena"] = "null"
-            self.Buffer["tamano"] = 0
+            self.buffer["pos_leida"] = 0
+            self.buffer["cadena"] = "null"
+            self.buffer["longitud"] = 0
 
 
     ##
@@ -46,24 +50,27 @@ class Alex(object):
     ##
     def leerCaracter( self ):
 
-        if self.Buffer["pos_leida"] == self.Buffer["tamano"]:
+        if self.buffer["pos_leida"] == self.buffer["longitud"]:
             self.contador = self.contador + 1
-            self.Llena_Buffer()
+            self.llenaBuffer()
         
-        if self.Buffer["tamano"] != 0:
+        if self.buffer["longitud"] != 0:
             
-            caracter = self.Buffer["cadena"][self.Buffer["pos_leida"]]
-            self.Buffer["pos_leida"] = self.Buffer["pos_leida"] + 1
+            caracter = self.buffer["cadena"][self.buffer["pos_leida"]]
+            self.buffer["pos_leida"] = self.buffer["pos_leida"] + 1
 
             return caracter
 
         else:
             return "\0"
     
-    def Alexico(self, obj_UAMI):
+    ##
+    #
+    ##
+    def alexico(self, uami):
         # Exp. Regular de entre 0 y 9
         numeros = re.compile('[0-9]')
-        obj_UAMI.lineas = self.contador
+        uami.lineas = self.contador
         c = self.leerCaracter()
 
         if c is '*':
@@ -86,7 +93,7 @@ class Alex(object):
 
             else:
 
-                self.Deslee()
+                self.desleer()
                 return {
                             "token": self.pr.suma,
                             "lexema": c
@@ -101,7 +108,7 @@ class Alex(object):
                 cad = cad + c
                 c = self.leerCaracter()
                 
-            self.Deslee()
+            self.desleer()
 
             return {
                         "token": self.pr.entero,
@@ -125,8 +132,8 @@ class Alex(object):
     ##
     # Simula el signo de pesos de ENTERO y SUMA
     ##
-    def Deslee(self):
-        self.Buffer["pos_leida"] = self.Buffer["pos_leida"] - 1
+    def desleer(self):
+        self.buffer["pos_leida"] = self.buffer["pos_leida"] - 1
 
             
     
