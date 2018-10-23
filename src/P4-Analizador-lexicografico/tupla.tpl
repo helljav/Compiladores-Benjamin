@@ -11,4 +11,3 @@ Linea: 0		Token: ENTERO		Lexema: 453
 Linea: 0		Token: PRODUCTO		Lexema: *
 Linea: 0		Token: ENTERO		Lexema: 444
 Linea: 1		Token: INCREMENTO		Lexema: ++
-Linea: 1		<<<<< Error Caracter "h" no permitido >>>>>

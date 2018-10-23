@@ -13,7 +13,7 @@ class Ventana (QtGui.QMainWindow):
         self.URL =""
 
         # Config Ventana
-        self.setGeometry(350, 50, 630, 570)
+        self.setGeometry(350, 50, 650, 570)
         self.setWindowTitle("Practica4 Analizador Lexicgrafico")
         self.setWindowIcon(QtGui.QIcon("logo.png"))
 
@@ -61,8 +61,8 @@ class Ventana (QtGui.QMainWindow):
         #Cajas de texto
         self.txb_AF = QtGui.QTextEdit(self)
         self.txb_AG  = QtGui.QTextEdit(self)
-        self.txb_AF.setGeometry(120,60,500,220)
-        self.txb_AG.setGeometry(120,334,500,220)
+        self.txb_AF.setGeometry(120,60,520,220)
+        self.txb_AG.setGeometry(120,334,520,220)
         #Labels
         self.lbl_AF = QtGui.QLabel("Contenido del \narchivo fuente: ",self)
         self.lbl_AF.setGeometry(20,100,100,60)
