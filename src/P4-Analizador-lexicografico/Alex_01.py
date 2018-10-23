@@ -13,7 +13,7 @@ class Ventana (QtGui.QMainWindow):
         self.URL =""
 
         # Config Ventana
-        self.setGeometry(350, 50, 650, 570)
+        self.setGeometry(350, 50, 630, 570)
         self.setWindowTitle("Practica4 Analizador Lexicgrafico")
         self.setWindowIcon(QtGui.QIcon("logo.png"))
 
@@ -61,8 +61,8 @@ class Ventana (QtGui.QMainWindow):
         #Cajas de texto
         self.txb_AF = QtGui.QTextEdit(self)
         self.txb_AG  = QtGui.QTextEdit(self)
-        self.txb_AF.setGeometry(200,60,445,220)
-        self.txb_AG.setGeometry(200,334,445,220)
+        self.txb_AF.setGeometry(120,60,500,220)
+        self.txb_AG.setGeometry(120,334,500,220)
         #Labels
         self.lbl_AF = QtGui.QLabel("Contenido del \narchivo fuente: ",self)
         self.lbl_AF.setGeometry(20,100,100,60)
@@ -89,6 +89,7 @@ class Ventana (QtGui.QMainWindow):
     # #    
     def abrir_archivo(self):
             self.txb_AF.setText("")
+            self.txb_AG.setText("")
             archivo = QtGui.QFileDialog
             self.URL = archivo.getOpenFileName(self, 'Open File', filter="*.fte")
             # print archivo       
@@ -103,6 +104,19 @@ class Ventana (QtGui.QMainWindow):
         
         uami = Uami()
         uami.iniciaCompilacion( self.URL, self.txb_AF )
+
+        
+        # Eliminar nombre de archivo abierto y guararlo en lista
+        lista = str(self.URL).split("/")
+        lista = lista[0:len(lista)-1]
+        
+        # Generar la url a nivel de la carpeta origen del archivo abierto
+        self.URL = '/'.join(str(e) for e in lista) + "/tupla.tpl"
+
+        tupla = open(self.URL, "r")
+        contenido_t = tupla.read()
+
+        self.txb_AG.setText( contenido_t )
     
     
 ##
