@@ -24,3 +24,9 @@ El AFND reconoce todas las combinaciones de 1 y 0 que forzosamente terminen con 
 El AFND-e reconoce las cadenas que contengas numero impar de 0 y las cadenas donde las cadenas no puedan tener como multiplo de 3 a el numero 1
 
 <img src="https://image.ibb.co/fWcGFf/afnd-e.jpg" alt="afnd-e" border="0">
+
+### Practica 4
+
+Analizador Lexicografico
+
+<img src="https://image.ibb.co/duYuJA/1.jpg" alt="1" border="0">
