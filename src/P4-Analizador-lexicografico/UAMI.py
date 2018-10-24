@@ -4,6 +4,9 @@ from PR import Palabras_Reservadas
 
 class Uami(object):
 
+    ##
+    # Constructor
+    ##
     def __init__( self ):
         
         self.archivoTpl = ""
@@ -11,30 +14,36 @@ class Uami(object):
         self.lineas = 0
 
     ##
-    # @Param fuenteUrl: ruta del archivo fuente (el que se abre)
-    # @Param txtAreaFuente: Componente Gui de la ventana donde se muestra el contenido
-    #                       del archivo fuente
+    # Metodo para crear los archivos de la tupla y error
+    #
+    #   @Param fuenteUrl: 
+    #       Ruta del archivo fuente (el que se abre)
+    #   @Param txtAreaFuente: 
+    #       El componente Gui correspondiente a la Caja de texto
+    #       del archivo fuente
     ##
     def crearArchivos( self, fuenteUrl, txtAreaFuente ):
 
-        contenido = open( fuenteUrl, "r").read()
-
-        # Eliminar nombre de archivo abierto y guararlo en lista
+        # Obtener nombre del archivo fuente
         lista = str(fuenteUrl).split("/")
         nombreFuente = lista[len(lista)-1].replace(".fte", "")
-        # print nombreFuente
-        lista = lista[0:len(lista)-1]
-        
-        # Generar la Url a nivel de la carpeta origen del archivo abierto
-        fuenteUrl = '/'.join(str(e) for e in lista) + "/dist"
-        
-        print fuenteUrl
-        
-        # Creacion de los Archivos
-        self.archivoTpl = fuenteUrl + "/" + nombreFuente + ".tpl"
-        self.archivoErr = fuenteUrl + "/" + nombreFuente + ".err"
 
-        # Texto Default
+        # Si no se abre algun archivo fuente, se predefine un nombre
+        if nombreFuente is "":
+            nombreFuente = "untitle"
+        
+        #ruta para la carpeta de distribucion
+        urlDist =  os.getcwd().replace("\\", "/") + "/dist/"
+
+        # si no existe la carpera "dist", se crea
+        if not os.path.exists(urlDist):
+            os.makedirs(urlDist)
+        
+        # Creacion de las rutas para los archivos
+        self.archivoTpl = urlDist +  nombreFuente + ".tpl"
+        self.archivoErr = urlDist +  nombreFuente + ".err"
+
+        # Texto Default para el archivo tupla
         textoTupla = [
                         "En este archivo se encuentran los lexemas reconocidos\n",
                         "por el analizador lexicografico\n",
@@ -46,13 +55,16 @@ class Uami(object):
                         "\n\n"
                      ]
 
+        # Texto Default para el archivo error
         textoError = [
                         "* Archivo Error *\n",
                         "En esta etapa del desarrollo del compilador este archivo solo\n",
                         "contiene una copia del archivo fuente",
-                        "\n\n",
-                        contenido
+                        "\n\n"
                      ]
+        
+        # Se crean los archivos en las rutas correspondientes
+        # y se escribe el texto default en ellos
 
         archivo = open( self.archivoTpl, "w+")
         archivo.writelines(textoTupla)
@@ -61,23 +73,37 @@ class Uami(object):
         archivo = open( self.archivoErr, "w+")
         archivo.writelines(textoError)
         self.cierraArchivo( archivo )
-
-        # Cerrar archivos modo w+
-        # self.cierraArchivo()
     
+    ##
+    # Metodo para cerrar un archivo
+    #   @Param archivo:
+    #       El archivo a cerrar
+    ##
     def cierraArchivo( self, archivo ):
         archivo.close()
     
+    ##
+    # Metodo para inicial el analizador lexicografico
+    #
+    #   @Param fuenteUrl: 
+    #       Ruta del archivo fuente (el que se abre)
+    #   @Param txtAreaFuente: 
+    #       El componente Gui correspondiente a la Caja de texto
+    #       del archivo fuente
+    ##
     def iniciaCompilacion( self, fuenteUrl, txtAreaFuente ):
         
         alex = Alex( txtAreaFuente )
-
         pr = Palabras_Reservadas()
-        self.crearArchivos( fuenteUrl, txtAreaFuente )
+        
         # Creacion de los Archivos
+        self.crearArchivos( fuenteUrl, txtAreaFuente )
+        
+        # Se abren los archivos para el modo agregar texto
         archivo = open( self.archivoTpl, "a+")
         self.archivoErr = open( self.archivoErr, "a+")
         
+
         while self.lineas < len( alex.contenidoFuente ):
             diccionario = alex.alexico(self)
             

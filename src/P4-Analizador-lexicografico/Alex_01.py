@@ -1,15 +1,17 @@
 import sys
 from PyQt4 import QtGui
 from UAMI import Uami
-#from Automata_AFND_e import AFND_e
 
 
 class Ventana(QtGui.QMainWindow):
+
     ##
     # Constructor de la Ventana
     ##
     def __init__(self):
         super(Ventana, self).__init__()
+
+        # Direccion Url del archivo fuente
         self.fuenteUrl = ""
 
         # Config Ventana
@@ -17,7 +19,7 @@ class Ventana(QtGui.QMainWindow):
         self.setWindowTitle("Practica4 Analizador Lexicgrafico")
         self.setWindowIcon(QtGui.QIcon("img/logo.png"))
 
-        #Evento para abrir los archivos
+        # Evento para abrir los archivos
         self.EventoAbrirLocal = QtGui.QAction(QtGui.QIcon("img/open.png"), 'Abrir un Archivo', self )
         self.EventoAbrirLocal.setShortcut("Ctrl+O")
         self.EventoAbrirLocal.triggered.connect(self.abrirArchivo)
@@ -29,7 +31,7 @@ class Ventana(QtGui.QMainWindow):
         self.EventoSalir.setStatusTip('Salir de la aplicacion')
         self.EventoSalir.triggered.connect(self.cierraAplicacion)
 
-        #Evento para compilar
+        # Evento para compilar
         self.EventoCompilar = QtGui.QAction(QtGui.QIcon("img/comp.png"), 'compilar',self)
         self.EventoCompilar.setShortcut("Ctrl+R")
         self.EventoCompilar.setStatusTip('Inicia la compilacion')
@@ -53,20 +55,19 @@ class Ventana(QtGui.QMainWindow):
         self.diseno()
 
     ##
-    # LLenado de la Ventana
+    # LLenado y ubicacion de los componentes
+    # en la ventana
     ##
     def diseno(self):
-        ##
-        #  Componentes
-        ###
-
-        #Cajas de texto
+        
+        # Cajas de texto (text Areas)
         self.txtAreaFuente = QtGui.QTextEdit(self)
-        self.txtAreaResultado  = QtGui.QTextEdit(self)
         self.txtAreaFuente.setGeometry(120,60,500,220)
+
+        self.txtAreaResultado  = QtGui.QTextEdit(self)
         self.txtAreaResultado.setGeometry(120,334,500,220)
 
-        #Labels
+        # etiquetas (Labels)
         self.lbl_Fuente = QtGui.QLabel("Contenido del \narchivo fuente: ",self)
         self.lbl_Fuente.setGeometry(20,100,100,60)
         self.lbl_Fuente.setFont(QtGui.QFont('SansSerif', 11))
@@ -78,6 +79,7 @@ class Ventana(QtGui.QMainWindow):
 
     ##
     # Metodo para salir de la aplicacion
+    # ya sea por el toolbar, menu o shortcut
     ##
     def cierraAplicacion( self ):
         opcion = QtGui.QMessageBox.question(
@@ -88,27 +90,36 @@ class Ventana(QtGui.QMainWindow):
             pass
     
     ##
-    # Metodo para abrir el archivo
+    # Metodo para abrir el archivo fuente
+    # mediante el dialogo de python
     # #    
-    def abrirArchivo(self):
-            self.txtAreaFuente.setText("")
-            self.txtAreaResultado.setText("")
-            self.fuenteUrl = QtGui.QFileDialog.getOpenFileName(self, 'Open File', filter="*.fte")     
-            f = open(self.fuenteUrl, "r")
-            self.vTextstring = f.read()
-            self.txtAreaFuente.setText(self.vTextstring)
+    def abrirArchivo( self ):
+    
+            # Direccion del archivo Seleccionado en el Dialogo de python
+            self.fuenteUrl = QtGui.QFileDialog.getOpenFileName(self, 'Open File', filter="*.fte")    
+            
+            # Si se selecciono algun archivo en el dialogo
+            # se imprime el contenido en la caja de texto
+            # del archivo fuente
+            if self.fuenteUrl:
+                archivo = open(self.fuenteUrl, "r")
+                self.txtAreaFuente.setText( archivo.read() )
+                archivo.close()
     
     ##
-    #Metodo para el compilador
+    # Metodo que inicia la compilacion
+    # en la ventana
     ##
-    def iniciarCompilacion(self):
+    def iniciarCompilacion( self ):
         
+        # Inicia la compilacion del objeto uami
         uami = Uami()
         uami.iniciaCompilacion( self.fuenteUrl, self.txtAreaFuente )
 
+        # Lee el archivo tupla generado por el analizador lexicografico
+        # y los imprime en la caja de texto del resultado
         archivo = open( uami.archivoTpl, "r")
         contenido_t = archivo.read()
-
         uami.cierraArchivo( archivo )
         self.txtAreaResultado.setText( contenido_t )
     

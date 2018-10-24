@@ -1,13 +1,15 @@
-# Libreria de expresiones regulares
 import re
 from PR import Palabras_Reservadas
 from PyQt4 import QtGui,QtCore
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+
 class Alex(object):
 
     ##
-    # Constructor de la clase
+    # Constructor
+    #   
+    #   @Param txtAreaFuente: 
+    #       El componente Gui correspondiente a la Caja de texto
+    #       del archivo fuente
     ##
     def __init__( self, txtAreaFuente ):
         self.contenidoFuente = str(txtAreaFuente.toPlainText())
@@ -20,8 +22,9 @@ class Alex(object):
         self.init()
     
     ##
-    # Inicializa el contenido del archivo,
-    # Crear las palabras Reservadas
+    # Metodo que Inicializa el contenido del archivo Fuente
+    # por lineas en una lista
+    # Crea las palabras Reservadas
     # y llena el buffer
     ##
     def init( self ):
@@ -31,9 +34,11 @@ class Alex(object):
 
 
     ##
-    # 
+    # Metodo que llena el buffer con el contenido 
+    # de una linea de texto en el archivo fuente
     ##
     def llenaBuffer(self):
+
         if self.contador < len (self.contenidoFuente[:]):
             Cadena = str(self.contenidoFuente[self.contador])
             self.buffer["pos_leida"] = 0
@@ -46,7 +51,8 @@ class Alex(object):
 
 
     ##
-    # Leer Caracter de cadena
+    # Metodo que lee un caracter de la linea
+    # de texto cargada en el buffer
     ##
     def leerCaracter( self ):
 
@@ -65,9 +71,14 @@ class Alex(object):
             return "\0"
     
     ##
+    # Metodo que implementa el diagrama de transiciones
+    # Para el analizador Lexicografico
     #
+    #   @Param uami: 
+    #       Un objeto de la clase Uami
     ##
     def alexico(self, uami):
+        
         # Exp. Regular de entre 0 y 9
         numeros = re.compile('[0-9]')
         uami.lineas = self.contador
@@ -130,7 +141,9 @@ class Alex(object):
                     }
         
     ##
-    # Simula el signo de pesos de ENTERO y SUMA
+    # Metodo que retrocede una posicion en la linea
+    # de texto cargada en el buffer
+    # ( Simula el signo de pesos )
     ##
     def desleer(self):
         self.buffer["pos_leida"] = self.buffer["pos_leida"] - 1
