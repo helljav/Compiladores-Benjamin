@@ -48,7 +48,8 @@ class Uami(object):
                         "En este archivo se encuentran los lexemas reconocidos\n",
                         "por el analizador lexicografico\n",
                         "\n\n",
-                        "\t",
+                        "Linea",
+                        "\t\t",
                         "Token",
                         "\t\t",
                         "Lexema",
@@ -103,43 +104,53 @@ class Uami(object):
         archivo = open( self.archivoTpl, "a+")
         self.archivoErr = open( self.archivoErr, "a+")
         
+        diccionario = alex.alexico(self)
 
-        while self.lineas < len( alex.contenidoFuente ):
+        # Cuando sea Aceptado el token
+        while diccionario["token"] != pr.hecho and diccionario["token"] != pr.error:
+
+            if diccionario["token"] == "vacio":
+                pass
+                
+            else: 
+
+                texto = [
+                        str(self.lineas),
+                        "\t\t",
+                        diccionario["token"],
+                        "\t\t",
+                        diccionario["lexema"],
+                        "\n"
+                     ]
+                
+                archivo.writelines( texto )
+
             diccionario = alex.alexico(self)
-            
-            # Cuendo sea Error
-            if diccionario["token"] == pr.error:
-                archivo.write("Linea: " + str(self.lineas) + "\t\t" +"<<<<< Error Caracter \"" + diccionario["lexema"] + "\" no permitido >>>>>")
-                break
 
-            # Cuando sea Fin de Archivo
-            elif diccionario["token"] == pr.hecho:
-                archivo.write( 
-                                    "Linea: " + str(self.lineas) + "\t" + "Token: " + diccionario["token"] + "\t" + "Lexema: " + diccionario["lexema"] + "\n"
-                                )
-                break
+        # Cuando sea Error
+        if diccionario["token"] == pr.error:
 
-            # Cuando sea Aceptado el token
-            elif (diccionario["token"] == pr.incremento):
+            texto = [
+                        str(self.lineas),
+                        "\t\t",
+                        "<<<<< Error Caracter \"" + diccionario["lexema"] + "\" no permitido >>>>>",
+                        "\n"
+                     ]
 
-                archivo.write( 
-                                   "Linea: " + str(self.lineas) + "\t" + "Token: " + diccionario["token"] + "\t" + "Lexema: " + diccionario["lexema"] + "\n" 
-                                )
+            archivo.writelines( texto )
 
-            elif (diccionario["token"] == pr.producto):
+        # Cuando sea Fin de Archivo
+        elif diccionario["token"] == pr.hecho:
 
-                archivo.write( 
-                                   "Linea: " + str(self.lineas) + "\t" + "Token: " + diccionario["token"] + "\t" + "Lexema: " + diccionario["lexema"] + "\n" 
-                                )
-            
-            elif (diccionario["token"] == pr.entero):
-                archivo.write( 
-                                "Linea: " + str(self.lineas) + "\t" + "Token: " + diccionario["token"] + "\t\t" + "Lexema: " + diccionario["lexema"] + "\n"
-                            )
-
-            elif (diccionario["token"] == pr.suma):
-                archivo.write( 
-                                "Linea: " + str(self.lineas) + "\t" + "Token: " + diccionario["token"] + "\t\t" + "Lexema: " + diccionario["lexema"] + "\n"
-                            )
-        
+            texto = [
+                        str(self.lineas),
+                        "\t\t",
+                        diccionario["token"],
+                        "\t\t",
+                        diccionario["lexema"],
+                        "\n"
+                     ]
+                     
+            archivo.writelines( texto )
+                 
         archivo.close()

@@ -1,4 +1,3 @@
-import re
 from PR import Palabras_Reservadas
 from PyQt4 import QtGui,QtCore
 
@@ -28,7 +27,6 @@ class Alex(object):
     # y llena el buffer
     ##
     def init( self ):
-        self.pr = Palabras_Reservadas()
         self.contenidoFuente = self.contenidoFuente.split("\n") 
         self.llenaBuffer()
 
@@ -79,65 +77,129 @@ class Alex(object):
     ##
     def alexico(self, uami):
         
-        # Exp. Regular de entre 0 y 9
-        numeros = re.compile('[0-9]')
+        pr = Palabras_Reservadas()
         uami.lineas = self.contador
-        c = self.leerCaracter()
+        lexema = self.leerCaracter()
 
-        if c is '*':
+        if lexema is '=':
 
-            return {
-                        "token": self.pr.producto,
-                        "lexema": c
-                    }
+            lexema = lexema + self.leerCaracter()
 
-        elif c is '+':
-
-            c2 = self.leerCaracter()
-
-            if c2 is '+':
-
-                return {
-                            "token": self.pr.incremento,
-                            "lexema": c + c2
-                        }
-
-            else:
+            if lexema[ 1 ] != '=':
 
                 self.desleer()
+
                 return {
-                            "token": self.pr.suma,
-                            "lexema": c
+                            "token": pr.asignacion,
+                            "lexema": lexema
+                        }
+            else:
+                return {
+                            "token": pr.error,
+                            "lexema": lexema
+                        }
+
+        elif lexema is '+':
+
+            lexema = lexema + self.leerCaracter()
+
+            if lexema[ 1 ] != '+':
+
+                self.desleer()
+
+                return {
+                            "token": pr.suma,
+                            "lexema": lexema[ 0 ]
+                        }
+            else:
+                return {
+                            "token": pr.error,
+                            "lexema": lexema
+                        }
+
+        elif lexema is '-':
+
+            lexema = lexema + self.leerCaracter()
+
+            if lexema[ 1 ] != '-':
+
+                self.desleer()
+
+                return {
+                            "token": pr.resta,
+                            "lexema": lexema[ 0 ]
+                        }
+            else:
+                return {
+                            "token": pr.error,
+                            "lexema": lexema
                         }
 
         # search regresa el numero de ocurrencias en la Exp. Regular
-        elif numeros.search(c) > 0: 
+        elif self.esDigito( lexema ): 
 
-            cad = ""
+            if lexema is "0":
 
-            while numeros.search(c) > 0:
-                cad = cad + c
-                c = self.leerCaracter()
-                
-            self.desleer()
+                lexema = lexema + self.leerCaracter()
 
-            return {
-                        "token": self.pr.entero,
-                        "lexema": cad
-                    }
+                # Cualquier cosa
+                if self.esDigito( lexema[1] ) == False:
+
+                    self.desleer()
+
+                    return {
+                            "token": pr.entero,
+                            "lexema": lexema[ 0 ]
+                        }
+
+                # Otro Numero despues del 0
+                else:
+
+                    digito = self.leerCaracter()
+
+                    while self.esDigito( digito ):
+                        lexema = lexema + digito
+                        digito = self.leerCaracter()
+                    
+                    return {
+                            "token": pr.error,
+                            "lexema": lexema
+                        }
+            else:
+
+                digito = lexema
+                lexema = ""
+
+                while self.esDigito( digito ):
+                    lexema = lexema + digito
+                    digito = self.leerCaracter()
+                    
+                self.desleer()
+
+                return {
+                            "token": pr.entero,
+                            "lexema": lexema
+                        }
         
-        elif c is "\0":
+        elif lexema is "\0":
 
             return {
-                        "token": self.pr.hecho,
-                        "lexema": c
+                        "token": pr.hecho,
+                        "lexema": lexema
                     }
 
+        elif lexema is " ":
+            
+            return{ 
+                "token": "vacio",
+                "lexema": lexema
+            }
+             
         else:
             
             return {
-                        "token": self.pr.error,
-                        "lexema": c
+                        "token": pr.error,
+                        "lexema": lexema
                     }
         
     ##
@@ -148,5 +210,25 @@ class Alex(object):
     def desleer(self):
         self.buffer["pos_leida"] = self.buffer["pos_leida"] - 1
 
-            
-    
+
+    def esDigito( self, caracter ):
+
+        digitos = [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9"
+        ]
+
+        for digito in digitos:
+
+            if caracter == digito:
+                return True
+        
+        return False
