@@ -84,7 +84,7 @@ class Alex(object):
         if lexema is '*':
 
             return {
-                        "token": pr.tabla["producto"],
+                        "token": pr.producto,
                         "lexema": lexema
                     }
 
@@ -95,7 +95,7 @@ class Alex(object):
             if lexema[ 1 ] is '+':
 
                 return {
-                            "token": pr.tabla["incremento"],
+                            "token": pr.incremento,
                             "lexema": lexema
                         }
 
@@ -103,7 +103,7 @@ class Alex(object):
 
                 self.desleer()
                 return {
-                            "token": pr.tabla["suma"],
+                            "token": pr.suma,
                             "lexema": lexema[ 0 ]
                         }
 
@@ -120,14 +120,14 @@ class Alex(object):
             self.desleer()
 
             return {
-                        "token": pr.tabla["entero"],
+                        "token": pr.entero,
                         "lexema": lexema
                     }
         
         elif lexema is "\0":
 
             return {
-                        "token": pr.tabla["hecho"],
+                        "token": pr.hecho,
                         "lexema": lexema
                     }
 
@@ -141,7 +141,7 @@ class Alex(object):
         else:
             
             return {
-                        "token": pr.tabla["error"],
+                        "token": pr.error,
                         "lexema": lexema
                     }
         
