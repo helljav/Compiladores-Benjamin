@@ -81,48 +81,105 @@ class Alex(object):
         uami.lineas = self.contador
         lexema = self.leerCaracter()
 
-        if lexema is '*':
+        if lexema is '=':
 
-            return {
-                        "token": pr.producto,
-                        "lexema": lexema
-                    }
+            lexema = lexema + self.leerCaracter()
+
+            if lexema[ 1 ] != '=':
+
+                self.desleer()
+
+                return {
+                            "token": pr.asignacion,
+                            "lexema": lexema
+                        }
+            else:
+                return {
+                            "token": pr.error,
+                            "lexema": lexema
+                        }
 
         elif lexema is '+':
 
             lexema = lexema + self.leerCaracter()
 
-            if lexema[ 1 ] is '+':
-
-                return {
-                            "token": pr.incremento,
-                            "lexema": lexema
-                        }
-
-            else:
+            if lexema[ 1 ] != '+':
 
                 self.desleer()
+
                 return {
                             "token": pr.suma,
                             "lexema": lexema[ 0 ]
+                        }
+            else:
+                return {
+                            "token": pr.error,
+                            "lexema": lexema
+                        }
+
+        elif lexema is '-':
+
+            lexema = lexema + self.leerCaracter()
+
+            if lexema[ 1 ] != '-':
+
+                self.desleer()
+
+                return {
+                            "token": pr.resta,
+                            "lexema": lexema[ 0 ]
+                        }
+            else:
+                return {
+                            "token": pr.error,
+                            "lexema": lexema
                         }
 
         # search regresa el numero de ocurrencias en la Exp. Regular
         elif self.esDigito( lexema ): 
 
-            digito = lexema
-            lexema = ""
+            if lexema is "0":
 
-            while self.esDigito( digito ):
-                lexema = lexema + digito
-                digito = self.leerCaracter()
-                
-            self.desleer()
+                lexema = lexema + self.leerCaracter()
 
-            return {
-                        "token": pr.entero,
-                        "lexema": lexema
-                    }
+                # Cualquier cosa
+                if self.esDigito( lexema[1] ) == False:
+
+                    self.desleer()
+
+                    return {
+                            "token": pr.entero,
+                            "lexema": lexema[ 0 ]
+                        }
+
+                # Otro Numero despues del 0
+                else:
+
+                    digito = self.leerCaracter()
+
+                    while self.esDigito( digito ):
+                        lexema = lexema + digito
+                        digito = self.leerCaracter()
+                    
+                    return {
+                            "token": pr.error,
+                            "lexema": lexema
+                        }
+            else:
+
+                digito = lexema
+                lexema = ""
+
+                while self.esDigito( digito ):
+                    lexema = lexema + digito
+                    digito = self.leerCaracter()
+                    
+                self.desleer()
+
+                return {
+                            "token": pr.entero,
+                            "lexema": lexema
+                        }
         
         elif lexema is "\0":
 
