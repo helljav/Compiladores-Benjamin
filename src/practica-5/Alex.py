@@ -24,7 +24,7 @@ class Alex(object):
     # Metodo que Inicializa el contenido del archivo Fuente
     # por lineas en una lista
     # Crea las palabras Reservadas
-    # y llena el buffer
+    # y llena por primera vez el buffer
     ##
     def init( self ):
         self.contenidoFuente = self.contenidoFuente.split("\n") 
@@ -194,7 +194,27 @@ class Alex(object):
                 "token": "vacio",
                 "lexema": lexema
             }
-             
+        elif self.esLetra(lexema):
+            caracter = lexema
+            lexema = ""
+
+            while self.esLetra( caracter ):
+                lexema = lexema + caracter
+                caracter = self.leerCaracter()
+                
+            self.desleer()
+            if lexema == "print":
+                return {
+                        "token": pr.imprimir,
+                        "lexema": lexema
+                    }
+            else:
+                return {
+                        "token": pr.letras,
+                        "lexema": lexema
+                    }
+
+            
         else:
             
             return {
@@ -232,3 +252,45 @@ class Alex(object):
                 return True
         
         return False
+
+    #
+    #Metodo para reconocer si un caracter es una letra 
+    #
+    def esLetra( self, caracter ):
+
+        letras = [
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f",
+            "g",
+            "h",
+            "i",
+            "j",
+            "k",
+            "l",
+            "m",
+            "n",
+            "o",
+            "p",
+            "q",
+            "r",
+            "s",
+            "t",
+            "u",
+            "v",
+            "w",
+            "x",
+            "y",
+            "z",
+        ]
+
+        for letra in letras:
+            if caracter == letra:
+                return True
+        
+        return False
+
+        

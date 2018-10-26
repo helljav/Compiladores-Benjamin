@@ -5,6 +5,7 @@ from UAMI import Uami
 
 class Ventana(QtGui.QMainWindow):
 
+
     ##
     # Constructor de la Ventana
     ##
@@ -16,7 +17,7 @@ class Ventana(QtGui.QMainWindow):
 
         # Config Ventana
         self.setGeometry(350, 50, 630, 570)
-        self.setWindowTitle("Practica4 Analizador Lexicgrafico")
+        self.setWindowTitle("Practica5 Analizador Lexicgrafico")
         self.setWindowIcon(QtGui.QIcon("img/logo.png"))
 
         # Evento para abrir los archivos
@@ -58,6 +59,7 @@ class Ventana(QtGui.QMainWindow):
     # LLenado y ubicacion de los componentes
     # en la ventana
     ##
+   
     def diseno(self):
         
         # Cajas de texto (text Areas)
