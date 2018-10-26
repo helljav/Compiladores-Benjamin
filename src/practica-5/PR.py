@@ -10,6 +10,8 @@ class Palabras_Reservadas(object):
         self.hecho = "FINAL DE ARCHIVO"
         self.asignacion = "ASIGNACION"
         self.resta = "RESTA"
+        self.imprimir = "PRINT"
+        self.letras = "LETRAS"
         
 
         # self.tabla.setdefault( "llave", len(self.tabla) )
