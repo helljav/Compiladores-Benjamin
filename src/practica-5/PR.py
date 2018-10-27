@@ -8,6 +8,8 @@ class Palabras_Reservadas(object):
         self.entero = "ENTERO"
         self.error = "ERROR"
         self.hecho = "FINAL DE ARCHIVO"
+        self.imprimir = "print"
+        self.letras = "LETRAS"
         
 
         # self.tabla.setdefault( "llave", len(self.tabla) )
