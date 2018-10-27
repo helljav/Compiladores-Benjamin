@@ -24,7 +24,7 @@ class Alex(object):
     # Metodo que Inicializa el contenido del archivo Fuente
     # por lineas en una lista
     # Crea las palabras Reservadas
-    # y llena el buffer
+    # y llena por primera vez el buffer
     ##
     def init( self ):
         self.contenidoFuente = self.contenidoFuente.split("\n") 

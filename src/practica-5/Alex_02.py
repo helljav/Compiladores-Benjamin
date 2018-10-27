@@ -5,6 +5,7 @@ from UAMI import Uami
 
 class Ventana(QtGui.QMainWindow):
 
+
     ##
     # Constructor de la Ventana
     ##
@@ -58,6 +59,7 @@ class Ventana(QtGui.QMainWindow):
     # LLenado y ubicacion de los componentes
     # en la ventana
     ##
+   
     def diseno(self):
         
         # Cajas de texto (text Areas)
