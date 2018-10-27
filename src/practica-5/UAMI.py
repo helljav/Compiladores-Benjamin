@@ -107,7 +107,7 @@ class Uami(object):
         diccionario = alex.alexico(self)
 
         # Cuando sea Aceptado el token
-        while diccionario["token"] != pr.tabla["hecho"] and diccionario["token"] != pr.tabla["error"]:
+        while diccionario["token"] != pr.hecho and diccionario["token"] != pr.error:
 
             if diccionario["token"] == "vacio":
                 pass
@@ -128,7 +128,7 @@ class Uami(object):
             diccionario = alex.alexico(self)
 
         # Cuando sea Error
-        if diccionario["token"] == pr.tabla["error"]:
+        if diccionario["token"] == pr.error:
 
             texto = [
                         str(self.lineas),
@@ -140,7 +140,7 @@ class Uami(object):
             archivo.writelines( texto )
 
         # Cuando sea Fin de Archivo
-        elif diccionario["token"] == pr.tabla["hecho"]:
+        elif diccionario["token"] == pr.hecho:
 
             texto = [
                         str(self.lineas),
