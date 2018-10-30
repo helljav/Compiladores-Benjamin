@@ -3,6 +3,7 @@
 class Palabras_Reservadas(object):
     
     def __init__( self ):
+        #Palabras reservadas
         self.producto = "PRODUCTO"
         self.suma = "SUMA"
         self.incremento = "INCREMENTO"
@@ -13,6 +14,7 @@ class Palabras_Reservadas(object):
         self.resta = "RESTA"
         self.imprimir = "PRINT"
         self.letras = "LETRAS"
+       
         
 
         # ñoño

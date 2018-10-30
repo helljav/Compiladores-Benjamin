@@ -78,9 +78,9 @@ class Tabla(object):
     # @Param:
     # @Return:
     ##
-    def runReservedWords(arg):
+    def runReservedWords(self):
         pass
 
 obj = Tabla()
 obj.addItem(1,1)
-obj.printTable();
+obj.printTable()

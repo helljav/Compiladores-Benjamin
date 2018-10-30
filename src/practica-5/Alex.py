@@ -7,14 +7,9 @@ class Alex(object):
 
     ##
     # Constructor
-<<<<<<< HEAD
-    #
-    #   @Param txtAreaFuente:
-=======
     # Creamos las variables de la clase, contenidoFuente, coentiene toda la informacion del txtAreaFuente que sera
     # utilizada posteriormente
     #   @Param txtAreaFuente: 
->>>>>>> 9f86bc639cd1868ea0f64adf9a14a1ce488039c1
     #       El componente Gui correspondiente a la Caja de texto
     #       que muestra la informacion del archivo fuente
     #       
@@ -23,15 +18,9 @@ class Alex(object):
         self.contenidoFuente = str(txtAreaFuente.toPlainText())
         self.contador = 0 #contador para leer las lineas del archivo fuente
         self.buffer = {
-<<<<<<< HEAD
-                        "pos_leida":0,
-                        "longitud": 0,
-                        "cadena" :""
-=======
                         "pos_leida":0,#contador para recorrrer caracter por caracter en una linea
                         "longitud": 0,#longitud de la linea a leer
                         "cadena" :"" #informacion de toda una liena
->>>>>>> 9f86bc639cd1868ea0f64adf9a14a1ce488039c1
                       }
         self.init()
 
@@ -42,23 +31,14 @@ class Alex(object):
     # y llena por primera vez el buffer
     ##
     def init( self ):
-<<<<<<< HEAD
-        self.contenidoFuente = self.contenidoFuente.split("\n")
-=======
         #crea una lista con la informacion del archivo fuente y cada elemento sera denotado por cada salto de linea
         self.contenidoFuente = self.contenidoFuente.split("\n") 
->>>>>>> 9f86bc639cd1868ea0f64adf9a14a1ce488039c1
         self.llenaBuffer()
 
 
     ##
-<<<<<<< HEAD
-    # Metodo que llena el buffer con el contenido
-    # de una linea de texto en el archivo fuente
-=======
     # Metodo que llena el buffer con el contenido 
     #  sera llenado linea por linea del texto en el archivo fuente
->>>>>>> 9f86bc639cd1868ea0f64adf9a14a1ce488039c1
     ##
     def llenaBuffer(self):
 
@@ -188,12 +168,7 @@ class Alex(object):
 
         # Asignacion
         if lexema is '=':
-<<<<<<< HEAD
-
-            lexema += self.leerCaracter()
-=======
             lexema = lexema + self.leerCaracter()
->>>>>>> 9f86bc639cd1868ea0f64adf9a14a1ce488039c1
 
             self.desleer()
 
@@ -231,13 +206,8 @@ class Alex(object):
 
             # Si empieza en cero tenemos que ver que caracter viene a continuacion
             if lexema is "0":
-<<<<<<< HEAD
-
-                lexema += self.leerCaracter()
-=======
                 #cargamos el siguiente caracter y lo concatenamos
                 lexema = lexema + self.leerCaracter()
->>>>>>> 9f86bc639cd1868ea0f64adf9a14a1ce488039c1
 
                 # Si el segundo caracter que leimos es "otra cosa"
                 # Return entero cero

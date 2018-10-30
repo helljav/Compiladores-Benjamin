@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-
-class Palabras_Reservadas(object):
-    
-    def __init__( self ):
-
         self.PROGRAMA = "programa"
         self.SI = "si"
         self.ENTONCES = "entonces"
@@ -49,9 +43,3 @@ class Palabras_Reservadas(object):
         self.DIV = "/"
         self.MODULO = "%"
         self.AND = "&&"
-        
-
-        # ñoño
-        C = 'ñá'.decode('utf8')
-        print C
-        
