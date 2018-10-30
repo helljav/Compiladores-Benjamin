@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
 
 class Palabras_Reservadas(object):
     
     def __init__( self ):
+        #Palabras reservadas
         self.producto = "PRODUCTO"
         self.suma = "SUMA"
         self.incremento = "INCREMENTO"
@@ -12,10 +14,10 @@ class Palabras_Reservadas(object):
         self.resta = "RESTA"
         self.imprimir = "PRINT"
         self.letras = "LETRAS"
+       
         
 
-        # self.tabla.setdefault( "llave", len(self.tabla) )
-        # self.tabla["llave"] = 3
-
-        # print self.tabla
+        # ñoño
+        C = 'ñá'.decode('utf8')
+        print C
         
