@@ -12,6 +12,7 @@ class Uami(object):
         self.archivoTpl = ""
         self.archivoErr = ""
         self.lineas = 0
+        self.numErrores =0
 
     ##
     # Metodo para crear los archivos de la tupla y error

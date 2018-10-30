@@ -68,6 +68,6 @@ class Palabras_Reservadas(object):
         }
 
 
-        # ñoño
-        C = 'ñá'.decode('utf8')
-        print C
+        # # ñoño
+        # C = 'ñá'.decode('utf8')
+        # print C
