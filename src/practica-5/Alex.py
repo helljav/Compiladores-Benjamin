@@ -5,18 +5,20 @@ class Alex(object):
 
     ##
     # Constructor
-    #   
+    # Creamos las variables de la clase, contenidoFuente, coentiene toda la informacion del txtAreaFuente que sera
+    # utilizada posteriormente
     #   @Param txtAreaFuente: 
     #       El componente Gui correspondiente a la Caja de texto
-    #       del archivo fuente
+    #       que muestra la informacion del archivo fuente
+    #       
     ##
     def __init__( self, txtAreaFuente ):
         self.contenidoFuente = str(txtAreaFuente.toPlainText())
-        self.contador = 0
+        self.contador = 0 #contador para leer las lineas del archivo fuente
         self.buffer = {
-                        "pos_leida":0,
-                        "longitud": 0,
-                        "cadena" :"" 
+                        "pos_leida":0,#contador para recorrrer caracter por caracter en una linea
+                        "longitud": 0,#longitud de la linea a leer
+                        "cadena" :"" #informacion de toda una liena
                       }
         self.init()
     
@@ -27,13 +29,14 @@ class Alex(object):
     # y llena por primera vez el buffer
     ##
     def init( self ):
+        #crea una lista con la informacion del archivo fuente y cada elemento sera denotado por cada salto de linea
         self.contenidoFuente = self.contenidoFuente.split("\n") 
         self.llenaBuffer()
 
 
     ##
     # Metodo que llena el buffer con el contenido 
-    # de una linea de texto en el archivo fuente
+    #  sera llenado linea por linea del texto en el archivo fuente
     ##
     def llenaBuffer(self):
 
@@ -53,7 +56,7 @@ class Alex(object):
     # de texto cargada en el buffer
     ##
     def leerCaracter( self ):
-
+        #si acabamos de leer toda una linea del texto fuente, cargamos la siguiente linea para seguir leyendo caracteres 
         if self.buffer["pos_leida"] == self.buffer["longitud"]:
             self.contador = self.contador + 1
             self.llenaBuffer()
@@ -64,7 +67,7 @@ class Alex(object):
             self.buffer["pos_leida"] = self.buffer["pos_leida"] + 1
 
             return caracter
-
+        #si no se puede leer nada se manda una senal de fin de archivo
         else:
             return "\0"
     
@@ -80,7 +83,7 @@ class Alex(object):
 
     ##
     # Metodo para reconocer si un caracter es un digito
-    #   @param: caracter a evaluar
+    #   @param: caracter, contenido a evaluar
     #   @Return: True si es digito, False si no
     ##
     def esDigito( self, caracter ):
@@ -107,7 +110,7 @@ class Alex(object):
 
     ##
     # Metodo para reconocer si un caracter es una letra permitida
-    #   @param: caracter a evaluar
+    #   @param: caracter, contenido a evaluar
     #   @Return: True si es una letra, False si no
     ##
     def esLetra( self, caracter ):
@@ -155,14 +158,13 @@ class Alex(object):
     #       Un objeto de la clase Uami
     ##
     def alexico(self, uami):
-        
+
         pr = Palabras_Reservadas()
         uami.lineas = self.contador
         lexema = self.leerCaracter()
 
         # Asignacion
         if lexema is '=':
-
             lexema = lexema + self.leerCaracter()
 
             self.desleer()
@@ -199,12 +201,12 @@ class Alex(object):
         # Entero
         elif self.esDigito( lexema ): 
 
-            # Empieza en cero
+            # Si empieza en cero tenemos que ver que caracter viene a continuacion
             if lexema is "0":
-
+                #cargamos el siguiente caracter y lo concatenamos
                 lexema = lexema + self.leerCaracter()
 
-                # Segundo caracter es "otro"
+                # Si el segundo caracter que leimos es "otra cosa"
                 # Return entero cero
                 if self.esDigito( lexema[1] ) == False:
 
@@ -215,7 +217,7 @@ class Alex(object):
                             "lexema": lexema[ 0 ]
                         }
 
-                # Segundo caracter es un digito
+                # Si el segundo caracter resulta ser un digito es un digito
                 else:
 
                     # Se lee todo el numero entero para regresarlo como error y lexema
@@ -230,7 +232,7 @@ class Alex(object):
                             "lexema": lexema
                         }
 
-            # No empieza en cero
+            # Si no empieza en cero
             else:
 
                 # lee todo el numero y lo regresa como entero
@@ -268,7 +270,6 @@ class Alex(object):
         elif self.esLetra(lexema):
 
             # lee toda la palabra
-
             caracter = lexema
             lexema = ""
 
@@ -278,7 +279,7 @@ class Alex(object):
                 
             self.desleer()
 
-            # La palabra leida es reservada
+            # Si palabra leida es una palabra reservada
             if lexema == "print":
 
                 return {
