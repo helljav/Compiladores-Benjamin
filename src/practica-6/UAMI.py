@@ -8,7 +8,7 @@ class Uami(object):
     # Constructor
     ##
     def __init__( self ):
-        
+
         self.archivoTpl = ""
         self.archivoErr = ""
         self.lineas = 0
@@ -16,9 +16,9 @@ class Uami(object):
     ##
     # Metodo para crear los archivos de la tupla y error
     #
-    #   @Param fuenteUrl: 
+    #   @Param fuenteUrl:
     #       Ruta del archivo fuente (el que se abre)
-    #   @Param txtAreaFuente: 
+    #   @Param txtAreaFuente:
     #       El componente Gui correspondiente a la Caja de texto
     #       del archivo fuente
     ##
@@ -31,14 +31,14 @@ class Uami(object):
         # Si no se abre algun archivo fuente, se predefine un nombre
         if nombreFuente is "":
             nombreFuente = "untitle"
-        
+
         #ruta para la carpeta de distribucion
         urlDist =  os.getcwd().replace("\\", "/") + "/dist/"
 
         # si no existe la carpera "dist", se crea
         if not os.path.exists(urlDist):
             os.makedirs(urlDist)
-        
+
         # Creacion de las rutas para los archivos
         self.archivoTpl = urlDist +  nombreFuente + ".tpl"
         self.archivoErr = urlDist +  nombreFuente + ".err"
@@ -63,7 +63,7 @@ class Uami(object):
                         "contiene una copia del archivo fuente",
                         "\n\n"
                      ]
-        
+
         # Se crean los archivos en las rutas correspondientes
         # y se escribe el texto default en ellos
 
@@ -74,7 +74,7 @@ class Uami(object):
         archivo = open( self.archivoErr, "w+")
         archivo.writelines(textoError)
         self.cierraArchivo( archivo )
-    
+
     ##
     # Metodo para cerrar un archivo
     #   @Param archivo:
@@ -82,37 +82,37 @@ class Uami(object):
     ##
     def cierraArchivo( self, archivo ):
         archivo.close()
-    
+
     ##
     # Metodo para inicial el analizador lexicografico
     #
-    #   @Param fuenteUrl: 
+    #   @Param fuenteUrl:
     #       Ruta del archivo fuente (el que se abre)
-    #   @Param txtAreaFuente: 
+    #   @Param txtAreaFuente:
     #       El componente Gui correspondiente a la Caja de texto
     #       del archivo fuente
     ##
     def iniciaCompilacion( self, fuenteUrl, txtAreaFuente ):
-        
+
         alex = Alex( txtAreaFuente )
         pr = Palabras_Reservadas()
-        
+
         # Creacion de los Archivos
         self.crearArchivos( fuenteUrl, txtAreaFuente )
-        
+
         # Se abren los archivos para el modo agregar texto
         archivo = open( self.archivoTpl, "a+")
         self.archivoErr = open( self.archivoErr, "a+")
-        
+
         diccionario = alex.alexico(self)
 
         # Cuando sea Aceptado el token
-        while diccionario["token"] != pr.hecho and diccionario["token"] != pr.error:
+        while diccionario["token"] != pr.palabras_reservadas["hecho"]["token"] and diccionario["token"] != pr.palabras_reservadas["error"]["token"]:
 
             if diccionario["token"] == "vacio":
                 pass
-                
-            else: 
+
+            else:
 
                 texto = [
                         str(self.lineas),
@@ -122,13 +122,13 @@ class Uami(object):
                         diccionario["lexema"],
                         "\n"
                      ]
-                
+
                 archivo.writelines( texto )
 
             diccionario = alex.alexico(self)
 
         # Cuando sea Error
-        if diccionario["token"] == pr.error:
+        if diccionario["token"] == pr.palabras_reservadas["error"]["token"]:
 
             texto = [
                         str(self.lineas),
@@ -140,7 +140,7 @@ class Uami(object):
             archivo.writelines( texto )
 
         # Cuando sea Fin de Archivo
-        elif diccionario["token"] == pr.hecho:
+        elif diccionario["token"] == pr.palabras_reservadas["hecho"]["token"]:
 
             texto = [
                         str(self.lineas),
@@ -150,7 +150,7 @@ class Uami(object):
                         diccionario["lexema"],
                         "\n"
                      ]
-                     
+
             archivo.writelines( texto )
-                 
+
         archivo.close()

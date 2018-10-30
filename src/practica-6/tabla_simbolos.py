@@ -1,3 +1,4 @@
+from PR import Palabras_Reservadas
 
 class Tabla(object):
 
@@ -6,9 +7,7 @@ class Tabla(object):
     ##
     def __init__(self):
         self.tope = 0
-        self.columnas = 2
-        self.renglones = 1
-        self.tabla = [ ["0" for x in range(self.columnas)] for y in range(self.renglones) ]
+        self.tabla = []
 
         print "leng de tabla: ", len(self.tabla)
 
@@ -24,7 +23,17 @@ class Tabla(object):
     # @Return:
     ##
     def findSymbol( self, lexema ):
-        pass
+
+        cont = 0
+
+        for lista in self.tabla:
+
+            if lexema is lista[1]:
+                return cont
+
+            cont += 1
+
+        return -1
 
     ##
     # Metodo para obtener token
@@ -32,7 +41,7 @@ class Tabla(object):
     # @Return token: el token del elemento indice en la tabla
     ##
     def getToken( self, index ):
-        pass
+        return self.tabla[index][0]
 
     ##
     # Metodo para obtener lexema
@@ -40,7 +49,7 @@ class Tabla(object):
     # @Return lexema: el lexema del elemento indice en la tabla
     ##
     def getLexema( self, index ):
-        pass
+        return self.tabla[index][1]
 
     ##
     # Metodo para agregar un nuevo elemento a la tabla
@@ -78,9 +87,15 @@ class Tabla(object):
     # @Param:
     # @Return:
     ##
-    def runReservedWords(arg):
-        pass
+    def runReservedWords(self):
+        pr = Palabras_Reservadas()
+        self.addItem(pr.palabras_reservadas["suma"]["token"], pr.palabras_reservadas["suma"]["lexema"])
+
 
 obj = Tabla()
-obj.addItem(1,1)
-obj.printTable();
+obj.addItem(6,8)
+obj.runReservedWords()
+obj.printTable()
+# print obj.getToken(0)
+# print obj.getLexema(0)
+# print "indece buscado", obj.findSymbol("6")

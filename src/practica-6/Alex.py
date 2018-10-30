@@ -171,7 +171,7 @@ class Alex(object):
             self.desleer()
 
             return {
-                        "token": pr.asignacion,
+                        "token": pr.palabras_reservadas["asignacion"]["token"],
                         "lexema": lexema[0]
                     }
 
@@ -183,7 +183,7 @@ class Alex(object):
             self.desleer()
 
             return {
-                        "token": pr.suma,
+                        "token": pr.palabras_reservadas["suma"]["token"],
                         "lexema": lexema[ 0 ]
                     }
 
@@ -195,7 +195,7 @@ class Alex(object):
             self.desleer()
 
             return {
-                        "token": pr.resta,
+                        "token": pr.palabras_reservadas["resta"]["token"],
                         "lexema": lexema[ 0 ]
                     }
 
@@ -214,7 +214,7 @@ class Alex(object):
                     self.desleer()
 
                     return {
-                            "token": pr.entero,
+                            "token": pr.palabras_reservadas["entero"]["token"],
                             "lexema": lexema[ 0 ]
                         }
 
@@ -229,7 +229,7 @@ class Alex(object):
                         digito = self.leerCaracter()
 
                     return {
-                            "token": pr.error,
+                            "token": pr.palabras_reservadas["error"]["token"],
                             "lexema": lexema
                         }
 
@@ -247,7 +247,7 @@ class Alex(object):
                 self.desleer()
 
                 return {
-                            "token": pr.entero,
+                            "token": pr.palabras_reservadas["entero"]["token"],
                             "lexema": lexema
                         }
 
@@ -255,7 +255,7 @@ class Alex(object):
         elif lexema is "\0":
 
             return {
-                        "token": pr.hecho,
+                        "token": pr.palabras_reservadas["hecho"]["token"],
                         "lexema": lexema
                     }
 
@@ -285,14 +285,14 @@ class Alex(object):
             if lexema == "print":
 
                 return {
-                            "token": pr.imprimir,
+                            "token": pr.palabras_reservadas["imprimir"]["token"],
                             "lexema": lexema
                         }
 
             # La palabra NO es reservada
             else:
                 return {
-                        "token": pr.letras,
+                        "token": pr.palabras_reservadas["letras"]["token"],
                         "lexema": lexema
                     }
 
@@ -300,6 +300,6 @@ class Alex(object):
         else:
 
             return {
-                        "token": pr.error,
+                        "token": pr.palabras_reservadas["error"]["token"],
                         "lexema": lexema
                     }
