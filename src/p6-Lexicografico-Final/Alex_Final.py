@@ -31,6 +31,18 @@ class Ventana(QtGui.QMainWindow):
         self.EventoSalir.setShortcut("Ctrl+Q")
         self.EventoSalir.setStatusTip('Salir de la aplicacion')
         self.EventoSalir.triggered.connect(self.cierraAplicacion)
+        # Evento Save
+        self.EventoSave = QtGui.QAction(QtGui.QIcon(
+            "img/save.png"), "Guardar", self)
+        self.EventoSave.setShortcut("Ctrl+g")
+        self.EventoSave.setStatusTip('Guardar archivo fuente')
+        self.EventoSave.triggered.connect(self.guardarArchivo)
+        # Evento SaveAS
+        self.EventoSaveAs = QtGui.QAction(QtGui.QIcon(
+            "img/saveAs.png"), "Guardar como", self)
+        self.EventoSaveAs.setShortcut("Ctrl+s")
+        self.EventoSaveAs.setStatusTip('Guardar como el archivo fuente')
+        self.EventoSaveAs.triggered.connect(self.guardarArchivoAs)
 
         # Evento para compilar
         self.EventoCompilar = QtGui.QAction(QtGui.QIcon("img/comp.png"), 'compilar',self)
@@ -46,12 +58,17 @@ class Ventana(QtGui.QMainWindow):
         self.MenuArchivo.addAction(self.EventoSalir)
         self.MenuArchivo.addAction(self.EventoCompilar)
         self.MenuArchivo.addAction(self.EventoAbrirLocal)
+        self.MenuArchivo.addAction(self.EventoSave)
+        self.MenuArchivo.addAction(self.EventoSaveAs)
+
 
         # Se crea el Toolbar y se agregan los eventos
         self.Toolbar = self.addToolBar("Archivo")
         self.Toolbar.addAction(self.EventoAbrirLocal)
         self.Toolbar.addAction(self.EventoSalir)
         self.Toolbar.addAction(self.EventoCompilar)
+        self.Toolbar.addAction(self.EventoSave)
+        self.Toolbar.addAction(self.EventoSaveAs)
         
         self.diseno()
 
@@ -104,6 +121,18 @@ class Ventana(QtGui.QMainWindow):
             sys.exit()
         else:
             pass
+    ##
+    # Metodo para guardar el archivo fuente
+    # ya sea por el toolbar, menu o shortcut
+    ##
+    def guardarArchivo( self ):
+        pass
+    ##
+    # Metodo para guardar el archivo fuente
+    # ya sea por el toolbar, menu o shortcut
+    ##
+    def guardarArchivoAs( self ):
+        pass
     
     ##
     # Metodo para abrir el archivo fuente
