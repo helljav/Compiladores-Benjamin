@@ -1,4 +1,5 @@
 import sys
+import os
 from PyQt4 import QtGui
 from UAMI import Uami
 
@@ -126,20 +127,69 @@ class Ventana(QtGui.QMainWindow):
     # ya sea por el toolbar, menu o shortcut
     ##
     def guardarArchivo( self ):
-        pass
+
+        # Guarda archivosi ya existe
+        if self.fuenteUrl:
+            archivo = open(self.fuenteUrl, "w")
+            texto = self.txtAreaFuente.toPlainText()
+            archivo.write(texto)
+            archivo.close()
+        
+        # Guardar como si no existe el archivo
+        else:
+            url = str( QtGui.QFileDialog.getSaveFileName(self, 'Save As File', filter="*.fte") )
+
+            if url:
+                    # Si no termina en .fte
+                    if url.endswith(".fte") == False:
+                        pos_ini = url.find(".")
+                        pos_final = len(url)
+                        url = url.replace( url[pos_ini:pos_final], ".fte" )
+                        
+
+                    archivo = open( url,'w')
+                    texto = self.txtAreaFuente.toPlainText()
+                    archivo.write(texto)
+                    archivo.close()
+                    self.fuenteUrl = url
+            else:
+                self.fuenteUrl = ""
+
     ##
     # Metodo para guardar el archivo fuente
     # ya sea por el toolbar, menu o shortcut
     ##
     def guardarArchivoAs( self ):
-        pass
+        
+        urlActual = self.fuenteUrl
+
+        url = str( QtGui.QFileDialog.getSaveFileName(self, 'Save As File', filter="*.fte") )
+
+        if url:
+                # Si no termina en .fte
+                if url.endswith(".fte") == False:
+                    pos_ini = url.find(".")
+                    pos_final = len(url)
+                    url = url.replace( url[pos_ini:pos_final], ".fte" )
+                    
+
+                archivo = open( url,'w')
+                texto = self.txtAreaFuente.toPlainText()
+                archivo.write(texto)
+                archivo.close()
+        else:
+            self.fuenteUrl = urlActual
+        
+        
+
     
     ##
     # Metodo para abrir el archivo fuente
     # mediante el dialogo de python
     # #    
     def abrirArchivo( self ):
-    
+
+            urlActual = self.fuenteUrl
             # Direccion del archivo Seleccionado en el Dialogo de python
             self.fuenteUrl = QtGui.QFileDialog.getOpenFileName(self, 'Open File', filter="*.fte")    
             
@@ -150,6 +200,13 @@ class Ventana(QtGui.QMainWindow):
                 archivo = open(self.fuenteUrl, "r")
                 self.txtAreaFuente.setText( archivo.read() )
                 archivo.close()
+            else:
+                self.fuenteUrl = urlActual
+            
+        
+        
+
+        
     
     ##
     # Metodo que inicia la compilacion
