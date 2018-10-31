@@ -16,8 +16,8 @@ class Ventana(QtGui.QMainWindow):
         self.fuenteUrl = ""
 
         # Config Ventana
-        self.setGeometry(350, 50, 630, 570)
-        self.setWindowTitle("Practica5 Analizador Lexicgrafico")
+        self.setGeometry(250, 50, 880, 670)
+        self.setWindowTitle("Practica6 Analizador Lexicgrafico Final")
         self.setWindowIcon(QtGui.QIcon("img/logo.png"))
 
         # Evento para abrir los archivos
@@ -64,19 +64,33 @@ class Ventana(QtGui.QMainWindow):
         
         # Cajas de texto (text Areas)
         self.txtAreaFuente = QtGui.QTextEdit(self)
-        self.txtAreaFuente.setGeometry(120,60,500,220)
+        self.txtAreaFuente.setGeometry(10,85,425,270)
+
+        self.txtAreaFileError = QtGui.QTextEdit(self)
+        self.txtAreaFileError.setGeometry(10,380,425,270)
 
         self.txtAreaResultado  = QtGui.QTextEdit(self)
-        self.txtAreaResultado.setGeometry(120,334,500,220)
+        self.txtAreaResultado.setGeometry(445,380,425,270)
+
+        self.txtAreaFileTupla  = QtGui.QTextEdit(self)
+        self.txtAreaFileTupla.setGeometry(445,85,425,270)
 
         # etiquetas (Labels)
-        self.lbl_Fuente = QtGui.QLabel("Contenido del \narchivo fuente: ",self)
-        self.lbl_Fuente.setGeometry(20,100,100,60)
+        self.lbl_Fuente = QtGui.QLabel("CONTENIDO DEL ARCHIVO FUENTE: ",self)
+        self.lbl_Fuente.setGeometry(80,40,300,60)
         self.lbl_Fuente.setFont(QtGui.QFont('SansSerif', 11))
        
-        self.lbl_Resultado = QtGui.QLabel("Resultados de \ncompilacion: ",self)
-        self.lbl_Resultado.setGeometry(20,400,100,60)
-        self.lbl_Resultado.setFont(QtGui.QFont('SansSerif', 11))
+        self.lbl_fileError = QtGui.QLabel("CONTENIDO DEL ARCHIVO ERROR: ",self)
+        self.lbl_fileError.setGeometry(80,335,300,60)
+        self.lbl_fileError.setFont(QtGui.QFont('SansSerif', 11))
+
+        self.lbl_compilacion = QtGui.QLabel("RESULTADO DE LA COMPILACION: ",self)
+        self.lbl_compilacion.setGeometry(550,335,300,60)
+        self.lbl_compilacion.setFont(QtGui.QFont('SansSerif', 11))
+
+        self.lbl_fileTupla = QtGui.QLabel("CONTENIDO DEL ARCHIVO TUPLA: ",self)
+        self.lbl_fileTupla.setGeometry(550,40,300,60)
+        self.lbl_fileTupla.setFont(QtGui.QFont('SansSerif', 11))
         self.show()
 
     ##
@@ -139,3 +153,4 @@ def main():
     sys.exit(app.exec_())
 
 main()
+
