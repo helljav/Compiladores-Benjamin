@@ -152,8 +152,6 @@ class Ventana(QtGui.QMainWindow):
                     archivo.write(texto)
                     archivo.close()
                     self.fuenteUrl = url
-            else:
-                self.fuenteUrl = ""
 
     ##
     # Metodo para guardar el archivo fuente
@@ -177,8 +175,11 @@ class Ventana(QtGui.QMainWindow):
                 texto = self.txtAreaFuente.toPlainText()
                 archivo.write(texto)
                 archivo.close()
-        else:
-            self.fuenteUrl = urlActual
+
+                if urlActual:
+                    self.fuenteUrl = urlActual
+                else:
+                    self.fuenteUrl = url
         
         
 
