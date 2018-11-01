@@ -49,7 +49,7 @@ class Uami(object):
                         "por el analizador lexicografico\n",
                         "\n\n",
                         "Linea",
-                        "\t\t",
+                        "\t",
                         "Token",
                         "\t\t",
                         "Lexema",
@@ -107,7 +107,7 @@ class Uami(object):
         diccionario = alex.alexico(self)
 
         # Cuando sea Aceptado el token
-        while diccionario["token"] != pr.hecho and diccionario["token"] != pr.error:
+        while diccionario["token"] != pr.HECHO and diccionario["token"] != pr.ERROR:
 
             if diccionario["token"] == "vacio":
                 pass
@@ -116,7 +116,7 @@ class Uami(object):
 
                 texto = [
                         str(self.lineas),
-                        "\t\t",
+                        "\t",
                         diccionario["token"],
                         "\t\t",
                         diccionario["lexema"],
@@ -128,11 +128,11 @@ class Uami(object):
             diccionario = alex.alexico(self)
 
         # Cuando sea Error
-        if diccionario["token"] == pr.error:
+        if diccionario["token"] == pr.ERROR:
 
             texto = [
                         str(self.lineas),
-                        "\t\t",
+                        "\t",
                         "<<<<< Error Caracter \"" + diccionario["lexema"] + "\" no permitido >>>>>",
                         "\n"
                      ]
@@ -140,11 +140,11 @@ class Uami(object):
             archivo.writelines( texto )
 
         # Cuando sea Fin de Archivo
-        elif diccionario["token"] == pr.hecho:
+        elif diccionario["token"] == pr.HECHO:
 
             texto = [
                         str(self.lineas),
-                        "\t\t",
+                        "\t",
                         diccionario["token"],
                         "\t\t",
                         diccionario["lexema"],

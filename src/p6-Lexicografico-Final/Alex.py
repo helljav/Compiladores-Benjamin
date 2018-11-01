@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-
 from PR import Palabras_Reservadas
+from DTs import DTS
 from PyQt4 import QtGui,QtCore
 
 class Alex(object):
@@ -80,76 +80,7 @@ class Alex(object):
         self.buffer["pos_leida"] = self.buffer["pos_leida"] - 1
 
 
-    ##
-    # Metodo para reconocer si un caracter es un digito
-    #   @param: caracter a evaluar
-    #   @Return: True si es digito, False si no
-    ##
-    def esDigito( self, caracter ):
-
-        digitos = [
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9"
-        ]
-
-        for digito in digitos:
-
-            if caracter == digito:
-                return True
-
-        return False
-
-    ##
-    # Metodo para reconocer si un caracter es una letra permitida
-    #   @param: caracter a evaluar
-    #   @Return: True si es una letra, False si no
-    ##
-    def esLetra( self, caracter ):
-
-        letras = [
-            "a",
-            "b",
-            "c",
-            "d",
-            "e",
-            "f",
-            "g",
-            "h",
-            "i",
-            "j",
-            "k",
-            "l",
-            "m",
-            "n",
-            "ñ",
-            "o",
-            "p",
-            "q",
-            "r",
-            "s",
-            "t",
-            "u",
-            "v",
-            "w",
-            "x",
-            "y",
-            "z",
-        ]
-
-        for letra in letras:
-            if caracter == letra:
-                return True
-
-        return False
-
+    
     ##
     # Metodo que implementa el diagrama de transiciones
     # Para el analizador Lexicografico
@@ -162,100 +93,28 @@ class Alex(object):
         pr = Palabras_Reservadas()
         uami.lineas = self.contador
         lexema = self.leerCaracter()
+        
+        dts = DTS(self, pr)
 
-        # Asignacion
-        if lexema is '=':
+        # print dts.esLetra("a")
 
-            lexema += self.leerCaracter()
+        if dts.esAritmetico( lexema ):
+            return dts.aritmeticos( lexema )
 
-            self.desleer()
+        elif dts.esDigito( lexema ):
+            return dts.Num_Entero(lexema)
 
-            return {
-                        "token": pr.asignacion,
-                        "lexema": lexema[0]
-                    }
-
-        # Suma
-        elif lexema is '+':
-
-            lexema += self.leerCaracter()
-
-            self.desleer()
-
-            return {
-                        "token": pr.suma,
-                        "lexema": lexema[ 0 ]
-                    }
-
-        # Resta
-        elif lexema is '-':
-
-            lexema += self.leerCaracter()
-
-            self.desleer()
-
-            return {
-                        "token": pr.resta,
-                        "lexema": lexema[ 0 ]
-                    }
-
-        # Entero
-        elif self.esDigito( lexema ):
-
-            # Empieza en cero
-            if lexema is "0":
-
-                lexema += self.leerCaracter()
-
-                # Segundo caracter es "otro"
-                # Return entero cero
-                if self.esDigito( lexema[1] ) == False:
-
-                    self.desleer()
-
-                    return {
-                            "token": pr.entero,
-                            "lexema": lexema[ 0 ]
-                        }
-
-                # Segundo caracter es un digito
-                else:
-
-                    # Se lee todo el numero entero para regresarlo como error y lexema
-                    digito = self.leerCaracter()
-
-                    while self.esDigito( digito ):
-                        lexema += digito
-                        digito = self.leerCaracter()
-
-                    return {
-                            "token": pr.error,
-                            "lexema": lexema
-                        }
-
-            # No empieza en cero
-            else:
-
-                # lee todo el numero y lo regresa como entero
-                digito = lexema
-                lexema = ""
-
-                while self.esDigito( digito ):
-                    lexema += digito
-                    digito = self.leerCaracter()
-
-                self.desleer()
-
-                return {
-                            "token": pr.entero,
-                            "lexema": lexema
-                        }
+        elif dts.esRelacional( lexema ):
+            return dts.relacionales(lexema)
+        
+        elif dts.esLogico( lexema ):
+            return dts.logicos(lexema)
 
         # Fin de Archivo
         elif lexema is "\0":
 
             return {
-                        "token": pr.hecho,
+                        "token": pr.HECHO,
                         "lexema": lexema
                     }
 
@@ -267,39 +126,4 @@ class Alex(object):
                 "lexema": lexema
             }
 
-        # Letra
-        elif self.esLetra(lexema):
-
-            # lee toda la palabra
-
-            caracter = lexema
-            lexema = ""
-
-            while self.esLetra( caracter ):
-                lexema = lexema + caracter
-                caracter = self.leerCaracter()
-
-            self.desleer()
-
-            # La palabra leida es reservada
-            if lexema == "print":
-
-                return {
-                            "token": pr.imprimir,
-                            "lexema": lexema
-                        }
-
-            # La palabra NO es reservada
-            else:
-                return {
-                        "token": pr.letras,
-                        "lexema": lexema
-                    }
-
-        # Error
-        else:
-
-            return {
-                        "token": pr.error,
-                        "lexema": lexema
-                    }
+        

@@ -4,6 +4,7 @@ class Palabras_Reservadas(object):
     
     def __init__( self ):
 
+        # Palabras Reservadas
         self.PROGRAMA = "programa"
         self.SI = "si"
         self.ENTONCES = "entonces"
@@ -17,41 +18,49 @@ class Palabras_Reservadas(object):
         self.HASTA = "hasta"
         self.PARA = "para"
         self.A = "a"
+
         #Tokens lexicograficos
         self.HECHO = "FIN DE ARCHIVO"
         self.EOS = "EOS"
         self.COMENTARIO = "COMENTARIO"
         self.P_RES = "PALABRA RESERVADA"
         self.CADENA = "CADENA"
-        self.RELOP = "OPERADOR RELACIONAL"
-        self.LOGOP = "OPERADOR LOGICO"
-        self.ADDOP = "OPERADOR DE SUMA O RESTA"
-        self.MULOP = "OPERADOR DE MULTIPLICACION"
-        self.STRINGS = "OPERADOR DE MULTIPLICACION"
+        self.RELOP = "OPE. RELACIONAL"
+        self.LOGOP = "OPE. LOGICO"
+        self.SUMA = "OPE. DE SUMA"
+        self.RESTA = "OPE. DE RESTA"
+        self.MULTIPLICACION = "OPE. DE MULTIPLICACION"
+        self.DIVISION = "OPE. DE DIVICION"
+        self.MODULO = "OPE. DE MODULO"
+        self.STRINGS = "CADENAS DE CARACTERES"
         self.ERROR = "ERROR LEXICOGRAFICO"
         self.TOKEN_INV = "TOKEN INVALIDO"
         self.RESTO_MUNDO = "RESTO DEL MUNDO"
         self.ASIGNACION = "ASIGNACION"
         self.ID = "IDENTIFICADOR"
         self.NUM_ENT = "ENTERO"
+
         #LEXEMAS PARA OPERADORES LOGICOS, ARITMETICOS Y RELACIONALES
+        self.MAS = "+"
+        self.MENOS = "-"
+        self.MULT = "*"
+        self.DIV = "/"
+        self.MOD = "%"
+        self.ASG = "="
+
         self.LT = "<"
         self.LE = "<="
         self.EQ = "=="
-        self.ASG = "="
+        self.GT = ">"
         self.GE = ">="
         self.NE = "!="
+
         self.NOT = "!"
-        self.MAS = "+"
-        self.MENOS = "-"
         self.OR = "||"
-        self.MULT = "*"
-        self.DIV = "/"
-        self.MODULO = "%"
         self.AND = "&&"
         
 
         # ñoño
-        C = 'ñá'.decode('utf8')
-        print C
+        # C = 'ñá'.decode('utf8')
+        # print C
         
