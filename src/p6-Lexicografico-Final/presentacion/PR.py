@@ -39,6 +39,7 @@ class Palabras_Reservadas(object):
         self.ASIGNACION = "ASIGNACION"
         self.ID = "IDENTIFICADOR"
         self.NUM_ENT = "ENTERO"
+        self.DELIMITADOR = "DELIMITADOR"
 
         #LEXEMAS PARA OPERADORES LOGICOS, ARITMETICOS Y RELACIONALES
         self.MAS = "+"

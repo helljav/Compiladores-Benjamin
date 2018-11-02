@@ -16,12 +16,18 @@ def dt_esLogico( self, caracter ):
 ##
 def dt_logicos( self, lexema ):
 
-        # Caso Negacion
-        if lexema is "!":
-            return {
-                        "token": self.pr.LOGOP,
-                        "lexema": lexema
-                    }
+        cont = self.alex.contador
+
+        # Negacion
+        if lexema is '!':
+
+            if self.alex.leerCaracter() != "=" or self.alex.contador == cont:
+                self.alex.desleer()
+                
+                return {
+                            "token": self.pr.LOGOP,
+                            "lexema": lexema
+                        }
         
         # Caso And 
         elif lexema is '&':
@@ -30,10 +36,26 @@ def dt_logicos( self, lexema ):
 
             if lexema[ 1 ] is '&':
 
-                return {
+                # misma linea
+                if cont == self.alex.contador:
+                    return {
                             "token": self.pr.LOGOP,
                             "lexema": lexema
                         }
+
+                else:
+                    self.alex.desleer()
+                    return {
+                            "token": self.pr.ERROR,
+                            "lexema": lexema[0]
+                        }
+
+            else:
+                return {
+                            "token": self.pr.ERROR,
+                            "lexema": lexema
+                        }
+        
         # Caso Or 
         elif lexema is '|':
 
@@ -41,7 +63,22 @@ def dt_logicos( self, lexema ):
 
             if lexema[ 1 ] is '|':
 
-                return {
+                # misma linea
+                if cont == self.alex.contador:
+                    return {
                             "token": self.pr.LOGOP,
+                            "lexema": lexema
+                        }
+
+                else:
+                    self.alex.desleer()
+                    return {
+                            "token": self.pr.ERROR,
+                            "lexema": lexema[0]
+                        }
+                          
+            else:
+                return {
+                            "token": self.pr.ERROR,
                             "lexema": lexema
                         }
