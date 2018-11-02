@@ -7,25 +7,32 @@ class Uami(object):
     ##
     # Constructor
     ##
-    def __init__( self ):
-        
+    def __init__( self, ventana ):
+
+        # Inyeccion de Dependencias
+        self.ventana = ventana
+        self.pr = Palabras_Reservadas()
+        self.alex = Alex( self.ventana, self.pr, self )
+
+
         self.archivoTpl = ""
         self.archivoErr = ""
         self.lineas = 0
+        self.errores = 0
 
     ##
     # Metodo para crear los archivos de la tupla y error
     #
-    #   @Param fuenteUrl: 
+    #   @Param self.ventana.fuenteUrl: 
     #       Ruta del archivo fuente (el que se abre)
-    #   @Param txtAreaFuente: 
+    #   @Param self.ventana.txtAreaFuente: 
     #       El componente Gui correspondiente a la Caja de texto
     #       del archivo fuente
     ##
-    def crearArchivos( self, fuenteUrl, txtAreaFuente ):
+    def crearArchivos( self ):
 
         # Obtener nombre del archivo fuente
-        lista = str(fuenteUrl).split("/")
+        lista = str(self.ventana.fuenteUrl).split("/")
         nombreFuente = lista[len(lista)-1].replace(".fte", "")
 
         # Si no se abre algun archivo fuente, se predefine un nombre
@@ -57,61 +64,119 @@ class Uami(object):
                      ]
 
         # Texto Default para el archivo error
-        textoError = [
-                        "* Archivo Error *\n",
-                        "En esta etapa del desarrollo del compilador este archivo solo\n",
-                        "contiene una copia del archivo fuente",
-                        "\n\n"
-                     ]
+        textoError = "* Detalles de Error de Compilacion*\n\n"
         
         # Se crean los archivos en las rutas correspondientes
         # y se escribe el texto default en ellos
+        self.escribirArchivo( self.archivoTpl, "w+", textoTupla )
+        self.ventana.txtAreaFileTupla.setText( self.getArchivoTexto( self.archivoTpl ) )
+        
+        self.escribirArchivo( self.archivoErr, "w+", textoError )
+        self.ventana.txtAreaFileError.setText( self.getArchivoTexto( self.archivoErr ) )
 
-        archivo = open( self.archivoTpl, "w+")
-        archivo.writelines(textoTupla)
-        self.cierraArchivo( archivo )
+    ##
+    # Metodo para escribir en un archivo
+    # @Param ruta: ruta del archivo
+    # @Param modo: tipo de escritura requerido
+    # @Param texto: el texto a escribir
+    ##
+    def escribirArchivo( self, ruta, modo, texto ):
 
-        archivo = open( self.archivoErr, "w+")
-        archivo.writelines(textoError)
-        self.cierraArchivo( archivo )
-    
-    ##
-    # Metodo para cerrar un archivo
-    #   @Param archivo:
-    #       El archivo a cerrar
-    ##
-    def cierraArchivo( self, archivo ):
+        archivo = open( ruta , modo)
+
+        if type(texto) == type(list()):
+            archivo.writelines(texto)
+            return archivo
+        else:
+            archivo.write( texto )
+            return archivo
+        
         archivo.close()
+
+    ##
+    # Metodo para obtener el contenido de un archivo
+    # @Param ruta: ruta del archivo
+    # @Return texto: el texto del archivo
+    ##
+    def getArchivoTexto( self, ruta ):
+        archivo = open( ruta , "r")
+        texto = archivo.read()
+        archivo.close()
+        return str(texto)
     
     ##
     # Metodo para inicial el analizador lexicografico
     #
-    #   @Param fuenteUrl: 
+    #   @Param self.ventana.fuenteUrl: 
     #       Ruta del archivo fuente (el que se abre)
-    #   @Param txtAreaFuente: 
-    #       El componente Gui correspondiente a la Caja de texto
-    #       del archivo fuente
+    #   @Param uami: 
+    #       referencia de memoria de un objeto uami
     ##
-    def iniciaCompilacion( self, fuenteUrl, txtAreaFuente ):
+    def iniciaCompilacion( self ):
         
-        alex = Alex( txtAreaFuente )
-        pr = Palabras_Reservadas()
+        cadRes = ""
+
+        while self.ventana.fuenteUrl == "":
+            self.ventana.guardarArchivo()
+
+        cadRes += "Inicia Compilacion: " + str(self.ventana.fuenteUrl) + "\n\n"
+        self.ventana.txtAreaResultado.setText( cadRes )
         
-        # Creacion de los Archivos
-        self.crearArchivos( fuenteUrl, txtAreaFuente )
+        cadRes += "Creando Archivos Tupla y Error\n"
+        self.ventana.txtAreaResultado.setText( cadRes )
+
+        self.crearArchivos()
         
-        # Se abren los archivos para el modo agregar texto
-        archivo = open( self.archivoTpl, "a+")
-        self.archivoErr = open( self.archivoErr, "a+")
-        
-        diccionario = alex.alexico(self)
+        cadRes += "Espere un momento por favor...\n"
+        self.ventana.txtAreaResultado.setText( cadRes )
+
+        diccionario = self.alex.alexico()
 
         # Cuando sea Aceptado el token
-        while diccionario["token"] != pr.HECHO and diccionario["token"] != pr.ERROR:
+        while diccionario["token"] != self.pr.HECHO:
 
-            if diccionario["token"] == "vacio":
+            if diccionario["token"] == "DELIMITADOR":
                 pass
                 
+            # Cuando sea Error Token invalido
+            if diccionario["token"] == self.pr.TOKEN_INV:
+
+                texto = [
+                            "Linea: ",
+                            str(self.lineas),
+                            "\t",
+                            diccionario["token"],
+                            "\n\t",
+                            diccionario["lexema"] + " no Reconocido",
+                            "\n\n"
+                        ]
+
+                self.errores += 1 
+                cadRes += "<< Error Encontrado >>\n"
+                self.ventana.txtAreaResultado.setText( cadRes )
+                self.escribirArchivo( self.archivoErr, "a+", texto )
+                self.ventana.txtAreaFileError.setText( self.getArchivoTexto( self.archivoErr ) )
+            
+            # Cuando sea Error lexicografico
+            elif diccionario["token"] == self.pr.ERROR:
+
+                texto = [
+                            "Linea: ",
+                            str(self.lineas),
+                            "\t",
+                            diccionario["token"],
+                            "\n\t",
+                            "\"" + diccionario["lexema"] + "\" NO PERMITIDO",
+                            "\n\n"
+                        ]
+
+                self.errores += 1 
+                cadRes += "<< Error Encontrado >>\n"
+                self.ventana.txtAreaResultado.setText( cadRes )
+                self.escribirArchivo( self.archivoErr, "a+", texto )
+                self.ventana.txtAreaFileError.setText( self.getArchivoTexto( self.archivoErr ) )
+                
+            # Pertmitidos
             else: 
 
                 texto = [
@@ -123,24 +188,14 @@ class Uami(object):
                         "\n"
                      ]
                 
-                archivo.writelines( texto )
+                self.escribirArchivo( self.archivoTpl, "a+", texto )
+                self.ventana.txtAreaFileTupla.setText( self.getArchivoTexto( self.archivoTpl ) )
 
-            diccionario = alex.alexico(self)
+            diccionario = self.alex.alexico()
 
-        # Cuando sea Error
-        if diccionario["token"] == pr.ERROR:
-
-            texto = [
-                        str(self.lineas),
-                        "\t",
-                        "<<<<< Error Caracter \"" + diccionario["lexema"] + "\" no permitido >>>>>",
-                        "\n"
-                     ]
-
-            archivo.writelines( texto )
 
         # Cuando sea Fin de Archivo
-        elif diccionario["token"] == pr.HECHO:
+        if diccionario["token"] == self.pr.HECHO:
 
             texto = [
                         str(self.lineas),
@@ -151,6 +206,8 @@ class Uami(object):
                         "\n"
                      ]
                      
-            archivo.writelines( texto )
-                 
-        archivo.close()
+            self.escribirArchivo( self.archivoTpl, "a+", texto )
+            self.ventana.txtAreaFileTupla.setText( self.getArchivoTexto( self.archivoTpl ) )
+
+        cadRes += "Compilacion Terminada\n\n"  + "Errorres: " +  str(self.errores)
+        self.ventana.txtAreaResultado.setText( cadRes )

@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+from modelos_DTs.Aritmeticos import dt_aritmeticos
+from modelos_DTs.Entero import dt_Entero
+from modelos_DTs.Relacionales import dt_relacionales
+from modelos_DTs.Logicos import dt_logicos
+from modelos_DTs.Delimitadores import dt_delimitadores
 
 class DTS(object):
 
@@ -7,198 +12,22 @@ class DTS(object):
         self.pr = pr
 
     def aritmeticos(self, lexema):
-
-        # Asignacion
-        if lexema is '=':
-
-            if self.alex.leerCaracter() != "=":
-                self.alex.desleer()
-                return {
-                            "token": self.pr.ASIGNACION,
-                            "lexema": lexema
-                        }
-            else:
-                self.alex.desleer()
-                return self.relacionales( lexema )
-
-
-        # Suma
-        elif lexema is '+':
-
-            return {
-                        "token": self.pr.SUMA,
-                        "lexema": lexema
-                    }
-
-        # Resta
-        elif lexema is '-':
-
-            return {
-                        "token": self.pr.RESTA,
-                        "lexema": lexema
-                    }
-
-        # DIVISION
-        elif lexema is '/':
-
-            return {
-                        "token": self.pr.DIVISION,
-                        "lexema": lexema
-                    }
-
-        # Multiplicacion
-        elif lexema is '*':
-
-            return {
-                        "token": self.pr.MULTIPLICACION,
-                        "lexema": lexema
-                    }
-        
-        # MODULO
-        elif lexema is '%':
-
-            return {
-                        "token": self.pr.MODULO,
-                        "lexema": lexema
-                    }
+        return dt_aritmeticos(self, lexema)
 
     def Num_Entero(self, lexema):
-
-        if self.esDigito( lexema ):
-            # Empieza en cero
-            if lexema is "0":
-                lexema += self.alex.leerCaracter()
-                # Segundo caracter es "otro"
-                # Return entero cero
-                if self.esDigito( lexema[1] ) == False:
-                    self.alex.desleer()
-                    return {
-                            "token": self.pr.NUM_ENT,
-                            "lexema": lexema[ 0 ]
-                        }
-                # Segundo caracter es un digito
-                else:
-                    # Se lee todo el numero entero para regresarlo como error y lexema
-                    digito = self.alex.leerCaracter()
-                    while self.esDigito( digito ):
-                        lexema += digito
-                        digito = self.alex.leerCaracter()
-                    return {
-                            "token": self.pr.ERROR,
-                            "lexema": lexema
-                        }
-            # No empieza en cero
-            else:
-                # lee todo el numero y lo regresa como entero
-                digito = lexema
-                lexema = ""
-                while self.esDigito( digito ):
-                    lexema += digito
-                    digito = self.alex.leerCaracter()
-
-                self.alex.desleer()
-                return {
-                            "token": self.pr.NUM_ENT,
-                            "lexema": lexema
-                        }
+        return dt_Entero( self, lexema )
     
     def relacionales( self, lexema ):
-
-        # Caso ==
-        if lexema is '=':
-
-            lexema = lexema + self.alex.leerCaracter()
-
-            if lexema[ 1 ] is '=':
-                return {
-                            "token": self.pr.RELOP,
-                            "lexema": lexema
-                        }
-        
-        # Caso !=
-        if lexema is '!':
-
-            lexema = lexema + self.alex.leerCaracter()
-
-            if lexema[ 1 ] is '=':
-
-                return {
-                            "token": self.pr.RELOP,
-                            "lexema": lexema
-                        }
-            else:
-                self.alex.desleer()
-                return self.logicos( lexema[0]);
-
-        # Caso >= y >
-        elif lexema is '>':
-
-            lexema = lexema + self.alex.leerCaracter()
-
-            if lexema[ 1 ] is '=':
-
-                return {
-                            "token": self.pr.RELOP,
-                            "lexema": lexema
-                        }
-
-            else:
-
-                self.alex.desleer()
-                return {
-                            "token": self.pr.RELOP,
-                            "lexema": lexema[ 0 ]
-                        }
-        
-        # Caso <= y <
-        elif lexema is '<':
-
-            lexema = lexema + self.alex.leerCaracter()
-
-            if lexema[ 1 ] is '=':
-                return {
-                            "token": self.pr.RELOP,
-                            "lexema": lexema
-                        }
-
-            else:
-                self.alex.desleer()
-                return {
-                            "token": self.pr.RELOP,
-                            "lexema": lexema[ 0 ]
-                        }
+        return dt_relacionales( self, lexema )
 
     def logicos( self, lexema ):
+        return dt_logicos( self, lexema )
+    
+    def delimitadores( self, lexema ):
+        return dt_delimitadores( self, lexema )
 
-        # Caso Negacion
-        if lexema is "!":
-            return {
-                        "token": self.pr.LOGOP,
-                        "lexema": lexema
-                    }
-        
-        # Caso And 
-        elif lexema is '&':
+    
 
-            lexema = lexema + self.alex.leerCaracter()
-
-            if lexema[ 1 ] is '&':
-
-                return {
-                            "token": self.pr.LOGOP,
-                            "lexema": lexema
-                        }
-        # Caso Or 
-        elif lexema is '|':
-
-            lexema = lexema + self.alex.leerCaracter()
-
-            if lexema[ 1 ] is '|':
-
-                return {
-                            "token": self.pr.LOGOP,
-                            "lexema": lexema
-                        }
     ##
     # Metodo para ver si un elemento
     # pertenece a una lista
@@ -216,6 +45,9 @@ class DTS(object):
 
         return False
 
+    def esDelimitador( self, caracter ):
+        delimitadores = ["\n", "\t", "\b", " "]
+        return self.perteneceLista( caracter, delimitadores )
 
     ##
     # Metodo para reconocer si un caracter es Logico

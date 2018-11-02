@@ -8,13 +8,18 @@ class Alex(object):
     ##
     # Constructor
     #
-    #   @Param txtAreaFuente:
+    #   @Param ventana:
     #       El componente Gui correspondiente a la Caja de texto
     #       del archivo fuente
     ##
-    def __init__( self, txtAreaFuente ):
-        self.contenidoFuente = str(txtAreaFuente.toPlainText())
-        self.contador = 0
+    def __init__( self, ventana, pr, uami ):
+
+        self.ventana = ventana
+        self.pr = pr
+        self.uami = uami
+        self.contenidoFuente = str(self.ventana.txtAreaFuente.toPlainText())
+        
+        self.contador = 1
         self.buffer = {
                         "pos_leida":0,
                         "longitud": 0,
@@ -39,11 +44,16 @@ class Alex(object):
     ##
     def llenaBuffer(self):
 
-        if self.contador < len (self.contenidoFuente[:]):
-            Cadena = str(self.contenidoFuente[self.contador])
+        if self.contador <= len (self.contenidoFuente[:]):
+            Cadena = str(self.contenidoFuente[ self.contador - 1 ])
+
+            if Cadena == "":
+                Cadena = "\n"
+
             self.buffer["pos_leida"] = 0
             self.buffer["cadena"] = Cadena
             self.buffer["longitud"] = len(Cadena)
+
         else:
             self.buffer["pos_leida"] = 0
             self.buffer["cadena"] = "null"
@@ -57,14 +67,12 @@ class Alex(object):
     def leerCaracter( self ):
 
         if self.buffer["pos_leida"] == self.buffer["longitud"]:
-            self.contador = self.contador + 1
+            self.contador += 1
             self.llenaBuffer()
 
         if self.buffer["longitud"] != 0:
-
             caracter = self.buffer["cadena"][self.buffer["pos_leida"]]
-            self.buffer["pos_leida"] = self.buffer["pos_leida"] + 1
-
+            self.buffer["pos_leida"] += 1
             return caracter
 
         else:
@@ -76,8 +84,10 @@ class Alex(object):
     # ( Simula el signo de pesos )
     ##
     def desleer(self):
-
-        self.buffer["pos_leida"] = self.buffer["pos_leida"] - 1
+            if self.buffer["pos_leida"] == 0:
+                self.contador -= 1
+            else:
+                self.buffer["pos_leida"] -= 1  
 
 
     
@@ -88,41 +98,51 @@ class Alex(object):
     #   @Param uami:
     #       Un objeto de la clase Uami
     ##
-    def alexico(self, uami):
+    def alexico(self):
 
-        pr = Palabras_Reservadas()
-        uami.lineas = self.contador
         lexema = self.leerCaracter()
-        
-        dts = DTS(self, pr)
-
-        # print dts.esLetra("a")
+        dts = DTS(self, self.pr)
 
         if dts.esAritmetico( lexema ):
+            self.uami.lineas = self.contador
             return dts.aritmeticos( lexema )
 
         elif dts.esDigito( lexema ):
-            return dts.Num_Entero(lexema)
+            self.uami.lineas = self.contador
+            return dts.Num_Entero( lexema )
 
         elif dts.esRelacional( lexema ):
-            return dts.relacionales(lexema)
+            self.uami.lineas = self.contador
+            return dts.relacionales( lexema )
         
         elif dts.esLogico( lexema ):
-            return dts.logicos(lexema)
+            self.uami.lineas = self.contador
+            return dts.logicos( lexema )
+        
+        elif dts.esDelimitador( lexema ):
+            self.uami.lineas = self.contador
+            return dts.delimitadores( lexema )
 
         # Fin de Archivo
         elif lexema is "\0":
-
+            self.uami.lineas = self.contador
             return {
-                        "token": pr.HECHO,
-                        "lexema": lexema
+                        "token": self.pr.HECHO,
+                        "lexema": self.pr.EOS
                     }
 
-        # Delimitador vacio
-        elif lexema is " ":
+        # # Delimitador vacio
+        # elif lexema is " ":
 
-            return{
-                "token": "vacio",
+        #     return{
+        #         "token": "vacio",
+        #         "lexema": lexema
+        #     }
+
+        else:
+            self.uami.lineas = self.contador
+            return {
+                "token": self.pr.TOKEN_INV,
                 "lexema": lexema
             }
 
