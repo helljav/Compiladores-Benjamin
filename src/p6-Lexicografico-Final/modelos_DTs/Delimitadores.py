@@ -18,26 +18,26 @@ def dt_delimitadores( self, lexema ):
     if lexema == " ":
 
         return {
-                    "token": "DELIMITADOR",
+                    "token": self.pr.DELIMITADOR,
                     "lexema": lexema
                 }
 
     if lexema == "\n":
 
         return {
-                    "token": "DELIMITADOR",
+                    "token": self.pr.DELIMITADOR,
                     "lexema": lexema
                 }
     if lexema == "\t":
 
         return {
-                    "token": "DELIMITADOR",
+                    "token": self.pr.DELIMITADOR,
                     "lexema": lexema
                 }
     if lexema == "\b":
 
         return {
-                    "token": "DELIMITADOR",
+                    "token": self.pr.DELIMITADOR,
                     "lexema": lexema
                 }
         

@@ -34,15 +34,16 @@ def dt_relacionales( self, lexema ):
 
             lexema = lexema + self.alex.leerCaracter()
 
-            if lexema[ 1 ] is '=':
+            if lexema[ 1 ] is '=' and cont == self.alex.contador:
 
                 return {
                             "token": self.pr.RELOP,
                             "lexema": lexema
                         }
-            else:
+            else: 
+                # print "entro del otro lado y voy para alla con el lexema", lexema[0]
                 self.alex.desleer()
-                return self.logicos( lexema[0])
+                return self.logicos( lexema[0] )
 
         # Caso >= y >
         elif lexema is '>':

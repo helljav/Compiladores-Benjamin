@@ -90,6 +90,7 @@ class Alex(object):
     def desleer(self):
             if self.buffer["pos_leida"] == 0:
                 self.contador -= 1
+                self.buffer["pos_leida"] = self.buffer["longitud"] 
             else:
                 self.buffer["pos_leida"] -= 1  
 

@@ -126,11 +126,11 @@ class Uami(object):
         # Cuando sea Aceptado el token
         while diccionario["token"] != self.pr.HECHO:
 
-            if diccionario["token"] == "DELIMITADOR":
+            if diccionario["token"] == self.pr.DELIMITADOR:
                 pass
                 
             # Cuando sea Error Token invalido
-            if diccionario["token"] == self.pr.TOKEN_INV:
+            elif diccionario["token"] == self.pr.TOKEN_INV:
 
                 texto = [
                             "Linea: ",
@@ -154,7 +154,7 @@ class Uami(object):
                 texto = [
                             "Linea: ",
                             str(self.lineas),
-                            "\t",
+                            "\n\t",
                             diccionario["token"],
                             "\n\t",
                             "\"" + diccionario["lexema"] + "\" NO PERMITIDO",
