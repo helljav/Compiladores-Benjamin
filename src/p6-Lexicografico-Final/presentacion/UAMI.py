@@ -6,6 +6,8 @@ class Uami(object):
 
     ##
     # Constructor
+    #   @Param ventana:
+    #       referencia de memoria actual del obj ventana
     ##
     def __init__( self, ventana ):
 
@@ -14,20 +16,14 @@ class Uami(object):
         self.pr = Palabras_Reservadas()
         self.alex = Alex( self.ventana, self.pr, self )
 
-
-        self.archivoTpl = ""
-        self.archivoErr = ""
+        # Atributos
+        self.urlTpl = ""
+        self.urlErr = ""
         self.lineas = 0
         self.errores = 0
 
     ##
     # Metodo para crear los archivos de la tupla y error
-    #
-    #   @Param self.ventana.fuenteUrl: 
-    #       Ruta del archivo fuente (el que se abre)
-    #   @Param self.ventana.txtAreaFuente: 
-    #       El componente Gui correspondiente a la Caja de texto
-    #       del archivo fuente
     ##
     def crearArchivos( self ):
 
@@ -47,8 +43,8 @@ class Uami(object):
             os.makedirs(urlDist)
         
         # Creacion de las rutas para los archivos
-        self.archivoTpl = urlDist +  nombreFuente + ".tpl"
-        self.archivoErr = urlDist +  nombreFuente + ".err"
+        self.urlTpl = urlDist +  nombreFuente + ".tpl"
+        self.urlErr = urlDist +  nombreFuente + ".err"
 
         # Texto Default para el archivo tupla
         textoTupla = [
@@ -68,11 +64,11 @@ class Uami(object):
         
         # Se crean los archivos en las rutas correspondientes
         # y se escribe el texto default en ellos
-        self.escribirArchivo( self.archivoTpl, "w+", textoTupla )
-        self.ventana.txtAreaFileTupla.setText( self.getArchivoTexto( self.archivoTpl ) )
+        self.escribirArchivo( self.urlTpl, "w+", textoTupla )
+        self.ventana.txtAreaFileTupla.setText( self.getArchivoTexto( self.urlTpl ) )
         
-        self.escribirArchivo( self.archivoErr, "w+", textoError )
-        self.ventana.txtAreaFileError.setText( self.getArchivoTexto( self.archivoErr ) )
+        self.escribirArchivo( self.urlErr, "w+", textoError )
+        self.ventana.txtAreaFileError.setText( self.getArchivoTexto( self.urlErr ) )
 
     ##
     # Metodo para escribir en un archivo
@@ -105,12 +101,7 @@ class Uami(object):
         return str(texto)
     
     ##
-    # Metodo para inicial el analizador lexicografico
-    #
-    #   @Param self.ventana.fuenteUrl: 
-    #       Ruta del archivo fuente (el que se abre)
-    #   @Param uami: 
-    #       referencia de memoria de un objeto uami
+    # Metodo para iniciar el analizador lexicografico
     ##
     def iniciaCompilacion( self ):
         
@@ -154,8 +145,8 @@ class Uami(object):
                 self.errores += 1 
                 cadRes += "<< Error Encontrado >>\n"
                 self.ventana.txtAreaResultado.setText( cadRes )
-                self.escribirArchivo( self.archivoErr, "a+", texto )
-                self.ventana.txtAreaFileError.setText( self.getArchivoTexto( self.archivoErr ) )
+                self.escribirArchivo( self.urlErr, "a+", texto )
+                self.ventana.txtAreaFileError.setText( self.getArchivoTexto( self.urlErr ) )
             
             # Cuando sea Error lexicografico
             elif diccionario["token"] == self.pr.ERROR:
@@ -173,8 +164,8 @@ class Uami(object):
                 self.errores += 1 
                 cadRes += "<< Error Encontrado >>\n"
                 self.ventana.txtAreaResultado.setText( cadRes )
-                self.escribirArchivo( self.archivoErr, "a+", texto )
-                self.ventana.txtAreaFileError.setText( self.getArchivoTexto( self.archivoErr ) )
+                self.escribirArchivo( self.urlErr, "a+", texto )
+                self.ventana.txtAreaFileError.setText( self.getArchivoTexto( self.urlErr ) )
                 
             # Pertmitidos
             else: 
@@ -188,8 +179,8 @@ class Uami(object):
                         "\n"
                      ]
                 
-                self.escribirArchivo( self.archivoTpl, "a+", texto )
-                self.ventana.txtAreaFileTupla.setText( self.getArchivoTexto( self.archivoTpl ) )
+                self.escribirArchivo( self.urlTpl, "a+", texto )
+                self.ventana.txtAreaFileTupla.setText( self.getArchivoTexto( self.urlTpl ) )
 
             diccionario = self.alex.alexico()
 
@@ -206,8 +197,8 @@ class Uami(object):
                         "\n"
                      ]
                      
-            self.escribirArchivo( self.archivoTpl, "a+", texto )
-            self.ventana.txtAreaFileTupla.setText( self.getArchivoTexto( self.archivoTpl ) )
+            self.escribirArchivo( self.urlTpl, "a+", texto )
+            self.ventana.txtAreaFileTupla.setText( self.getArchivoTexto( self.urlTpl ) )
 
         cadRes += "Compilacion Terminada\n\n"  + "Errorres: " +  str(self.errores)
         self.ventana.txtAreaResultado.setText( cadRes )

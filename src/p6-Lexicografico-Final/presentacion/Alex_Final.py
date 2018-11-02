@@ -206,10 +206,6 @@ class Ventana(QtGui.QMainWindow):
             else:
                 self.fuenteUrl = urlActual
             
-        
-        
-
-        
     
     ##
     # Metodo que inicia la compilacion
@@ -218,19 +214,4 @@ class Ventana(QtGui.QMainWindow):
     def iniciarCompilacion( self ):
         uami = Uami( self )
         uami.iniciaCompilacion()
-    
-    
-##
-# Metodo Main
-##
-def main():
-
-    # Comandos para iniciar la ventana grafica
-    app = QtGui.QApplication(sys.argv)
-    # Creacion de un objeto de la clase ventana
-    GUI = Ventana()
-
-    sys.exit(app.exec_())
-
-main()
 

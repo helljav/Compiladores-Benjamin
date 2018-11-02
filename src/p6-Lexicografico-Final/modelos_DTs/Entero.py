@@ -1,3 +1,19 @@
+##
+# Metodo para reconocer si un caracter es un digito
+#   @param: caracter a evaluar
+#   @Return: True si es digito, False si no
+##
+def dt_esDigito( self, caracter ):
+
+    digitos = list( range(0,10) )
+    return self.perteneceLista(caracter, digitos)
+
+
+##
+# Diagrama de Transicion Entero
+# @Return: diccionario con  token y lexema
+#           acorde a la respuesta
+##
 def dt_Entero(self, lexema):
 
         cont = self.alex.contador

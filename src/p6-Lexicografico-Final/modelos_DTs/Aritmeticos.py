@@ -1,3 +1,17 @@
+##
+# Metodo para reconocer si un caracter es Aritmetico
+#   @param: caracter a evaluar
+#   @Return: True si es aritmetico, False si no
+##
+def dt_esAritmetico( self, caracter ):
+    operadores = [ "=", "-", "+", "/", "*", "%" ]
+    return self.perteneceLista( caracter, operadores )
+
+##
+# Diagrama de Transicion Aritmeticos
+# @Return: diccionario con  token y lexema
+#           acorde a la respuesta
+##
 def dt_aritmeticos(self, lexema):
 
         cont = self.alex.contador

@@ -9,22 +9,26 @@ class Alex(object):
     # Constructor
     #
     #   @Param ventana:
-    #       El componente Gui correspondiente a la Caja de texto
-    #       del archivo fuente
+    #       referencia de memoria actual del obj ventana
+    #   @Param pr:
+    #       referencia de memoria actual del obj pr
+    #   @Param uami:
+    #      referencia de memoria actual del obj uami
     ##
     def __init__( self, ventana, pr, uami ):
 
         self.ventana = ventana
         self.pr = pr
         self.uami = uami
+
         self.contenidoFuente = str(self.ventana.txtAreaFuente.toPlainText())
-        
         self.contador = 1
         self.buffer = {
                         "pos_leida":0,
                         "longitud": 0,
                         "cadena" :""
                       }
+                      
         self.init()
 
     ##
@@ -92,11 +96,8 @@ class Alex(object):
 
     
     ##
-    # Metodo que implementa el diagrama de transiciones
+    # Metodo que implementa los diagrama de transiciones
     # Para el analizador Lexicografico
-    #
-    #   @Param uami:
-    #       Un objeto de la clase Uami
     ##
     def alexico(self):
 
@@ -123,6 +124,10 @@ class Alex(object):
             self.uami.lineas = self.contador
             return dts.delimitadores( lexema )
 
+        elif dts.esRestoMundo( lexema ):
+            self.uami.lineas = self.contador
+            return dts.restoMundo( lexema)
+
         # Fin de Archivo
         elif lexema is "\0":
             self.uami.lineas = self.contador
@@ -130,14 +135,6 @@ class Alex(object):
                         "token": self.pr.HECHO,
                         "lexema": self.pr.EOS
                     }
-
-        # # Delimitador vacio
-        # elif lexema is " ":
-
-        #     return{
-        #         "token": "vacio",
-        #         "lexema": lexema
-        #     }
 
         else:
             self.uami.lineas = self.contador

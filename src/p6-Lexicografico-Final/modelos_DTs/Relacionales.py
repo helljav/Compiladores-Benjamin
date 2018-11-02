@@ -1,3 +1,19 @@
+##
+# Metodo para reconocer si un caracter es Relacional
+#   @param: caracter a evaluar
+#   @Return: True si es relacional, False si no
+##
+def dt_esRelacional( self, caracter ):
+    
+    operadores = [ "=", "<", ">", "!" ]
+    return self.perteneceLista( caracter, operadores )
+
+
+##
+# Diagrama de Transicion Relacionales
+# @Return: diccionario con  token y lexema
+#           acorde a la respuesta
+##
 def dt_relacionales( self, lexema ):
 
         cont = self.alex.contador
@@ -26,7 +42,7 @@ def dt_relacionales( self, lexema ):
                         }
             else:
                 self.alex.desleer()
-                return self.logicos( lexema[0]);
+                return self.logicos( lexema[0])
 
         # Caso >= y >
         elif lexema is '>':
