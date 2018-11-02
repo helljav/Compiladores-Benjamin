@@ -153,7 +153,7 @@ class Ventana(QtGui.QMainWindow):
                     archivo.close()
                     self.fuenteUrl = url
             else:
-                self.fuenteUrl = ""
+                pass
 
     ##
     # Metodo para guardar el archivo fuente
@@ -177,8 +177,11 @@ class Ventana(QtGui.QMainWindow):
                 texto = self.txtAreaFuente.toPlainText()
                 archivo.write(texto)
                 archivo.close()
-        else:
-            self.fuenteUrl = urlActual
+
+                if urlActual:
+                    self.fuenteUrl = urlActual
+                else:
+                    self.fuenteUrl = url
         
         
 
@@ -203,40 +206,12 @@ class Ventana(QtGui.QMainWindow):
             else:
                 self.fuenteUrl = urlActual
             
-        
-        
-
-        
     
     ##
     # Metodo que inicia la compilacion
     # en la ventana
     ##
     def iniciarCompilacion( self ):
-        
-        # Inicia la compilacion del objeto uami
-        uami = Uami()
-        uami.iniciaCompilacion( self.fuenteUrl, self.txtAreaFuente )
-
-        # Lee el archivo tupla generado por el analizador lexicografico
-        # y los imprime en la caja de texto del resultado
-        archivo = open( uami.archivoTpl, "r")
-        contenido_t = archivo.read()
-        uami.cierraArchivo( archivo )
-        self.txtAreaResultado.setText( contenido_t )
-    
-    
-##
-# Metodo Main
-##
-def main():
-
-    # Comandos para iniciar la ventana grafica
-    app = QtGui.QApplication(sys.argv)
-    # Creacion de un objeto de la clase ventana
-    GUI = Ventana()
-
-    sys.exit(app.exec_())
-
-main()
+        uami = Uami( self )
+        uami.iniciaCompilacion()
 
