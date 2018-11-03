@@ -1,6 +1,7 @@
 import os
 from Alex import Alex
 from PR import Palabras_Reservadas
+from tabla_simbolos import Tabla
 
 class Uami(object):
 
@@ -15,6 +16,8 @@ class Uami(object):
         self.ventana = ventana
         self.pr = Palabras_Reservadas()
         self.alex = Alex( self.ventana, self.pr, self )
+        self.tabla = Tabla(self.pr)
+        self.tabla.cargarPal_Res()
 
         # Atributos
         self.urlTpl = ""
@@ -104,6 +107,8 @@ class Uami(object):
     # Metodo para iniciar el analizador lexicografico
     ##
     def iniciaCompilacion( self ):
+
+        self.tabla.printTable()
         
         cadRes = ""
 

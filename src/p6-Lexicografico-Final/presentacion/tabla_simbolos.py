@@ -1,22 +1,12 @@
-
 class Tabla(object):
 
     ##
     # Constructor
     ##
-    def __init__(self):
+    def __init__(self, pr):
+        self.pr = pr
         self.tope = 0
-        self.columnas = 2
-        self.renglones = 1
-        self.tabla = [ ["0" for x in range(self.columnas)] for y in range(self.renglones) ]
-
-        print "leng de tabla: ", len(self.tabla)
-
-        # print self.tope
-        # print self.columnas
-        # print self.renglones#!/usr/bin/env python
-
-        # print self.tabla
+        self.tabla = []
 
     ##
     # Metodo para buscar un simbolo en la tabla
@@ -24,7 +14,13 @@ class Tabla(object):
     # @Return:
     ##
     def findSymbol( self, lexema ):
-        pass
+
+        indice = self.tope - 1
+        for lista in reversed(self.tabla):
+            if lexema == lista[0]:
+                return indice
+            indice -= 1
+        return -1
 
     ##
     # Metodo para obtener token
@@ -32,7 +28,7 @@ class Tabla(object):
     # @Return token: el token del elemento indice en la tabla
     ##
     def getToken( self, index ):
-        pass
+        return self.tabla[index][1]
 
     ##
     # Metodo para obtener lexema
@@ -40,7 +36,7 @@ class Tabla(object):
     # @Return lexema: el lexema del elemento indice en la tabla
     ##
     def getLexema( self, index ):
-        pass
+        return self.tabla[index][0]
 
     ##
     # Metodo para agregar un nuevo elemento a la tabla
@@ -48,39 +44,31 @@ class Tabla(object):
     # @Param lexema: lexema del elemeto a agregar
     # @Return:
     ##
-    def addItem( self, token, lexema ):
-
-        token = str(token)
-        lexema = str(lexema)
-        # Validacion
-        item = [token, lexema]
-        print item
+    def addItem( self, lexema, token ):
+        self.tope += 1
+        item = [ lexema, token ]
         self.tabla.append(item)
 
     ##
     # Metodo para imprimir la tabla
-    # @Param:
-    # @Return:
+    # en la consola a modo de pruebas  
     ##
     def printTable( self ):
+        
+        print
+        indice = self.tope - 1
+        print "<<<<< Tabla >>>>>"
+        print
+        for lista in reversed( self.tabla ):
+            print indice, " ", "-->".join(lista)
+            indice -= 1
 
-        c = ["Token", "Lexema"]
-        cabecera = "\t\t".join(c) + "\n"
-        print cabecera
-
-        elementos = ""
-        for lista in self.tabla:
-            elementos = elementos + "\t\t".join(lista) + "\n"
-
-        print elementos
     ##
     # Metodo para inicializar palabras reservadas
-    # @Param:
-    # @Return:
     ##
-    def runReservedWords(self):
-        pass
-
-obj = Tabla()
-obj.addItem(1,1)
-obj.printTable()
+    def cargarPal_Res(self):
+ 
+        valores = self.pr.Reservadas.values()
+        
+        for valor in valores:
+            self.addItem( valor, self.pr.P_RES )
