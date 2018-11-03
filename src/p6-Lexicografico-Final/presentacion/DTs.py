@@ -5,6 +5,9 @@ from modelos_DTs.Relacionales import dt_relacionales, dt_esRelacional
 from modelos_DTs.Logicos import dt_logicos, dt_esLogico
 from modelos_DTs.Delimitadores import dt_delimitadores, dt_esDelimitador
 from modelos_DTs.Resto_del_Mundo import dt_restoMundo, dt_esRestoMundo
+from modelos_DTs.identificadores import dt_esLetra, dt_esIdentificador, dt_identificadores
+from modelos_DTs.cadenas import dt_esCadena, dt_cadenas
+from modelos_DTs.comentarios import dt_esComentario, dt_comentarios
 
 class DTS(object):
 
@@ -131,21 +134,58 @@ class DTS(object):
         return dt_restoMundo( self, lexema )
 
 
-
-
     ##
     # Metodo para reconocer si un caracter es una letra permitida
     #   @param: caracter a evaluar
     #   @Return: True si es una letra, False si no
     ##
     def esLetra( self, caracter ):
+        return dt_esLetra( self, caracter )
 
-        letras = []
-
-        for i in range(97,123):
-            letras.append( chr(i) )
-
-        print letras
-
-        return self.perteneceLista( caracter, letras )
+    ##
+    # Metodo para reconocer si un caracter puede ser identificador
+    #   @param: caracter a evaluar
+    #   @Return: True si es una letra o guion bajo, False si no
+    ##
+    def esIdentificador( self, caracter ):
+        return dt_esIdentificador( self, caracter )
         
+    ##
+    # Diagrama de Transicion Identificadores
+    # @Return: diccionario con  token y lexema
+    #           acorde a la respuesta
+    ##
+    def identificadores( self, lexema ):
+        return dt_identificadores( self, lexema )  
+        
+    ##
+    # Metodo para reconocer si un caracter puede ser una cadena
+    #   @param: caracter a evaluar
+    #   @Return: True si es una letra o guion bajo, False si no
+    ##
+    def esCadena( self, caracter ):
+        return dt_esCadena( self, caracter )
+        
+    ##
+    # Diagrama de Transicion Cadenas
+    # @Return: diccionario con  token y lexema
+    #           acorde a la respuesta
+    ##
+    def cadenas( self, lexema ):
+        return dt_cadenas( self, lexema )    
+
+    ##
+    # Metodo para reconocer si un caracter puede ser una cadena
+    #   @param: caracter a evaluar
+    #   @Return: True si es una letra o guion bajo, False si no
+    ##
+    def esComentario( self, caracter ):
+        return dt_esComentario( self, caracter )
+        
+    ##
+    # Diagrama de Transicion Cadenas
+    # @Return: diccionario con  token y lexema
+    #           acorde a la respuesta
+    ##
+    def comentarios( self, lexema ):
+        return dt_comentarios( self, lexema ) 

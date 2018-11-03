@@ -129,6 +129,18 @@ class Alex(object):
             self.uami.lineas = self.contador
             return dts.restoMundo( lexema)
 
+        elif dts.esIdentificador( lexema ):
+            self.uami.lineas = self.contador
+            return dts.identificadores( lexema)
+
+        elif dts.esCadena( lexema ):
+            self.uami.lineas = self.contador
+            return dts.cadenas( lexema )
+        
+        elif dts.esComentario( lexema ):
+            self.uami.lineas = self.contador
+            return dts.comentarios( lexema )
+
         # Fin de Archivo
         elif lexema is "\0":
             self.uami.lineas = self.contador

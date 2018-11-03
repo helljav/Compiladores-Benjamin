@@ -152,8 +152,7 @@ class Ventana(QtGui.QMainWindow):
                     archivo.write(texto)
                     archivo.close()
                     self.fuenteUrl = url
-            else:
-                pass
+            
 
     ##
     # Metodo para guardar el archivo fuente
@@ -161,7 +160,7 @@ class Ventana(QtGui.QMainWindow):
     ##
     def guardarArchivoAs( self ):
         
-        urlActual = self.fuenteUrl
+        # urlActual = self.fuenteUrl
 
         url = str( QtGui.QFileDialog.getSaveFileName(self, 'Save As File', filter="*.fte") )
 
@@ -178,10 +177,12 @@ class Ventana(QtGui.QMainWindow):
                 archivo.write(texto)
                 archivo.close()
 
-                if urlActual:
-                    self.fuenteUrl = urlActual
-                else:
-                    self.fuenteUrl = url
+                self.fuenteUrl = url
+
+                # if urlActual:
+                #     self.fuenteUrl = urlActual
+                # else:
+                #     self.fuenteUrl = url
         
         
 

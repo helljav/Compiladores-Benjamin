@@ -5,19 +5,23 @@ class Palabras_Reservadas(object):
     def __init__( self ):
 
         # Palabras Reservadas
-        self.PROGRAMA = "programa"
-        self.SI = "si"
-        self.ENTONCES = "entonces"
-        self.OTRO = "otro"
-        self.HAZ = "haz"
-        self.MIENTRAS = "mientras"
-        self.COMIENZA = "comienza"
-        self.TERMINA = "termina"
-        self.IMPRIME = "imprime"
-        self.REPITE = "repite"
-        self.HASTA = "hasta"
-        self.PARA = "para"
-        self.A = "a"
+        self.Reservadas = {
+
+            "PROGRAMA" : "programa",
+            "SI" : "si",
+            "ENTONCES" : "entonces",
+            "OTRO" : "otro",
+            "HAZ" : "haz",
+            "MIENTRAS" : "mientras",
+            "COMIENZA" : "comienza",
+            "TERMINA" : "termina",
+            "IMPRIME" : "imprime",
+            "REPITE" : "repite",
+            "HASTA" : "hasta",
+            "PARA" : "para",
+            "A" : "a"
+
+        }
 
         #Tokens lexicograficos
         self.HECHO = "FIN DE ARCHIVO"
@@ -42,23 +46,23 @@ class Palabras_Reservadas(object):
         self.DELIMITADOR = "DELIMITADOR"
 
         #LEXEMAS PARA OPERADORES LOGICOS, ARITMETICOS Y RELACIONALES
-        self.MAS = "+"
-        self.MENOS = "-"
-        self.MULT = "*"
-        self.DIV = "/"
-        self.MOD = "%"
-        self.ASG = "="
+        # self.MAS = "+"
+        # self.MENOS = "-"
+        # self.MULT = "*"
+        # self.DIV = "/"
+        # self.MOD = "%"
+        # self.ASG = "="
 
-        self.LT = "<"
-        self.LE = "<="
-        self.EQ = "=="
-        self.GT = ">"
-        self.GE = ">="
-        self.NE = "!="
+        # self.LT = "<"
+        # self.LE = "<="
+        # self.EQ = "=="
+        # self.GT = ">"
+        # self.GE = ">="
+        # self.NE = "!="
 
-        self.NOT = "!"
-        self.OR = "||"
-        self.AND = "&&"
+        # self.NOT = "!"
+        # self.OR = "||"
+        # self.AND = "&&"
         
 
         # ñoño
