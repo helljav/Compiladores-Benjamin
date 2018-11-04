@@ -45,9 +45,11 @@ class Tabla(object):
     # @Return:
     ##
     def addItem( self, lexema, token ):
+        indice = self.tope
         self.tope += 1
         item = [ lexema, token ]
         self.tabla.append(item)
+        return indice
 
     ##
     # Metodo para imprimir la tabla
