@@ -32,8 +32,12 @@ def dt_identificadores( self, lexema ):
             lexema += id
             id = self.alex.leerCaracter()
 
+        posicion = self.alex.uami.tabla.findSymbol( lexema )
+
+        if posicion == -1:
+            posicion = self.alex.uami.tabla.addItem( lexema, self.pr.ID )
+    
         self.alex.desleer()
         return {
-                    "token": self.pr.ID,
-                    "lexema": lexema
+                    "token": posicion
                 }

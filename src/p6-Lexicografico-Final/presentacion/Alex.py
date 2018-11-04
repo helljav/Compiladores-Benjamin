@@ -131,8 +131,8 @@ class Alex(object):
 
         elif dts.esIdentificador( lexema ):
             self.uami.lineas = self.contador
-            return dts.identificadores( lexema)
-
+            return dts.identificadores( lexema )
+            
         elif dts.esCadena( lexema ):
             self.uami.lineas = self.contador
             return dts.cadenas( lexema )
@@ -149,6 +149,7 @@ class Alex(object):
                         "lexema": self.pr.EOS
                     }
 
+        # Todo lo no reconocido
         else:
             self.uami.lineas = self.contador
             return {

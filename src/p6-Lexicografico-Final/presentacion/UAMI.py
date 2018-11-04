@@ -107,8 +107,6 @@ class Uami(object):
     # Metodo para iniciar el analizador lexicografico
     ##
     def iniciaCompilacion( self ):
-
-        self.tabla.printTable()
         
         cadRes = ""
 
@@ -131,7 +129,7 @@ class Uami(object):
         # Cuando sea Aceptado el token
         while diccionario["token"] != self.pr.HECHO:
 
-            if diccionario["token"] == self.pr.DELIMITADOR:
+            if diccionario["token"] == self.pr.DELIMITADOR or diccionario["token"] == self.pr.COMENTARIO:
                 pass
                 
             # Cuando sea Error Token invalido
@@ -173,9 +171,25 @@ class Uami(object):
                 self.ventana.txtAreaFileError.setText( self.getArchivoTexto( self.urlErr ) )
                 
             # Pertmitidos
-            else: 
+            else:
 
-                texto = [
+                try:
+                    indice = int( diccionario["token"] )
+                    lexema = self.tabla.getLexema( indice )
+                    token = self.tabla.getToken( indice )
+
+
+                    texto = [
+                            str(self.lineas),
+                            "\t",
+                            token,
+                            "\t\t",
+                            lexema,
+                            "\n"
+                        ]
+                except ValueError:
+                    
+                    texto = [
                         str(self.lineas),
                         "\t",
                         diccionario["token"],
@@ -188,7 +202,6 @@ class Uami(object):
                 self.ventana.txtAreaFileTupla.setText( self.getArchivoTexto( self.urlTpl ) )
 
             diccionario = self.alex.alexico()
-
 
         # Cuando sea Fin de Archivo
         if diccionario["token"] == self.pr.HECHO:
@@ -207,3 +220,4 @@ class Uami(object):
 
         cadRes += "Compilacion Terminada\n\n"  + "Errorres: " +  str(self.errores)
         self.ventana.txtAreaResultado.setText( cadRes )
+        self.tabla.printTable()
