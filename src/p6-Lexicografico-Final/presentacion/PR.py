@@ -44,28 +44,3 @@ class Palabras_Reservadas(object):
         self.ID = "IDENTIFICADOR"
         self.NUM_ENT = "ENTERO"
         self.DELIMITADOR = "DELIMITADOR"
-
-        #LEXEMAS PARA OPERADORES LOGICOS, ARITMETICOS Y RELACIONALES
-        # self.MAS = "+"
-        # self.MENOS = "-"
-        # self.MULT = "*"
-        # self.DIV = "/"
-        # self.MOD = "%"
-        # self.ASG = "="
-
-        # self.LT = "<"
-        # self.LE = "<="
-        # self.EQ = "=="
-        # self.GT = ">"
-        # self.GE = ">="
-        # self.NE = "!="
-
-        # self.NOT = "!"
-        # self.OR = "||"
-        # self.AND = "&&"
-        
-
-        # ñoño
-        # C = 'ñá'.decode('utf8')
-        # print C
-        

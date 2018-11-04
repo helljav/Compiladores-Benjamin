@@ -125,12 +125,11 @@ class Uami(object):
         self.ventana.txtAreaResultado.setText( cadRes )
 
         diccionario = self.alex.alexico()
-        print diccionario
 
         # Cuando sea Aceptado el token
         while diccionario["token"] != self.pr.HECHO:
 
-            if diccionario["token"] == self.pr.DELIMITADOR:
+            if diccionario["token"] == self.pr.DELIMITADOR or diccionario["token"] == self.pr.COMENTARIO:
                 pass
                 
             # Cuando sea Error Token invalido
@@ -203,9 +202,6 @@ class Uami(object):
                 self.ventana.txtAreaFileTupla.setText( self.getArchivoTexto( self.urlTpl ) )
 
             diccionario = self.alex.alexico()
-            print diccionario
-            
-
 
         # Cuando sea Fin de Archivo
         if diccionario["token"] == self.pr.HECHO:

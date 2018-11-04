@@ -30,7 +30,12 @@ def dt_cadenas( self, lexema ):
                    }
         else:
             lexema = lexema + resto + caracter
+            
+            posicion = self.alex.uami.tabla.findSymbol( lexema )
+            
+            if posicion == -1:
+                posicion = self.alex.uami.tabla.addItem( lexema, self.pr.STRINGS )
+
             return {
-                        "token": self.pr.STRINGS,
-                        "lexema": lexema
+                        "token": posicion
                     }

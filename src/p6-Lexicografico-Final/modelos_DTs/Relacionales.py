@@ -50,7 +50,7 @@ def dt_relacionales( self, lexema ):
 
             lexema = lexema + self.alex.leerCaracter()
 
-            if lexema[ 1 ] is '=':
+            if lexema[ 1 ] is '=' and cont == self.alex.contador:
 
                 return {
                             "token": self.pr.RELOP,
@@ -70,7 +70,7 @@ def dt_relacionales( self, lexema ):
 
             lexema = lexema + self.alex.leerCaracter()
 
-            if lexema[ 1 ] is '=':
+            if lexema[ 1 ] is '=' and cont == self.alex.contador:
                 return {
                             "token": self.pr.RELOP,
                             "lexema": lexema
