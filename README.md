@@ -30,3 +30,109 @@ El AFND-e reconoce las cadenas que contengas numero impar de 0 y las cadenas don
 Analizador Lexicografico
 
 <img src="https://image.ibb.co/duYuJA/1.jpg" alt="1" border="0">
+
+### Practica 5 y 6
+
+Analizador Lexicografico completo
+
+<img src="https://image.ibb.co/ji6GCf/lexicografico.jpg" alt="lexicografico" border="0">
+
+
+---- Palabras Reservadas ----
+
+        PROGRAMA = "programa"
+        
+        SI = "si"
+        
+        ENTONCES = "entonces"
+        
+        OTRO = "otro"
+        
+        HAZ = "haz"
+        
+        MIENTRAS = "mientras"
+        
+        COMIENZA = "comienza"
+        
+        TERMINA = "termina"
+        
+        IMPRIME = "imprime"
+        
+        REPITE = "repite"
+        
+        HASTA = "hasta"
+        
+        PARA = "para"
+        
+        A = "a"
+        
+
+---- Tokens lexicograficos ----
+
+        HECHO = "FIN DE ARCHIVO"
+        
+        EOS = "EOS"
+        
+        COMENTARIO = "COMENTARIO"
+        
+        P_RES = "PALABRA RESERVADA"
+        
+        CADENA = "CADENA"
+        
+        RELOP = "OPERADOR RELACIONAL"
+        
+        LOGOP = "OPERADOR LOGICO"
+        
+        ADDOP = "OPERADOR DE SUMA O RESTA"
+        
+        MULOP = "OPERADOR DE MULTIPLICACION"
+        
+        STRINGS = "OPERADOR DE MULTIPLICACION"
+        
+        ERROR = "ERROR LEXICOGRAFICO"
+        
+        TOKEN_INV = "TOKEN INVALIDO"
+        
+        RESTO_MUNDO = "RESTO DEL MUNDO"
+        
+        ASIGNACION = "ASIGNACION"
+        
+        ID = "IDENTIFICADOR"
+        
+        NUM_ENT = "ENTERO"
+        
+
+---- COMENTARIOS ----
+
+{ entre llaves }
+
+---- LEXEMAS PARA OPERADORES LOGICOS, ARITMETICOS Y RELACIONALES ----
+
+        LT = "<"
+        
+        LE = "<="
+        
+        EQ = "=="
+        
+        ASG = "="
+        
+        GE = ">="
+        
+        NE = "!="
+        
+        NOT = "!"
+        
+        MAS = "+"
+        
+        MENOS = "-"
+        
+        OR = "||"
+        
+        MULT = "*"
+        
+        DIV = "/"
+        
+        MODULO = "%"
+        
+        AND = "&&"
+        
