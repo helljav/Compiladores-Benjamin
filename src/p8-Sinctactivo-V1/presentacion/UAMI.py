@@ -56,9 +56,9 @@ class Uami(object):
                         "\n\n",
                         "Linea",
                         "\t",
-                        "Token",
-                        "\t\t",
                         "Lexema",
+                        "\t\t",
+                        "Token",
                         "\n\n"
                      ]
 
@@ -68,10 +68,10 @@ class Uami(object):
         # Se crean los archivos en las rutas correspondientes
         # y se escribe el texto default en ellos
         self.escribirArchivo( self.urlTpl, "w+", textoTupla )
-        self.ventana.txtAreaFileTupla.setText( self.getArchivoTexto( self.urlTpl ) )
+        self.ventana.escribirAreaTupla( self.getArchivoTexto(self.urlTpl) )
         
         self.escribirArchivo( self.urlErr, "w+", textoError )
-        self.ventana.txtAreaFileError.setText( self.getArchivoTexto( self.urlErr ) )
+        self.ventana.escribirAreaErrores( self.getArchivoTexto(self.urlErr) )
 
     ##
     # Metodo para escribir en un archivo
@@ -85,10 +85,8 @@ class Uami(object):
 
         if type(texto) == type(list()):
             archivo.writelines(texto)
-            return archivo
         else:
             archivo.write( texto )
-            return archivo
         
         archivo.close()
 
@@ -108,21 +106,17 @@ class Uami(object):
     ##
     def iniciaCompilacion( self ):
         
-        cadRes = ""
-
         while self.ventana.fuenteUrl == "":
             self.ventana.guardarArchivo()
 
+        cadRes = ""
         cadRes += "Inicia Compilacion: " + str(self.ventana.fuenteUrl) + "\n\n"
-        self.ventana.txtAreaResultado.setText( cadRes )
-        
-        cadRes += "Creando Archivos Tupla y Error\n"
-        self.ventana.txtAreaResultado.setText( cadRes )
-
+        self.ventana.escribirAreaResultado( cadRes )
+        cadRes += "Creando Archivos Tupla y Error...\n"
+        self.ventana.escribirAreaResultado( cadRes )
         self.crearArchivos()
-        
         cadRes += "Espere un momento por favor...\n"
-        self.ventana.txtAreaResultado.setText( cadRes )
+        self.ventana.escribirAreaResultado( cadRes )
 
         diccionario = self.alex.alexico()
 
@@ -146,10 +140,10 @@ class Uami(object):
                         ]
 
                 self.errores += 1 
+
                 cadRes += "<< Error Encontrado >>\n"
-                self.ventana.txtAreaResultado.setText( cadRes )
+                self.ventana.escribirAreaResultado( cadRes )
                 self.escribirArchivo( self.urlErr, "a+", texto )
-                self.ventana.txtAreaFileError.setText( self.getArchivoTexto( self.urlErr ) )
             
             # Cuando sea Error lexicografico
             elif diccionario["token"] == self.pr.ERROR:
@@ -165,41 +159,28 @@ class Uami(object):
                         ]
 
                 self.errores += 1 
+                
                 cadRes += "<< Error Encontrado >>\n"
-                self.ventana.txtAreaResultado.setText( cadRes )
+                self.ventana.escribirAreaResultado( cadRes )
                 self.escribirArchivo( self.urlErr, "a+", texto )
-                self.ventana.txtAreaFileError.setText( self.getArchivoTexto( self.urlErr ) )
                 
             # Pertmitidos
             else:
-
-                try:
-                    indice = int( diccionario["token"] )
-                    lexema = self.tabla.getLexema( indice )
-                    token = self.tabla.getToken( indice )
+                indice = int( diccionario["token"] )
+                lexema = self.tabla.getLexema( indice )
+                token = self.tabla.getToken( indice )
 
 
-                    texto = [
-                            str(self.lineas),
-                            "\t",
-                            token,
-                            "\t\t",
-                            lexema,
-                            "\n"
-                        ]
-                except ValueError:
-                    
-                    texto = [
+                texto = [
                         str(self.lineas),
                         "\t",
-                        diccionario["token"],
+                        lexema,
                         "\t\t",
-                        diccionario["lexema"],
+                        token,
                         "\n"
-                     ]
+                    ]
                 
                 self.escribirArchivo( self.urlTpl, "a+", texto )
-                self.ventana.txtAreaFileTupla.setText( self.getArchivoTexto( self.urlTpl ) )
 
             diccionario = self.alex.alexico()
 
@@ -209,15 +190,25 @@ class Uami(object):
             texto = [
                         str(self.lineas),
                         "\t",
-                        diccionario["token"],
-                        "\t\t",
                         diccionario["lexema"],
+                        "\t\t",
+                        diccionario["token"],
                         "\n"
                      ]
                      
             self.escribirArchivo( self.urlTpl, "a+", texto )
-            self.ventana.txtAreaFileTupla.setText( self.getArchivoTexto( self.urlTpl ) )
 
-        cadRes += "Compilacion Terminada\n\n"  + "Errorres: " +  str(self.errores)
-        self.ventana.txtAreaResultado.setText( cadRes )
-        self.tabla.printTable()
+
+        # Escribir Areas al finalizar programa
+
+        if self.errores == 0:
+            cadRes += "Compilacion Terminada\n\n"  + "NO SE ENCONTRARON ERRORES"
+        else:
+            cadRes += "Compilacion Terminada\n\n"  + "Errores: " +  str(self.errores)
+            
+        self.ventana.escribirAreaResultado( cadRes )
+
+        self.ventana.escribirAreaErrores( self.getArchivoTexto(self.urlErr) )
+
+        self.escribirArchivo( self.urlTpl, "a+", self.tabla.imprimirTabla() )
+        self.ventana.escribirAreaTupla( self.getArchivoTexto(self.urlTpl) )
