@@ -2,6 +2,7 @@ import os
 from Alex import Alex
 from PR import Palabras_Reservadas
 from tabla_simbolos import Tabla
+from Parser import Parser
 
 class Uami(object):
 
@@ -118,85 +119,9 @@ class Uami(object):
         cadRes += "Espere un momento por favor...\n"
         self.ventana.escribirAreaResultado( cadRes )
 
-        diccionario = self.alex.alexico()
-
-        # Cuando sea Aceptado el token
-        while diccionario["token"] != self.pr.HECHO:
-
-            if diccionario["token"] == self.pr.DELIMITADOR or diccionario["token"] == self.pr.COMENTARIO:
-                pass
-                
-            # Cuando sea Error Token invalido
-            elif diccionario["token"] == self.pr.TOKEN_INV:
-
-                texto = [
-                            "Linea: ",
-                            str(self.lineas),
-                            "\t",
-                            diccionario["token"],
-                            "\n\t",
-                            diccionario["lexema"] + " no Reconocido",
-                            "\n\n"
-                        ]
-
-                self.errores += 1 
-
-                cadRes += "<< Error Encontrado >>\n"
-                self.ventana.escribirAreaResultado( cadRes )
-                self.escribirArchivo( self.urlErr, "a+", texto )
-            
-            # Cuando sea Error lexicografico
-            elif diccionario["token"] == self.pr.ERROR:
-
-                texto = [
-                            "Linea: ",
-                            str(self.lineas),
-                            "\n\t",
-                            diccionario["token"],
-                            "\n\t",
-                            "\"" + diccionario["lexema"] + "\" NO PERMITIDO",
-                            "\n\n"
-                        ]
-
-                self.errores += 1 
-                
-                cadRes += "<< Error Encontrado >>\n"
-                self.ventana.escribirAreaResultado( cadRes )
-                self.escribirArchivo( self.urlErr, "a+", texto )
-                
-            # Pertmitidos
-            else:
-                indice = int( diccionario["token"] )
-                lexema = self.tabla.getLexema( indice )
-                token = self.tabla.getToken( indice )
-
-
-                texto = [
-                        str(self.lineas),
-                        "\t",
-                        lexema,
-                        "\t\t",
-                        token,
-                        "\n"
-                    ]
-                
-                self.escribirArchivo( self.urlTpl, "a+", texto )
-
-            diccionario = self.alex.alexico()
-
-        # Cuando sea Fin de Archivo
-        if diccionario["token"] == self.pr.HECHO:
-
-            texto = [
-                        str(self.lineas),
-                        "\t",
-                        diccionario["lexema"],
-                        "\t\t",
-                        diccionario["token"],
-                        "\n"
-                     ]
-                     
-            self.escribirArchivo( self.urlTpl, "a+", texto )
+        
+        parser = Parser( self )
+        parser.inicio()
 
 
         # Escribir Areas al finalizar programa
@@ -212,3 +137,113 @@ class Uami(object):
 
         self.escribirArchivo( self.urlTpl, "a+", self.tabla.imprimirTabla() )
         self.ventana.escribirAreaTupla( self.getArchivoTexto(self.urlTpl) )
+
+
+    # def iniciaCompilacion( self ):
+        
+    #     while self.ventana.fuenteUrl == "":
+    #         self.ventana.guardarArchivo()
+
+    #     cadRes = ""
+    #     cadRes += "Inicia Compilacion: " + str(self.ventana.fuenteUrl) + "\n\n"
+    #     self.ventana.escribirAreaResultado( cadRes )
+    #     cadRes += "Creando Archivos Tupla y Error...\n"
+    #     self.ventana.escribirAreaResultado( cadRes )
+    #     self.crearArchivos()
+    #     cadRes += "Espere un momento por favor...\n"
+    #     self.ventana.escribirAreaResultado( cadRes )
+
+    #     diccionario = self.alex.alexico()
+
+    #     # Cuando sea Aceptado el token
+    #     while diccionario["token"] != self.pr.HECHO:
+
+    #         if diccionario["token"] == self.pr.DELIMITADOR or diccionario["token"] == self.pr.COMENTARIO:
+    #             pass
+                
+    #         # Cuando sea Error Token invalido
+    #         elif diccionario["token"] == self.pr.TOKEN_INV:
+
+    #             texto = [
+    #                         "Linea: ",
+    #                         str(self.lineas),
+    #                         "\t",
+    #                         diccionario["token"],
+    #                         "\n\t",
+    #                         diccionario["lexema"] + " no Reconocido",
+    #                         "\n\n"
+    #                     ]
+
+    #             self.errores += 1 
+
+    #             cadRes += "<< Error Encontrado >>\n"
+    #             self.ventana.escribirAreaResultado( cadRes )
+    #             self.escribirArchivo( self.urlErr, "a+", texto )
+            
+    #         # Cuando sea Error lexicografico
+    #         elif diccionario["token"] == self.pr.ERROR:
+
+    #             texto = [
+    #                         "Linea: ",
+    #                         str(self.lineas),
+    #                         "\n\t",
+    #                         diccionario["token"],
+    #                         "\n\t",
+    #                         "\"" + diccionario["lexema"] + "\" NO PERMITIDO",
+    #                         "\n\n"
+    #                     ]
+
+    #             self.errores += 1 
+                
+    #             cadRes += "<< Error Encontrado >>\n"
+    #             self.ventana.escribirAreaResultado( cadRes )
+    #             self.escribirArchivo( self.urlErr, "a+", texto )
+                
+    #         # Pertmitidos
+    #         else:
+    #             indice = int( diccionario["token"] )
+    #             lexema = self.tabla.getLexema( indice )
+    #             token = self.tabla.getToken( indice )
+
+
+    #             texto = [
+    #                     str(self.lineas),
+    #                     "\t",
+    #                     lexema,
+    #                     "\t\t",
+    #                     token,
+    #                     "\n"
+    #                 ]
+                
+    #             self.escribirArchivo( self.urlTpl, "a+", texto )
+
+    #         diccionario = self.alex.alexico()
+
+    #     # Cuando sea Fin de Archivo
+    #     if diccionario["token"] == self.pr.HECHO:
+
+    #         texto = [
+    #                     str(self.lineas),
+    #                     "\t",
+    #                     diccionario["lexema"],
+    #                     "\t\t",
+    #                     diccionario["token"],
+    #                     "\n"
+    #                  ]
+                     
+    #         self.escribirArchivo( self.urlTpl, "a+", texto )
+
+
+    #     # Escribir Areas al finalizar programa
+
+    #     if self.errores == 0:
+    #         cadRes += "Compilacion Terminada\n\n"  + "NO SE ENCONTRARON ERRORES"
+    #     else:
+    #         cadRes += "Compilacion Terminada\n\n"  + "Errores: " +  str(self.errores)
+            
+    #     self.ventana.escribirAreaResultado( cadRes )
+
+    #     self.ventana.escribirAreaErrores( self.getArchivoTexto(self.urlErr) )
+
+    #     self.escribirArchivo( self.urlTpl, "a+", self.tabla.imprimirTabla() )
+    #     self.ventana.escribirAreaTupla( self.getArchivoTexto(self.urlTpl) )

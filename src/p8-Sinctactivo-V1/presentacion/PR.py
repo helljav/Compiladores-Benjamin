@@ -38,6 +38,7 @@ class Palabras_Reservadas(object):
         self.MODULO = "OPE. DE MODULO"
         self.STRINGS = "CADENAS DE CARACTERES"
         self.ERROR = "ERROR LEXICOGRAFICO"
+        self.ERROR_SINTACTICO = "ERROR SINTACTICO"
         self.TOKEN_INV = "TOKEN INVALIDO"
         self.RESTO_MUNDO = "RESTO DEL MUNDO"
         self.ASIGNACION = "ASIGNACION"

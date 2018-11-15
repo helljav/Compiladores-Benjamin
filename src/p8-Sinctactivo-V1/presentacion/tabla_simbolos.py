@@ -24,19 +24,19 @@ class Tabla(object):
 
     ##
     # Metodo para obtener token
-    # @Param index: indice del elemeto de la tabla
+    # @Param pos: indice del elemeto de la tabla
     # @Return token: el token del elemento indice en la tabla
     ##
-    def getToken( self, index ):
-        return self.tabla[index][1]
+    def getToken( self, pos ):
+        return self.tabla[pos][1]
 
     ##
     # Metodo para obtener lexema
-    # @Param index: indice del elemeto de la tabla
+    # @Param pos: indice del elemeto de la tabla
     # @Return lexema: el lexema del elemento indice en la tabla
     ##
-    def getLexema( self, index ):
-        return self.tabla[index][0]
+    def getLexema( self, pos ):
+        return self.tabla[pos][0]
 
     ##
     # Metodo para agregar un nuevo elemento a la tabla
