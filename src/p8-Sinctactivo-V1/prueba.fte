@@ -1,0 +1,12 @@
+programa ejemplo1;
+	comienza
+	       x = s + 3;
+	       cad = "hola mundo";
+	       imprime cad;
+	termina
+
+!=
+==!
+=<
+=>
+=

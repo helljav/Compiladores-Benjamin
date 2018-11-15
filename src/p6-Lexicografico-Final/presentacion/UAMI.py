@@ -15,7 +15,7 @@ class Uami(object):
         # Inyeccion de Dependencias
         self.ventana = ventana
         self.pr = Palabras_Reservadas()
-        self.alex = Alex( self.ventana, self.pr, self )
+        self.alex = Alex( self.pr, self )
         self.tabla = Tabla(self.pr)
         self.tabla.cargarPal_Res()
 
