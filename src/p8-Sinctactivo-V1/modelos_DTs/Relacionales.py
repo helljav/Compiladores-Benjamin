@@ -30,9 +30,8 @@ def dt_relacionales( self, lexema ):
                 if pos == -1:
                     pos = self.alex.uami.tabla.addItem( lexema, self.pr.RELOP)
 
-                return {
-                            "token": pos
-                        }
+                return  pos
+                        
         
         # Caso !=
         if lexema is '!':
@@ -46,9 +45,8 @@ def dt_relacionales( self, lexema ):
                 if pos == -1:
                     pos = self.alex.uami.tabla.addItem( lexema, self.pr.RELOP)
 
-                return {
-                            "token": pos
-                        }
+                return pos
+                        
             else: 
                 # print "entro del otro lado y voy para alla con el lexema", lexema[0]
                 self.alex.desleer()
@@ -66,9 +64,8 @@ def dt_relacionales( self, lexema ):
                 if pos == -1:
                     pos = self.alex.uami.tabla.addItem( lexema, self.pr.RELOP)
 
-                return {
-                            "token": pos
-                        }
+                return pos
+                        
 
             else:
 
@@ -78,9 +75,8 @@ def dt_relacionales( self, lexema ):
                     pos = self.alex.uami.tabla.addItem( lexema[0], self.pr.RELOP)
 
                 self.alex.desleer()
-                return {
-                            "token": pos
-                        }
+                return  pos
+                        
         
         # Caso <= y <
         elif lexema is '<':
@@ -94,9 +90,8 @@ def dt_relacionales( self, lexema ):
                 if pos == -1:
                     pos = self.alex.uami.tabla.addItem( lexema, self.pr.RELOP)
 
-                return {
-                            "token": pos
-                        }
+                return pos
+                        
 
             else:
 
@@ -106,6 +101,5 @@ def dt_relacionales( self, lexema ):
                     pos = self.alex.uami.tabla.addItem( lexema[0], self.pr.RELOP)
 
                 self.alex.desleer()
-                return {
-                            "token": pos
-                        }
+                return  pos
+                        

@@ -38,6 +38,5 @@ def dt_identificadores( self, lexema ):
             posicion = self.alex.uami.tabla.addItem( lexema, self.pr.ID )
     
         self.alex.desleer()
-        return {
-                    "token": posicion
-                }
+        return posicion
+                
