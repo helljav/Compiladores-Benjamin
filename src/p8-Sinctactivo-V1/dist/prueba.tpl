@@ -10,6 +10,8 @@ Linea	Lexema		Token
 
 indice	Lexema	Token
 
+14	;	RESTO DEL MUNDO
+13	hola	IDENTIFICADOR
 12	termina	PALABRA RESERVADA
 11	programa	PALABRA RESERVADA
 10	si	PALABRA RESERVADA

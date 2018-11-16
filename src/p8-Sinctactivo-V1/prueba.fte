@@ -1,12 +1,6 @@
-programa ejemplo1;
+programa ;
 	comienza
 	       x = s + 3;
 	       cad = "hola mundo";
 	       imprime cad;
 	termina
-
-!=
-==!
-=<
-=>
-=
