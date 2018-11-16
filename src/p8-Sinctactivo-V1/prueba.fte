@@ -1,11 +1,7 @@
 
-{ hola 
+{ hola }
 
-programa  
-
-#;
+programa  hola_123;
 	comienza
-	       x = s + 3;
-	       cad = "hola mundo";
-	       imprime cad;
+	       identificador = 5;
 	termina

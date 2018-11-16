@@ -175,10 +175,12 @@ class Alex(object):
         # Fin de Archivo
         elif lexema is "\0":
             self.uami.lineas = self.contador
-            return {
-                        "token": self.pr.HECHO,
-                        "lexema": self.pr.EOS
-                    }
+            return self.pr.HECHO
+
+            # return {
+            #             "token": self.pr.HECHO,
+            #             "lexema": self.pr.EOS
+            #         }
 
         # Todo lo no reconocido
         else:
