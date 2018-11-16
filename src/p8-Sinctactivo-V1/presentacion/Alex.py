@@ -128,7 +128,11 @@ class Alex(object):
 
         elif dts.esDigito( lexema ):
             self.uami.lineas = self.contador
-            return dts.Num_Entero( lexema )
+            respuesta = dts.Num_Entero( lexema )
+            if type(respuesta) == type(dict()):
+                self.erroresLex(respuesta)
+                return self.alexico()
+            return respuesta
 
         elif dts.esRelacional( lexema ):
             self.uami.lineas = self.contador
@@ -136,7 +140,11 @@ class Alex(object):
         
         elif dts.esLogico( lexema ):
             self.uami.lineas = self.contador
-            return dts.logicos( lexema )
+            respuesta = dts.logicos( lexema )
+            if type(respuesta) == type(dict()):
+                self.erroresLex(respuesta)
+                return self.alexico()
+            return respuesta
 
         elif dts.esRestoMundo( lexema ):
             self.uami.lineas = self.contador
