@@ -125,6 +125,7 @@ class Uami(object):
 
 
         # Escribir Areas al finalizar programa
+        cadRes = self.ventana.getTextAreaResultado()
 
         if self.errores == 0:
             cadRes += "Compilacion Terminada\n\n"  + "NO SE ENCONTRARON ERRORES"

@@ -1,4 +1,9 @@
-programa ;
+
+{ hola 
+
+programa  
+
+#;
 	comienza
 	       x = s + 3;
 	       cad = "hola mundo";

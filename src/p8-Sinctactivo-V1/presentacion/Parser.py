@@ -22,10 +22,9 @@ class Parser(object):
         identificador  = self.uami.pr.ID
         pc = ";"
 
-        print self.parea( programa )
-        print self.parea( identificador )
-        print "tercer invocacion de exodia"
-        print self.parea( pc )
+        self.parea( programa )
+        self.parea( identificador )
+        self.parea( pc )
     
     def secuencia( self ):
         pass
@@ -34,40 +33,13 @@ class Parser(object):
 
         if self.preanalisis["lexema"] == se_espera or self.preanalisis["token"] == se_espera:
 
-            print "entre", se_espera
-
-            try:
-                pos = self.uami.alex.alexico()
-                self.preanalisis["lexema"] = self.uami.tabla.getLexema( pos )
-                self.preanalisis["token"] = self.uami.tabla.getToken( pos )
-            except:
-                print "es un diccionario"
-                
-                if pos["token"] is self.uami.pr.DELIMITADOR:
-                    return self.parea( se_espera )
-                
-                # Cuando sea Error Token invalido
-                elif pos["token"] == self.uami.pr.TOKEN_INV:
-
-                    texto = [
-                                "Linea: ",
-                                str(self.uami.lineas),
-                                "\t",
-                                pos["token"],
-                                "\n\t",
-                                pos["lexema"] + " no Reconocido",
-                                "\n\n"
-                            ]
-
-                    self.uami.errores += 1 
-                   
-                    self.uami.escribirArchivo( self.uami.urlErr, "a+", texto )
-                    self.uami.ventana.txtAreaFileError.setText( self.uami.getArchivoTexto( self.uami.urlErr ) )
+            pos = self.uami.alex.alexico()
+            self.preanalisis["lexema"] = self.uami.tabla.getLexema( pos )
+            self.preanalisis["token"] = self.uami.tabla.getToken( pos )
             
             return True
 
         else:
-
             self.uami.errores += 1
 
             texto = [
@@ -78,8 +50,20 @@ class Parser(object):
                             "\n\t",
                             "Se esperaba: ",
                             se_espera,
+                            "\n\t",
+                            "antes de: ",
+                            self.preanalisis["lexema"],
                             "\n\n"
                     ]
 
             self.uami.escribirArchivo( self.uami.urlErr, "a+", texto )
+            
+            cadRes = self.uami.ventana.getTextAreaResultado()
+            cadRes += "<< Error Sintactico Encontrado >>\n"
+            
+            self.uami.ventana.escribirAreaResultado( cadRes )
+
+            pos = self.uami.alex.alexico()
+            self.preanalisis["lexema"] = self.uami.tabla.getLexema( pos )
+            self.preanalisis["token"] = self.uami.tabla.getToken( pos )
             return False
