@@ -22,15 +22,15 @@ def dt_comentarios( self, lexema ):
             caracter = self.alex.leerCaracter()
 
         if cont != self.alex.contador:
+
             lexema = lexema + resto
             self.alex.desleer()
+
             return {
                         "token": self.pr.ERROR,
                         "lexema": "falto cerrar llave " + lexema
                    }
         else:
+            
+            # Lexema del comentario
             lexema = lexema + resto + caracter
-            return {
-                        "token": self.pr.COMENTARIO,
-                        "lexema": lexema
-                    }

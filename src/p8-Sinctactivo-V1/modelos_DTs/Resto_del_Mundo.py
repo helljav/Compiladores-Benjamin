@@ -22,33 +22,28 @@ def dt_restoMundo( self, lexema ):
         if pos == -1:
             pos = self.alex.uami.tabla.addItem( lexema, self.pr.RESTO_MUNDO)
 
-        return {
-                    "token": pos
-               }
+        return pos
+               
 
     elif lexema == ";":
 
         if pos == -1:
             pos = self.alex.uami.tabla.addItem( lexema, self.pr.RESTO_MUNDO)
 
-        return {
-                    "token": pos
-               }
+        return pos
+               
 
     elif lexema == ")":
 
         if pos == -1:
             pos = self.alex.uami.tabla.addItem( lexema, self.pr.RESTO_MUNDO)
 
-        return {
-                    "token": pos
-               }
+        return  pos
+               
 
     elif lexema == "(":
 
         if pos == -1:
             pos = self.alex.uami.tabla.addItem( lexema, self.pr.RESTO_MUNDO)
 
-        return {
-                    "token": pos
-               }
+        return pos              

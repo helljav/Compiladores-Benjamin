@@ -31,9 +31,8 @@ def dt_Entero(self, lexema):
                         pos = self.alex.uami.tabla.addItem( lexema, self.pr.NUM_ENT)
 
                     self.alex.desleer()
-                    return {
-                            "token": pos
-                        }
+                    return pos
+                        
                 # Segundo caracter es un digito
                 else:
                     # Se lee todo el numero entero para regresarlo como error y lexema
@@ -62,6 +61,5 @@ def dt_Entero(self, lexema):
                     pos = self.alex.uami.tabla.addItem( lexema, self.pr.NUM_ENT)
 
                 self.alex.desleer()
-                return {
-                            "token": pos
-                        }
+                return pos
+                        

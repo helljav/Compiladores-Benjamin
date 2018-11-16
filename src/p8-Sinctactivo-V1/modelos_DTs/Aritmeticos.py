@@ -27,9 +27,8 @@ def dt_aritmeticos(self, lexema):
 
                 self.alex.desleer()
                 
-                return {
-                            "token": pos
-                        }
+                return pos
+                        
             else:
                 self.alex.desleer()
                 return self.relacionales( lexema )
@@ -40,10 +39,8 @@ def dt_aritmeticos(self, lexema):
 
             if pos == -1:
                 pos = self.alex.uami.tabla.addItem( lexema, self.pr.SUMA)
-
-            return {
-                        "token": pos
-                    }
+            return pos
+                    
 
         # Resta
         elif lexema is '-':
@@ -51,9 +48,8 @@ def dt_aritmeticos(self, lexema):
             if pos == -1:
                 pos = self.alex.uami.tabla.addItem( lexema, self.pr.RESTA)
             
-            return {
-                        "token": pos
-                    }
+            return pos
+                    
 
         # DIVISION
         elif lexema is '/':
@@ -61,9 +57,8 @@ def dt_aritmeticos(self, lexema):
             if pos == -1:
                 pos = self.alex.uami.tabla.addItem( lexema, self.pr.DIVISION)
 
-            return {
-                        "token": pos
-                    }
+            return pos
+                    
 
         # Multiplicacion
         elif lexema is '*':
@@ -71,9 +66,8 @@ def dt_aritmeticos(self, lexema):
             if pos == -1:
                 pos = self.alex.uami.tabla.addItem( lexema, self.pr.MULTIPLICACION)
 
-            return {
-                        "token": pos
-                    }
+            return pos
+                    
         
         # MODULO
         elif lexema is '%':
@@ -81,6 +75,5 @@ def dt_aritmeticos(self, lexema):
             if pos == -1:
                 pos = self.alex.uami.tabla.addItem( lexema, self.pr.MODULO)
 
-            return {
-                        "token": pos
-                    }
+            return pos
+                    

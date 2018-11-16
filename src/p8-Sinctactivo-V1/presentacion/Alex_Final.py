@@ -207,15 +207,32 @@ class Ventana(QtGui.QMainWindow):
             else:
                 self.fuenteUrl = urlActual
 
+    def escribirAreaFuente( self, texto ):
+        self.txtAreaFuente.setText( texto )
+    
+    def getTextAreaFuente( self ):
+        return self.txtAreaFuente.toPlainText()
+
 
     def escribirAreaResultado( self, texto ):
         self.txtAreaResultado.setText( texto )
+    
+    def getTextAreaResultado( self ):
+        return self.txtAreaResultado.toPlainText()
+
 
     def escribirAreaErrores( self, texto ):
         self.txtAreaFileError.setText( texto )
     
+    def getTextAreaErrores( self ):
+        return self.txtAreaFileError.toPlainText()
+        
+    
     def escribirAreaTupla( self, texto ):
         self.txtAreaFileTupla.setText( texto )
+    
+    def getTextAreaTupla( self ):
+        return self.txtAreaFileTupla.toPlainText()
 
     
     ##

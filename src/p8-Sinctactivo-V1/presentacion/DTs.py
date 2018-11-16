@@ -3,7 +3,7 @@ from modelos_DTs.Aritmeticos import dt_aritmeticos, dt_esAritmetico
 from modelos_DTs.Entero import dt_Entero, dt_esDigito
 from modelos_DTs.Relacionales import dt_relacionales, dt_esRelacional
 from modelos_DTs.Logicos import dt_logicos, dt_esLogico
-from modelos_DTs.Delimitadores import dt_delimitadores, dt_esDelimitador
+from modelos_DTs.Delimitadores import dt_esDelimitador
 from modelos_DTs.Resto_del_Mundo import dt_restoMundo, dt_esRestoMundo
 from modelos_DTs.identificadores import dt_esLetra, dt_esIdentificador, dt_identificadores
 from modelos_DTs.cadenas import dt_esCadena, dt_cadenas
@@ -108,14 +108,6 @@ class DTS(object):
     ##
     def esDelimitador( self, caracter ):
         return dt_esDelimitador( self, caracter )
-    
-    ##
-    # Diagrama de Transicion Delimitadores
-    # @Return: diccionario con  token y lexema
-    #           acorde a la respuesta
-    ##
-    def delimitadores( self, lexema ):
-        return dt_delimitadores( self, lexema )
 
     ##
     # Metodo para reconocer si un caracter es Resto del Mundo

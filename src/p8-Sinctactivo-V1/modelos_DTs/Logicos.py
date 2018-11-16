@@ -30,9 +30,9 @@ def dt_logicos( self, lexema ):
 
                 self.alex.desleer()
                 
-                return {
-                            "token": pos
-                        }
+                return pos
+                    
+                    
         
         # Caso And 
         elif lexema is '&':
@@ -49,9 +49,8 @@ def dt_logicos( self, lexema ):
                     if pos == -1:
                         pos = self.alex.uami.tabla.addItem( lexema, self.pr.LOGOP)
 
-                    return {
-                            "token": pos
-                        }
+                    return pos
+                        
 
                 else:
                     self.alex.desleer()
@@ -82,9 +81,8 @@ def dt_logicos( self, lexema ):
                     if pos == -1:
                         pos = self.alex.uami.tabla.addItem( lexema, self.pr.LOGOP)
 
-                    return {
-                            "token": pos
-                        }
+                    return pos
+                        
 
                 else:
                     self.alex.desleer()

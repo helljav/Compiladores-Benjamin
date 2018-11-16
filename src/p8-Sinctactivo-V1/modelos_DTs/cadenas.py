@@ -36,6 +36,4 @@ def dt_cadenas( self, lexema ):
             if pos == -1:
                 pos = self.alex.uami.tabla.addItem( lexema, self.pr.STRINGS )
 
-            return {
-                        "token": pos
-                    }
+            return pos                  

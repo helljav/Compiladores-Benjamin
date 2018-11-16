@@ -20,7 +20,7 @@ class Alex(object):
         self.pr = pr
         self.uami = uami
 
-        self.contenidoFuente = str(self.uami.ventana.txtAreaFuente.toPlainText())
+        self.contenidoFuente = self.uami.ventana.getTextAreaFuente()
         self.contador = 1
         self.buffer = {
                         "pos_leida":0,
@@ -94,6 +94,24 @@ class Alex(object):
                 self.buffer["pos_leida"] -= 1  
 
 
+    def erroresLex( self, respuesta ):
+
+        self.uami.errores += 1
+        texto = [
+                    "Linea: ",
+                    str(self.uami.lineas),
+                    "\n\t",
+                    respuesta["token"],
+                    "\n\t",
+                    respuesta["lexema"],
+                    "\n\n"
+                ]
+
+        self.uami.escribirArchivo( self.uami.urlErr, "a+", texto )
+        cadRes = self.uami.ventana.getTextAreaResultado()
+        cadRes += "<< Error Lexicografico Encontrado >>\n"
+        self.uami.ventana.escribirAreaResultado( cadRes )
+
     
     ##
     # Metodo que implementa los diagrama de transiciones
@@ -119,10 +137,6 @@ class Alex(object):
         elif dts.esLogico( lexema ):
             self.uami.lineas = self.contador
             return dts.logicos( lexema )
-        
-        elif dts.esDelimitador( lexema ):
-            self.uami.lineas = self.contador
-            return dts.delimitadores( lexema )
 
         elif dts.esRestoMundo( lexema ):
             self.uami.lineas = self.contador
@@ -134,11 +148,29 @@ class Alex(object):
             
         elif dts.esCadena( lexema ):
             self.uami.lineas = self.contador
-            return dts.cadenas( lexema )
+
+            respuesta = dts.cadenas( lexema )
+
+            if type(respuesta) == type(dict()):
+                self.erroresLex(respuesta)
+                return self.alexico()
+
+            return respuesta
+
+        # Los que no regresan una posicion
+        elif dts.esDelimitador( lexema ):
+            self.uami.lineas = self.contador
+            return self.alexico()
         
         elif dts.esComentario( lexema ):
             self.uami.lineas = self.contador
-            return dts.comentarios( lexema )
+            
+            respuesta = dts.comentarios( lexema )
+
+            if respuesta:
+                self.erroresLex( respuesta )
+                
+            return self.alexico()
 
         # Fin de Archivo
         elif lexema is "\0":
@@ -151,9 +183,10 @@ class Alex(object):
         # Todo lo no reconocido
         else:
             self.uami.lineas = self.contador
-            return {
+            self.erroresLex( {
                 "token": self.pr.TOKEN_INV,
                 "lexema": lexema
-            }
+            })
+            return self.alexico()
 
-        
+    
