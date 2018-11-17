@@ -45,3 +45,7 @@ class Palabras_Reservadas(object):
         self.ID = "IDENTIFICADOR"
         self.NUM_ENT = "ENTERO"
         self.DELIMITADOR = "DELIMITADOR"
+
+
+        self.PC = ";"
+        self.IGUAL = "="

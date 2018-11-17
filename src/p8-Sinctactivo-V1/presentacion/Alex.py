@@ -128,7 +128,11 @@ class Alex(object):
 
         elif dts.esDigito( lexema ):
             self.uami.lineas = self.contador
-            return dts.Num_Entero( lexema )
+            respuesta = dts.Num_Entero( lexema )
+            if type(respuesta) == type(dict()):
+                self.erroresLex(respuesta)
+                return self.alexico()
+            return respuesta
 
         elif dts.esRelacional( lexema ):
             self.uami.lineas = self.contador
@@ -136,7 +140,11 @@ class Alex(object):
         
         elif dts.esLogico( lexema ):
             self.uami.lineas = self.contador
-            return dts.logicos( lexema )
+            respuesta = dts.logicos( lexema )
+            if type(respuesta) == type(dict()):
+                self.erroresLex(respuesta)
+                return self.alexico()
+            return respuesta
 
         elif dts.esRestoMundo( lexema ):
             self.uami.lineas = self.contador
@@ -175,10 +183,12 @@ class Alex(object):
         # Fin de Archivo
         elif lexema is "\0":
             self.uami.lineas = self.contador
-            return {
-                        "token": self.pr.HECHO,
-                        "lexema": self.pr.EOS
-                    }
+            return self.pr.HECHO
+
+            # return {
+            #             "token": self.pr.HECHO,
+            #             "lexema": self.pr.EOS
+            #         }
 
         # Todo lo no reconocido
         else:

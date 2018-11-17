@@ -13,27 +13,62 @@ class Parser(object):
         self.preanalisis["lexema"] = self.uami.tabla.getLexema( pos )
         self.preanalisis["token"] = self.uami.tabla.getToken( pos )
         self.encabezado()
-        # self.secuencia()
+        self.secuencia()
         # self.parea(self.uami.pr.HECHO)
 
     def encabezado( self ):
 
         programa = self.uami.pr.Reservadas["PROGRAMA"]
         identificador  = self.uami.pr.ID
-        pc = ";"
+        pc = self.uami.pr.PC
 
         self.parea( programa )
         self.parea( identificador )
         self.parea( pc )
     
     def secuencia( self ):
-        pass
+        comienza = self.uami.pr.Reservadas["COMIENZA"]
+        termina = self.uami.pr.Reservadas["TERMINA"]
+
+        print termina
+
+        self.parea( comienza )
+
+        while self.preanalisis["lexema"] != termina:
+            self.asignacion()
+
+            pos = self.uami.alex.alexico()
+
+            if pos == "FIN DE ARCHIVO":
+                return True
+
+            self.preanalisis["lexema"] = self.uami.tabla.getLexema( pos )
+            self.preanalisis["token"] = self.uami.tabla.getToken( pos )
+            
+        
+        self.parea( termina )
+        
+
+    def asignacion( self ):
+        identificador = self.uami.pr.ID
+        igual = self.uami.pr.IGUAL
+        num_entero = self.uami.pr.NUM_ENT
+        pc = self.uami.pr.PC
+
+        self.parea( identificador )
+        self.parea( igual )
+        self.parea( num_entero )
+        self.parea( pc )
     
     def parea( self, se_espera ):
 
         if self.preanalisis["lexema"] == se_espera or self.preanalisis["token"] == se_espera:
 
             pos = self.uami.alex.alexico()
+
+            if pos == "FIN DE ARCHIVO":
+                return True
+
             self.preanalisis["lexema"] = self.uami.tabla.getLexema( pos )
             self.preanalisis["token"] = self.uami.tabla.getToken( pos )
             
@@ -64,6 +99,10 @@ class Parser(object):
             self.uami.ventana.escribirAreaResultado( cadRes )
 
             pos = self.uami.alex.alexico()
+            
+            if pos == "FIN DE ARCHIVO":
+                return False
+
             self.preanalisis["lexema"] = self.uami.tabla.getLexema( pos )
             self.preanalisis["token"] = self.uami.tabla.getToken( pos )
             return False
