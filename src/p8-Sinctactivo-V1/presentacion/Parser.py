@@ -34,8 +34,17 @@ class Parser(object):
 
         self.parea( comienza )
 
-        # while self.preanalisis["lexema"] != termina:
-        self.asignacion()
+        while self.preanalisis["lexema"] != termina:
+            self.asignacion()
+
+            pos = self.uami.alex.alexico()
+
+            if pos == "FIN DE ARCHIVO":
+                return True
+
+            self.preanalisis["lexema"] = self.uami.tabla.getLexema( pos )
+            self.preanalisis["token"] = self.uami.tabla.getToken( pos )
+            
         
         self.parea( termina )
         
@@ -90,6 +99,10 @@ class Parser(object):
             self.uami.ventana.escribirAreaResultado( cadRes )
 
             pos = self.uami.alex.alexico()
+            
+            if pos == "FIN DE ARCHIVO":
+                return False
+
             self.preanalisis["lexema"] = self.uami.tabla.getLexema( pos )
             self.preanalisis["token"] = self.uami.tabla.getToken( pos )
             return False

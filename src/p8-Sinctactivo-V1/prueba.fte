@@ -1,7 +1,0 @@
-
-{ hola }
-
-programa  hola_123;
-	comienza
-	       identificador = 5;
-	termina
