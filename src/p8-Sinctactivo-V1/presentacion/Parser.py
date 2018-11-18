@@ -8,7 +8,7 @@ class Parser(object):
                            }
 
     def inicio( self ):
-        
+        #Mandamos a llamar por primera vez a lexico y recibimos su posicion en la tabla de simbolos
         pos = self.uami.alex.alexico()
         self.preanalisis["lexema"] = self.uami.tabla.getLexema( pos )
         self.preanalisis["token"] = self.uami.tabla.getToken( pos )
