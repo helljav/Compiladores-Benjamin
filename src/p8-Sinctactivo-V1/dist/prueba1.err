@@ -1,10 +1,6 @@
 * Detalles de Error de Compilacion*
 
 Linea: 5	ERROR SINTACTICO
-	Se esperaba: comienza
-	antes de: n
-
-Linea: 5	ERROR SINTACTICO
 	Se esperaba: IDENTIFICADOR
 	antes de: =
 
@@ -18,7 +14,7 @@ Linea: 5	ERROR SINTACTICO
 
 Linea: 5	ERROR SINTACTICO
 	Se esperaba: ;
-	antes de: n2
+	antes de: n3
 
 Linea: 5	ERROR SINTACTICO
 	Se esperaba: IDENTIFICADOR
@@ -40,111 +36,111 @@ Linea: 5	ERROR SINTACTICO
 	Se esperaba: IDENTIFICADOR
 	antes de: ;
 
-Linea: 5	ERROR SINTACTICO
+Linea: 6	ERROR SINTACTICO
 	Se esperaba: =
-	antes de: n3
+	antes de: fuente1
 
-Linea: 5	ERROR SINTACTICO
+Linea: 6	ERROR SINTACTICO
 	Se esperaba: ENTERO
 	antes de: =
 
-Linea: 5	ERROR SINTACTICO
+Linea: 6	ERROR SINTACTICO
 	Se esperaba: ;
-	antes de: 4
+	antes de: 434
 
-Linea: 7	ERROR SINTACTICO
+Linea: 8	ERROR SINTACTICO
 	Se esperaba: IDENTIFICADOR
 	antes de: =
 
-Linea: 7	ERROR SINTACTICO
+Linea: 8	ERROR SINTACTICO
 	Se esperaba: =
-	antes de: 422
-
-Linea: 7	ERROR SINTACTICO
-	Se esperaba: ENTERO
-	antes de: ;
-
-Linea: 8	ERROR SINTACTICO
-	Se esperaba: ;
-	antes de: a1
-
-Linea: 8	ERROR SINTACTICO
-	Se esperaba: IDENTIFICADOR
 	antes de: 34
 
 Linea: 8	ERROR SINTACTICO
-	Se esperaba: =
+	Se esperaba: ENTERO
 	antes de: ;
 
 Linea: 9	ERROR SINTACTICO
-	Se esperaba: ENTERO
+	Se esperaba: ;
 	antes de: opc1
 
 Linea: 9	ERROR SINTACTICO
-	Se esperaba: ;
-	antes de: =
-
-Linea: 9	ERROR SINTACTICO
 	Se esperaba: IDENTIFICADOR
-	antes de: ;
+	antes de: 4
 
 Linea: 9	ERROR SINTACTICO
 	Se esperaba: =
+	antes de: ;
+
+Linea: 9	ERROR SINTACTICO
+	Se esperaba: ENTERO
 	antes de: opc2
 
 Linea: 9	ERROR SINTACTICO
-	Se esperaba: ENTERO
-	antes de: =
-
-Linea: 9	ERROR SINTACTICO
 	Se esperaba: ;
-	antes de: 4
+	antes de: =
 
 Linea: 9	ERROR SINTACTICO
 	Se esperaba: IDENTIFICADOR
-	antes de: =
+	antes de: ;
 
 Linea: 9	ERROR SINTACTICO
 	Se esperaba: =
-	antes de: 4
+	antes de: opc3
 
 Linea: 9	ERROR SINTACTICO
 	Se esperaba: ENTERO
-	antes de: ;
+	antes de: =
 
-Linea: 10	ERROR SINTACTICO
+Linea: 9	ERROR SINTACTICO
 	Se esperaba: ;
-	antes de: var1
+	antes de: 4
 
 Linea: 10	ERROR SINTACTICO
 	Se esperaba: IDENTIFICADOR
+	antes de: =
+
+Linea: 10	ERROR SINTACTICO
+	Se esperaba: =
 	antes de: 434
 
 Linea: 10	ERROR SINTACTICO
-	Se esperaba: =
+	Se esperaba: ENTERO
 	antes de: ;
 
 Linea: 10	ERROR SINTACTICO
-	Se esperaba: ENTERO
+	Se esperaba: ;
 	antes de: var2
 
 Linea: 10	ERROR SINTACTICO
-	Se esperaba: ;
-	antes de: =
+	Se esperaba: IDENTIFICADOR
+	antes de: 346
 
 Linea: 10	ERROR SINTACTICO
-	Se esperaba: IDENTIFICADOR
+	Se esperaba: =
 	antes de: ;
 
 Linea: 11	ERROR SINTACTICO
-	Se esperaba: =
+	Se esperaba: ENTERO
 	antes de: g1
 
 Linea: 11	ERROR SINTACTICO
-	Se esperaba: ENTERO
+	Se esperaba: ;
 	antes de: =
 
 Linea: 11	ERROR SINTACTICO
+	Se esperaba: IDENTIFICADOR
+	antes de: ;
+
+Linea: 12	ERROR SINTACTICO
+	Se esperaba: =
+	antes de: f1
+
+Linea: 12	ERROR SINTACTICO
+	Se esperaba: ENTERO
+	antes de: =
+
+Linea: 12	ERROR SINTACTICO
 	Se esperaba: ;
-	antes de: 422
+	antes de: 34
 

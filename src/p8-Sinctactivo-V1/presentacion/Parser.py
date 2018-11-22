@@ -12,6 +12,7 @@ class Parser(object):
         pos = self.uami.alex.alexico()
         self.preanalisis["lexema"] = self.uami.tabla.getLexema( pos )
         self.preanalisis["token"] = self.uami.tabla.getToken( pos )
+        #Mandamos a llamar a los metodos, segun la gramtica libre de contexto
         self.encabezado()
         self.secuencia()
         # self.parea(self.uami.pr.HECHO)
@@ -29,9 +30,6 @@ class Parser(object):
     def secuencia( self ):
         comienza = self.uami.pr.Reservadas["COMIENZA"]
         termina = self.uami.pr.Reservadas["TERMINA"]
-
-        print termina
-
         self.parea( comienza )
 
         while self.preanalisis["lexema"] != termina:
@@ -63,20 +61,15 @@ class Parser(object):
     def parea( self, se_espera ):
 
         if self.preanalisis["lexema"] == se_espera or self.preanalisis["token"] == se_espera:
-
             pos = self.uami.alex.alexico()
-
-            if pos == "FIN DE ARCHIVO":
+            if pos == self.uami.pr.HECHO:
                 return True
-
-            self.preanalisis["lexema"] = self.uami.tabla.getLexema( pos )
-            self.preanalisis["token"] = self.uami.tabla.getToken( pos )
-            
+            self.preanalisis["lexema"] = self.uami.tabla.getLexema(pos)
+            self.preanalisis["token"] = self.uami.tabla.getToken(pos)            
             return True
 
         else:
             self.uami.errores += 1
-
             texto = [
                             "Linea: ",
                             str(self.uami.lineas),
@@ -90,7 +83,6 @@ class Parser(object):
                             self.preanalisis["lexema"],
                             "\n\n"
                     ]
-
             self.uami.escribirArchivo( self.uami.urlErr, "a+", texto )
             
             cadRes = self.uami.ventana.getTextAreaResultado()

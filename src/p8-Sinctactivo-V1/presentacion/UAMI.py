@@ -81,7 +81,6 @@ class Uami(object):
     # @Param texto: el texto a escribir
     ##
     def escribirArchivo( self, ruta, modo, texto ):
-
         archivo = open( ruta , modo)
 
         if type(texto) == type(list()):
@@ -130,7 +129,7 @@ class Uami(object):
         if self.errores == 0:
             cadRes += "Compilacion Terminada\n\n"  + "NO SE ENCONTRARON ERRORES"
         else:
-            cadRes += "Compilacion Terminada\n\n"  + "Errores: " +  str(self.errores)
+            cadRes += "Compilacion Terminada\n\n"  + "Numero de errores: " +  str(self.errores)
             
         self.ventana.escribirAreaResultado( cadRes )
 
