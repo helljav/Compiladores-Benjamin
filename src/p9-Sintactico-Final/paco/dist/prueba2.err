@@ -1,0 +1,22 @@
+* Detalles de Error de Compilacion*
+
+Linea: 1
+	ERROR LEXICOGRAFICO
+	falto cerrar llave {programa con errores
+
+Linea: 2
+	ERROR LEXICOGRAFICO
+	falto cerrar llave {lexicograficos y sintacticos
+
+Linea: 3
+	TOKEN INVALIDO
+	S
+
+Linea: 3
+	TOKEN INVALIDO
+	E
+
+Linea: 4	ERROR SINTACTICO
+	Se esperaba: ;
+	antes de: comienza
+

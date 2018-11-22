@@ -1,5 +1,8 @@
 class Parser(object):
-    
+    """
+    Clase del analisador sintactico
+    """
+    #Constructor
     def __init__( self, uami ):
         self.uami = uami
         self.preanalisis = {
@@ -14,8 +17,8 @@ class Parser(object):
         self.preanalisis["token"] = self.uami.tabla.getToken( pos )
         #Mandamos a llamar a los metodos, segun la gramtica libre de contexto
         self.encabezado()
-        self.secuencia()
-        # self.parea(self.uami.pr.HECHO)
+        self.estructura()
+        #self.parea(self.uami.pr.HECHO)
 
     def encabezado( self ):
 
@@ -27,24 +30,19 @@ class Parser(object):
         self.parea( identificador )
         self.parea( pc )
     
-    def secuencia( self ):
+    def estructura( self ):
         comienza = self.uami.pr.Reservadas["COMIENZA"]
         termina = self.uami.pr.Reservadas["TERMINA"]
-        self.parea( comienza )
+        self.parea(comienza)
+        while self.preanalisis["lexema"]!= termina and self.preanalisis["lexema"]!=self.uami.pr.HECHO:
+            self.enunciado()
+        self.parea(termina)
 
-        while self.preanalisis["lexema"] != termina:
-            self.asignacion()
+       
 
-            pos = self.uami.alex.alexico()
+    def enunciado(self):
+        pass
 
-            if pos == "FIN DE ARCHIVO":
-                return True
-
-            self.preanalisis["lexema"] = self.uami.tabla.getLexema( pos )
-            self.preanalisis["token"] = self.uami.tabla.getToken( pos )
-            
-        
-        self.parea( termina )
         
 
     def asignacion( self ):
@@ -62,10 +60,13 @@ class Parser(object):
 
         if self.preanalisis["lexema"] == se_espera or self.preanalisis["token"] == se_espera:
             pos = self.uami.alex.alexico()
-            if pos == self.uami.pr.HECHO:
-                return True
-            self.preanalisis["lexema"] = self.uami.tabla.getLexema(pos)
-            self.preanalisis["token"] = self.uami.tabla.getToken(pos)            
+
+            if pos != self.uami.pr.HECHO:
+                self.preanalisis["lexema"] = self.uami.tabla.getLexema(pos)
+                self.preanalisis["token"] = self.uami.tabla.getToken(pos)
+            else:
+                self.preanalisis["lexema"] = self.uami.pr.HECHO
+
             return True
 
         else:
@@ -89,12 +90,4 @@ class Parser(object):
             cadRes += "<< Error Sintactico Encontrado >>\n"
             
             self.uami.ventana.escribirAreaResultado( cadRes )
-
-            pos = self.uami.alex.alexico()
-            
-            if pos == "FIN DE ARCHIVO":
-                return False
-
-            self.preanalisis["lexema"] = self.uami.tabla.getLexema( pos )
-            self.preanalisis["token"] = self.uami.tabla.getToken( pos )
             return False

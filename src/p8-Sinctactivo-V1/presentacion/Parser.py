@@ -31,18 +31,8 @@ class Parser(object):
         comienza = self.uami.pr.Reservadas["COMIENZA"]
         termina = self.uami.pr.Reservadas["TERMINA"]
         self.parea( comienza )
-
-        while self.preanalisis["lexema"] != termina:
+        while self.preanalisis["lexema"] != termina and self.preanalisis["lexema"] != self.uami.pr.HECHO:
             self.asignacion()
-
-            pos = self.uami.alex.alexico()
-
-            if pos == "FIN DE ARCHIVO":
-                return True
-
-            self.preanalisis["lexema"] = self.uami.tabla.getLexema( pos )
-            self.preanalisis["token"] = self.uami.tabla.getToken( pos )
-            
         
         self.parea( termina )
         
@@ -62,10 +52,13 @@ class Parser(object):
 
         if self.preanalisis["lexema"] == se_espera or self.preanalisis["token"] == se_espera:
             pos = self.uami.alex.alexico()
-            if pos == self.uami.pr.HECHO:
-                return True
-            self.preanalisis["lexema"] = self.uami.tabla.getLexema(pos)
-            self.preanalisis["token"] = self.uami.tabla.getToken(pos)            
+
+            if pos != self.uami.pr.HECHO:
+                self.preanalisis["lexema"] = self.uami.tabla.getLexema(pos)
+                self.preanalisis["token"] = self.uami.tabla.getToken(pos)
+            else:
+                self.preanalisis["lexema"] = self.uami.pr.HECHO
+
             return True
 
         else:
@@ -90,11 +83,4 @@ class Parser(object):
             
             self.uami.ventana.escribirAreaResultado( cadRes )
 
-            pos = self.uami.alex.alexico()
-            
-            if pos == "FIN DE ARCHIVO":
-                return False
-
-            self.preanalisis["lexema"] = self.uami.tabla.getLexema( pos )
-            self.preanalisis["token"] = self.uami.tabla.getToken( pos )
             return False
