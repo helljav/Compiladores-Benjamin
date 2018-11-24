@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from PR import Palabras_Reservadas
+from Generador_de_Errores import Generador_de_Errores
 from DTs import DTS
 from PyQt4 import QtGui,QtCore
 
@@ -19,7 +20,7 @@ class Alex(object):
 
         self.pr = pr
         self.uami = uami
-
+        self.GenErrores = Generador_de_Errores(uami)
         self.contenidoFuente = self.uami.ventana.getTextAreaFuente()
         self.contador = 1
         self.buffer = {
@@ -93,25 +94,6 @@ class Alex(object):
             else:
                 self.buffer["pos_leida"] -= 1  
 
-
-    def erroresLex( self, respuesta ):
-
-        self.uami.errores += 1
-        texto = [
-                    "Linea: ",
-                    str(self.uami.lineas),
-                    "\n\t",
-                    respuesta["token"],
-                    "\n\t",
-                    respuesta["lexema"],
-                    "\n\n"
-                ]
-
-        self.uami.escribirArchivo( self.uami.urlErr, "a+", texto )
-        cadRes = self.uami.ventana.getTextAreaResultado()
-        cadRes += "<< Error Lexicografico Encontrado >>\n"
-        self.uami.ventana.escribirAreaResultado( cadRes )
-
     
     ##
     # Metodo que implementa los diagrama de transiciones
@@ -130,7 +112,7 @@ class Alex(object):
             self.uami.lineas = self.contador
             respuesta = dts.Num_Entero( lexema )
             if type(respuesta) == type(dict()):
-                self.erroresLex(respuesta)
+                self.GenErrores.errorLexicografico(respuesta)
                 return self.alexico()
             return respuesta
 
@@ -142,7 +124,7 @@ class Alex(object):
             self.uami.lineas = self.contador
             respuesta = dts.logicos( lexema )
             if type(respuesta) == type(dict()):
-                self.erroresLex(respuesta)
+                self.GenErrores.errorLexicografico(respuesta)
                 return self.alexico()
             return respuesta
 
@@ -160,7 +142,7 @@ class Alex(object):
             respuesta = dts.cadenas( lexema )
 
             if type(respuesta) == type(dict()):
-                self.erroresLex(respuesta)
+                self.GenErrores.errorLexicografico(respuesta)
                 return self.alexico()
 
             return respuesta
@@ -176,7 +158,7 @@ class Alex(object):
             respuesta = dts.comentarios( lexema )
 
             if respuesta:
-                self.erroresLex( respuesta )
+                self.GenErrores.errorLexicografico( respuesta )
                 
             return self.alexico()
 
@@ -193,7 +175,7 @@ class Alex(object):
         # Todo lo no reconocido
         else:
             self.uami.lineas = self.contador
-            self.erroresLex( {
+            self.GenErrores.errorLexicografico( {
                 "token": self.pr.TOKEN_INV,
                 "lexema": lexema
             })

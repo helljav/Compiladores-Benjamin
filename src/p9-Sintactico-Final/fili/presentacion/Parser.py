@@ -101,7 +101,7 @@ class Parser(object):
             self.parea(self.uami.pr.PC)
 
         else:
-            self.reportarError("enunciado")
+            self.uami.alex.GenErrores.errorSintactico("enunciado", self.preanalisis)
             if self.preanalisis["lexema"] != self.uami.pr.Reservadas["TERMINA"]:
                 self.leerToken()
 
@@ -275,7 +275,7 @@ class Parser(object):
             self.parea( identificador )
         
         else:
-            self.reportarError("una expresion")
+            self.uami.alex.GenErrores.errorSintactico("una expresion", self.preanalisis)
     
 
 
@@ -291,7 +291,7 @@ class Parser(object):
             self.leerToken()
             return True
         else:
-            self.reportarError(se_espera)
+            self.uami.alex.GenErrores.errorSintactico(se_espera, self.preanalisis)
             return False
 
 
@@ -303,25 +303,3 @@ class Parser(object):
             
         except:
             self.preanalisis["lexema"] = self.uami.pr.HECHO
-
-    def reportarError( self, se_espera ):
-        self.uami.errores += 1
-
-        texto = [
-                        "Linea: ",
-                        str(self.uami.lineas),
-                        "\t",
-                        self.uami.pr.ERROR_SINTACTICO,
-                        "\n\t",
-                        "Se esperaba: ",
-                        se_espera,
-                        "\n\t",
-                        "antes de: ",
-                        self.preanalisis["lexema"],
-                        "\n\n"
-                ]
-
-        self.uami.escribirArchivo( self.uami.urlErr, "a+", texto )
-        cadRes = self.uami.ventana.getTextAreaResultado()
-        cadRes += "<< Error Sintactico Encontrado >>\n"
-        self.uami.ventana.escribirAreaResultado( cadRes )
