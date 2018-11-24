@@ -1,4 +1,6 @@
+from generadorError import GeneradorError
 class Parser(object):
+
     """
     Clase del analisador sintactico
     """
@@ -41,53 +43,87 @@ class Parser(object):
        
 
     def enunciado(self):
+        print self.preanalisis["lexema"]
+        if(self.preanalisis["lexema"]==self.uami.pr.Reservadas["COMIENZA"]):
+            self.estructura
+        elif(self.preanalisis["token"]==self.uami.pr.ID):
+            self.asignacion()
+        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["SI"]):
+            self.enunc_condicional()
+        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["MIENTRAS"]):
+            self.enunc_mientras()
+        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["PARA"]):
+            self.enunc_para()
+        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["IMPRIME"]):
+            self.enunc_impresion()
+        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["REPITE"]):
+            self.enunc_repite()
+        elif(self.preanalisis["lexema"]==self.uami.pr.PC):
+            self.parea(self.uami.pr.PC)
+      
+        
+    def enunc_condicional(self):
         pass
+    def enunc_mientras(self):
+        pass
+    def enunc_para(self):
+        pass
+    def enunc_impresion(self):
+        pass
+    def enunc_repite(self):
+        pass
+    
 
         
 
     def asignacion( self ):
-        identificador = self.uami.pr.ID
-        igual = self.uami.pr.IGUAL
-        num_entero = self.uami.pr.NUM_ENT
-        pc = self.uami.pr.PC
+        self.parea(self.uami.pr.ID)
+        self.parea(self.uami.pr.IGUAL)
+        self.expresion()
+        self.parea(self.uami.pr.PC)
 
-        self.parea( identificador )
-        self.parea( igual )
-        self.parea( num_entero )
-        self.parea( pc )
+    def expresion(self):
+        self.expresion_simple()
+        if(self.preanalisis["lexema"]==self.uami.pr.RELOP):
+            self.expresion_simple()
+        elif(self.preanalisis["lexema"]==self.uami.pr.LOGOP):
+            self.expresion_simple()
+    
+    def expresion_simple(self):
+        self.termino()
+        while(self.preanalisis["token"]==self.uami.pr.ADDOP):
+            self.parea(self.uami.pr.ADDOP)
+            self.termino()
+
+    def termino(self):
+        self.factor()
+        while(self.preanalisis["token"]==self.uami.pr.MULOP):
+            self.parea(self.uami.pr.MULOP)
+            self.termino()
+    
+    def factor(self):
+        if(self.preanalisis["lexema"]==self.uami.pr.PTSSA):
+            self.expresion()
+            self.parea(self.uami.pr.PTSSC)
+        elif(self.preanalisis["token"]==self.uami.pr.NUM_ENT):
+            self.parea(self.uami.pr.NUM_ENT)
+        elif(self.preanalisis["token"]==self.uami.pr.ID):
+            self.parea(self.uami.pr.ID)
+            
+        
+
     
     def parea( self, se_espera ):
 
         if self.preanalisis["lexema"] == se_espera or self.preanalisis["token"] == se_espera:
             pos = self.uami.alex.alexico()
-
             if pos != self.uami.pr.HECHO:
                 self.preanalisis["lexema"] = self.uami.tabla.getLexema(pos)
                 self.preanalisis["token"] = self.uami.tabla.getToken(pos)
             else:
                 self.preanalisis["lexema"] = self.uami.pr.HECHO
-
             return True
-
         else:
-            self.uami.errores += 1
-            texto = [
-                            "Linea: ",
-                            str(self.uami.lineas),
-                            "\t",
-                            self.uami.pr.ERROR_SINTACTICO,
-                            "\n\t",
-                            "Se esperaba: ",
-                            se_espera,
-                            "\n\t",
-                            "antes de: ",
-                            self.preanalisis["lexema"],
-                            "\n\n"
-                    ]
-            self.uami.escribirArchivo( self.uami.urlErr, "a+", texto )
-            
-            cadRes = self.uami.ventana.getTextAreaResultado()
-            cadRes += "<< Error Sintactico Encontrado >>\n"
-            
-            self.uami.ventana.escribirAreaResultado( cadRes )
+            reportaError = GeneradorError(self.uami)
+            reportaError.imprimeErroresSintacticos(se_espera,self.preanalisis["lexema"])            
             return False

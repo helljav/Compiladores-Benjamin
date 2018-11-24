@@ -38,7 +38,7 @@ def dt_aritmeticos(self, lexema):
         elif lexema is '+':
 
             if pos == -1:
-                pos = self.alex.uami.tabla.addItem( lexema, self.pr.SUMA)
+                pos = self.alex.uami.tabla.addItem( lexema, self.pr.ADDOP)
             return pos
                     
 
@@ -46,7 +46,7 @@ def dt_aritmeticos(self, lexema):
         elif lexema is '-':
 
             if pos == -1:
-                pos = self.alex.uami.tabla.addItem( lexema, self.pr.RESTA)
+                pos = self.alex.uami.tabla.addItem( lexema, self.pr.ADDOP)
             
             return pos
                     
@@ -55,7 +55,7 @@ def dt_aritmeticos(self, lexema):
         elif lexema is '/':
 
             if pos == -1:
-                pos = self.alex.uami.tabla.addItem( lexema, self.pr.DIVISION)
+                pos = self.alex.uami.tabla.addItem( lexema, self.pr.MULOP)
 
             return pos
                     
@@ -64,7 +64,7 @@ def dt_aritmeticos(self, lexema):
         elif lexema is '*':
 
             if pos == -1:
-                pos = self.alex.uami.tabla.addItem( lexema, self.pr.MULTIPLICACION)
+                pos = self.alex.uami.tabla.addItem( lexema, self.pr.MULOP)
 
             return pos
                     
