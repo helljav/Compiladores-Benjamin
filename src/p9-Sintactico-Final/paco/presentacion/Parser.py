@@ -7,6 +7,7 @@ class Parser(object):
     #Constructor
     def __init__( self, uami ):
         self.uami = uami
+        self.reportaError = GeneradorError(self.uami)
         self.preanalisis = {
                             "lexema" : "hola",
                             "token" : 0
@@ -20,58 +21,106 @@ class Parser(object):
         #Mandamos a llamar a los metodos, segun la gramtica libre de contexto
         self.encabezado()
         self.estructura()
-        #self.parea(self.uami.pr.HECHO)
+        self.parea(self.uami.pr.HECHO)
 
     def encabezado( self ):
-
-        programa = self.uami.pr.Reservadas["PROGRAMA"]
-        identificador  = self.uami.pr.ID
-        pc = self.uami.pr.PC
-
-        self.parea( programa )
-        self.parea( identificador )
-        self.parea( pc )
+        self.parea(self.uami.pr.Reservadas["PROGRAMA"])
+        self.parea(self.uami.pr.ID)
+        self.parea(self.uami.pr.PC)
     
     def estructura( self ):
-        comienza = self.uami.pr.Reservadas["COMIENZA"]
-        termina = self.uami.pr.Reservadas["TERMINA"]
-        self.parea(comienza)
-        while self.preanalisis["lexema"]!= termina and self.preanalisis["lexema"]!=self.uami.pr.HECHO:
+        self.parea(self.uami.pr.Reservadas["COMIENZA"])
+        while self.preanalisis["lexema"]!= self.uami.pr.Reservadas["TERMINA"] and self.preanalisis["lexema"]!=self.uami.pr.HECHO:
             self.enunciado()
-        self.parea(termina)
-
-       
+        self.parea(self.uami.pr.Reservadas["TERMINA"])
+    """*********************************************************************************************************************
+    El metodo permite llamar a las variables de nuestra gramatica libre de contexto, segun el token o lexema que 
+    puedan identificar
+    1.-Estructura
+    2.-Asignacion
+    3.-Enunciado condicional
+    4.-Enunciado mientras
+    5.-Enunciado para
+    6.-Impresion
+    7.-Enunciado repite
+    8.-punto y coma
+    ************************************************************************************************************************
+    """       
 
     def enunciado(self):
         print self.preanalisis["lexema"]
-        if(self.preanalisis["lexema"]==self.uami.pr.Reservadas["COMIENZA"]):
-            self.estructura
-        elif(self.preanalisis["token"]==self.uami.pr.ID):
+        if(self.preanalisis["lexema"]==self.uami.pr.Reservadas["COMIENZA"] or self.preanalisis["lexema"]==self.uami.pr.Reservadas["TERMINA"] ):
+            self.estructura()
+        elif(self.preanalisis["token"]==self.uami.pr.ID or self.preanalisis["lexema"]==self.uami.pr.IGUAL):
             self.asignacion()
-        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["SI"]):
+        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["SI"] or self.preanalisis["lexema"]==self.uami.pr.Reservadas["ENTONCES"]):
             self.enunc_condicional()
-        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["MIENTRAS"]):
+        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["MIENTRAS"] or self.preanalisis["lexema"]==self.uami.pr.Reservadas["HAZ"]):
             self.enunc_mientras()
-        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["PARA"]):
+        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["PARA"] or self.preanalisis["lexema"]==self.uami.pr.Reservadas["A"] ):
             self.enunc_para()
-        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["IMPRIME"]):
+        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["IMPRIME"]) or self.preanalisis["lexema"]==self.uami.pr.RESTO_MUNDO:
             self.enunc_impresion()
-        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["REPITE"]):
+        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["REPITE"]or self.preanalisis["lexema"]==self.uami.pr.Reservadas["HASTA"]):
             self.enunc_repite()
         elif(self.preanalisis["lexema"]==self.uami.pr.PC):
             self.parea(self.uami.pr.PC)
+        else:
+            self.reportaError.imprimeErroresSintacticos(self.preanalisis["lexema"],self.preanalisis["lexema"])
+            if self.preanalisis["lexema"] != self.uami.pr.Reservadas["TERMINA"]:
+                pos = self.uami.alex.alexico()
+                if pos != self.uami.pr.HECHO:
+                    self.preanalisis["lexema"] = self.uami.tabla.getLexema(pos)
+                    self.preanalisis["token"] = self.uami.tabla.getToken(pos)
+                else:
+                    self.preanalisis["lexema"] = self.uami.pr.HECHO
+                
+
       
         
     def enunc_condicional(self):
-        pass
+        self.parea(self.uami.pr.Reservadas["SI"])
+        self.expresion()
+        self.parea(self.uami.pr.Reservadas["ENTONCES"])
+        self.enunciado()
+        if(self.preanalisis["lexema"]==self.uami.pr.Reservadas["OTRO"]):
+            self.parea(self.uami.pr.Reservadas["OTRO"])
+            self.enunciado()
+
+
     def enunc_mientras(self):
-        pass
-    def enunc_para(self):
-        pass
+        self.parea(self.uami.pr.Reservadas["MIENTRAS"])
+        self.expresion()
+        self.parea(self.uami.pr.Reservadas["HAZ"])
+        self.enunciado()
+    
     def enunc_impresion(self):
-        pass
+        self.parea(self.uami.pr.Reservadas["IMPRIME"])
+        self.parea(self.uami.pr.RESTO_MUNDO)
+        self.parea(self.uami.pr.STRINGS)
+        self.parea(self.uami.pr.RESTO_MUNDO)
+        self.parea(self.uami.pr.RESTO_MUNDO)
+
+
+
+    def enunc_para(self):
+        self.parea(self.uami.pr.Reservadas["PARA"])
+        self.parea(self.uami.pr.ID)
+        self.parea(self.uami.pr.IGUAL)
+        self.expresion()
+        self.parea(self.uami.pr.Reservadas["A"])
+        self.expresion()
+        self.parea(self.uami.pr.Reservadas["HAZ"])
+        self.enunciado()
+
+   
     def enunc_repite(self):
-        pass
+        self.parea(self.uami.pr.Reservadas["REPITE"])
+        while self.preanalisis["lexema"] != self.uami.pr.Reservadas["HASTA"] and self.preanalisis["lexema"] != self.uami.pr.Reservadas["TERMINA"] and self.preanalisis["lexema"] != self.uami.pr.HECHO:
+                    self.enunciado()
+        self.parea(self.uami.pr.Reservadas["HASTA"])
+        self.expresion()
+        self.parea(self.uami.pr.PC)
     
 
         
@@ -85,8 +134,10 @@ class Parser(object):
     def expresion(self):
         self.expresion_simple()
         if(self.preanalisis["lexema"]==self.uami.pr.RELOP):
+            self.parea(self.uami.pr.RELOP)
             self.expresion_simple()
-        elif(self.preanalisis["lexema"]==self.uami.pr.LOGOP):
+        elif(self.preanalisis["token"]==self.uami.pr.LOGOP):
+            self.parea(self.uami.pr.LOGOP)
             self.expresion_simple()
     
     def expresion_simple(self):
@@ -96,15 +147,18 @@ class Parser(object):
             self.termino()
 
     def termino(self):
+        print("Entre a termino")
         self.factor()
         while(self.preanalisis["token"]==self.uami.pr.MULOP):
             self.parea(self.uami.pr.MULOP)
             self.termino()
     
     def factor(self):
-        if(self.preanalisis["lexema"]==self.uami.pr.PTSSA):
+        print("Entre a factor")
+        if(self.preanalisis["lexema"]==self.uami.pr.RESTO_MUNDO):
+            self.parea(self.uami.pr.RESTO_MUNDO)
             self.expresion()
-            self.parea(self.uami.pr.PTSSC)
+            self.parea(self.uami.pr.RESTO_MUNDO)
         elif(self.preanalisis["token"]==self.uami.pr.NUM_ENT):
             self.parea(self.uami.pr.NUM_ENT)
         elif(self.preanalisis["token"]==self.uami.pr.ID):
@@ -124,6 +178,5 @@ class Parser(object):
                 self.preanalisis["lexema"] = self.uami.pr.HECHO
             return True
         else:
-            reportaError = GeneradorError(self.uami)
-            reportaError.imprimeErroresSintacticos(se_espera,self.preanalisis["lexema"])            
+            self.reportaError.imprimeErroresSintacticos(se_espera,self.preanalisis["lexema"])            
             return False

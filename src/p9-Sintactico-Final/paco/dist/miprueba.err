@@ -1,2 +1,34 @@
 * Detalles de Error de Compilacion*
 
+Linea: 7	ERROR SINTACTICO
+	Se esperaba: entonces
+	antes de: a
+
+Linea: 7	ERROR SINTACTICO
+	Se esperaba: para
+	antes de: a
+
+Linea: 7	ERROR SINTACTICO
+	Se esperaba: IDENTIFICADOR
+	antes de: a
+
+Linea: 7	ERROR SINTACTICO
+	Se esperaba: =
+	antes de: a
+
+Linea: 7	ERROR SINTACTICO
+	Se esperaba: haz
+	antes de: <
+
+Linea: 7	ERROR SINTACTICO
+	Se esperaba: <
+	antes de: <
+
+Linea: 7	ERROR SINTACTICO
+	Se esperaba: 10
+	antes de: 10
+
+Linea: 7	ERROR SINTACTICO
+	Se esperaba: si
+	antes de: entonces
+
