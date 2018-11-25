@@ -2,12 +2,6 @@ En este archivo se encuentran los lexemas reconocidos
 por el analizador lexicografico
 
 
-Linea	Lexema		Token
-
-
-
-<<<<<	Tabla	>>>>>
-
 indice	Lexema	Token
 
 32	1	ENTERO

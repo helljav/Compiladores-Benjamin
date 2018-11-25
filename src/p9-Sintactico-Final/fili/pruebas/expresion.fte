@@ -1,0 +1,15 @@
+programa primer_programa_se;
+          comienza
+                    si 1 + ( 100 - (var/2) + 1) entonces
+                              imprime(" hola %d ", 1 + ( 100 - (var/2) + 1));
+                    
+                    otro
+                              mientras 1>0 haz
+	             comienza
+	                       repite  
+	                                 comienza
+	                                           variable = 2;
+                                                            termina
+                                                  hasta 1 + ( 100 - (var/2) + 1);
+                                         termina
+          termina

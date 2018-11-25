@@ -1,0 +1,7 @@
+programa primer_programa_se;
+	comienza
+	    
+	    mientras 1 + ( 100 - (var/2) + 1) <=  8
+	        haz  x=0;
+	        
+	termina
