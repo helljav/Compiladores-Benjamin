@@ -1,4 +1,15 @@
 programa primer_programase;
 	comienza
-	pito=10;
+
+	pruebita=10+20;
+
+	si (pruebita == 10) entonces
+	pruebita = 100;
+	
+	mientras (pruebita<=100) haz
+	pruebita = 100+1;
+
+	imprime (pruebitas, "pruebitas como cadena :v");
+
+	
 	termina

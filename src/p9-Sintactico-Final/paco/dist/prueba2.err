@@ -20,6 +20,10 @@ Linea: 4	ERROR SINTACTICO
 	Se esperaba: ;
 	antes de: comienza
 
+Linea: 5	ERROR SINTACTICO
+	Se esperaba: IDENTIFICADOR
+	antes de: =
+
 Linea: 7
 	TOKEN INVALIDO
 	$
@@ -47,6 +51,14 @@ Linea: 7
 Linea: 11	ERROR SINTACTICO
 	Se esperaba: ;
 	antes de: var2
+
+Linea: 13	ERROR SINTACTICO
+	Se esperaba: 1
+	antes de: 1
+
+Linea: 13	ERROR SINTACTICO
+	Se esperaba: IDENTIFICADOR
+	antes de: =
 
 Linea: 14	ERROR SINTACTICO
 	Se esperaba: termina

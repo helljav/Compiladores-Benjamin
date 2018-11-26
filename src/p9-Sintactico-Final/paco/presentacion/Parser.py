@@ -33,6 +33,9 @@ class Parser(object):
         while self.preanalisis["lexema"]!= self.uami.pr.Reservadas["TERMINA"] and self.preanalisis["lexema"]!=self.uami.pr.HECHO:
             self.enunciado()
         self.parea(self.uami.pr.Reservadas["TERMINA"])
+    """************************************ ENUNCIADOS***************************************** """"" 
+
+
     """*********************************************************************************************************************
     El metodo permite llamar a las variables de nuestra gramatica libre de contexto, segun el token o lexema que 
     puedan identificar
@@ -44,11 +47,9 @@ class Parser(object):
     6.-Impresion
     7.-Enunciado repite
     8.-punto y coma
-    ************************************************************************************************************************
-    """       
+    ************************************************************************************************************************"""       
 
     def enunciado(self):
-        print self.preanalisis["lexema"]
         if(self.preanalisis["lexema"]==self.uami.pr.Reservadas["COMIENZA"] or self.preanalisis["lexema"]==self.uami.pr.Reservadas["TERMINA"] ):
             self.estructura()
         elif(self.preanalisis["token"]==self.uami.pr.ID or self.preanalisis["lexema"]==self.uami.pr.IGUAL):
@@ -59,13 +60,15 @@ class Parser(object):
             self.enunc_mientras()
         elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["PARA"] or self.preanalisis["lexema"]==self.uami.pr.Reservadas["A"] ):
             self.enunc_para()
-        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["IMPRIME"]) or self.preanalisis["lexema"]==self.uami.pr.RESTO_MUNDO:
+        elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["IMPRIME"]) or self.preanalisis["token"]==self.uami.pr.RESTO_MUNDO:
             self.enunc_impresion()
         elif(self.preanalisis["lexema"]==self.uami.pr.Reservadas["REPITE"]or self.preanalisis["lexema"]==self.uami.pr.Reservadas["HASTA"]):
             self.enunc_repite()
         elif(self.preanalisis["lexema"]==self.uami.pr.PC):
             self.parea(self.uami.pr.PC)
         else:
+            #si no entra en alguna de las anteriores se hace una impresion de error y se actualiza preanlisis
+            #para evitar que se cicle 
             self.reportaError.imprimeErroresSintacticos(self.preanalisis["lexema"],self.preanalisis["lexema"])
             if self.preanalisis["lexema"] != self.uami.pr.Reservadas["TERMINA"]:
                 pos = self.uami.alex.alexico()
@@ -77,7 +80,7 @@ class Parser(object):
                 
 
       
-        
+    
     def enunc_condicional(self):
         self.parea(self.uami.pr.Reservadas["SI"])
         self.expresion()
@@ -97,8 +100,13 @@ class Parser(object):
     def enunc_impresion(self):
         self.parea(self.uami.pr.Reservadas["IMPRIME"])
         self.parea(self.uami.pr.RESTO_MUNDO)
-        self.parea(self.uami.pr.STRINGS)
-        self.parea(self.uami.pr.RESTO_MUNDO)
+        while (self.preanalisis["token"]!=self.uami.pr.RESTO_MUNDO):
+            if(self.preanalisis["token"]==self.uami.pr.ID):
+                self.parea(self.uami.pr.ID)
+            elif(self.preanalisis["token"]==self.uami.pr.STRINGS):
+                self.parea(self.uami.pr.STRINGS)
+            self.parea(self.uami.pr.RESTO_MUNDO)
+       
         self.parea(self.uami.pr.RESTO_MUNDO)
 
 
@@ -123,7 +131,7 @@ class Parser(object):
         self.parea(self.uami.pr.PC)
     
 
-        
+    """*************************************************** otros :V*******************************"""      
 
     def asignacion( self ):
         self.parea(self.uami.pr.ID)
@@ -133,29 +141,31 @@ class Parser(object):
 
     def expresion(self):
         self.expresion_simple()
-        if(self.preanalisis["lexema"]==self.uami.pr.RELOP):
+        if(self.preanalisis["token"]==self.uami.pr.RELOP):
+                      
             self.parea(self.uami.pr.RELOP)
             self.expresion_simple()
         elif(self.preanalisis["token"]==self.uami.pr.LOGOP):
+            print "Entre a logop ese men"
             self.parea(self.uami.pr.LOGOP)
             self.expresion_simple()
     
     def expresion_simple(self):
         self.termino()
+        
         while(self.preanalisis["token"]==self.uami.pr.ADDOP):
+            print "identificador de factor",self.preanalisis["lexema"], self.preanalisis["token"]            
             self.parea(self.uami.pr.ADDOP)
             self.termino()
 
     def termino(self):
-        print("Entre a termino")
         self.factor()
         while(self.preanalisis["token"]==self.uami.pr.MULOP):
             self.parea(self.uami.pr.MULOP)
             self.termino()
     
     def factor(self):
-        print("Entre a factor")
-        if(self.preanalisis["lexema"]==self.uami.pr.RESTO_MUNDO):
+        if(self.preanalisis["token"]==self.uami.pr.RESTO_MUNDO):
             self.parea(self.uami.pr.RESTO_MUNDO)
             self.expresion()
             self.parea(self.uami.pr.RESTO_MUNDO)
@@ -163,6 +173,7 @@ class Parser(object):
             self.parea(self.uami.pr.NUM_ENT)
         elif(self.preanalisis["token"]==self.uami.pr.ID):
             self.parea(self.uami.pr.ID)
+            
             
         
 
