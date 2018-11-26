@@ -5,11 +5,13 @@ programa primer_programase;
 
 	si (pruebita == 10) entonces
 	pruebita = 100;
+	otro
+	imprime("lo siento man ");
 	
 	mientras (pruebita<=100) haz
 	pruebita = 100+1;
 
-	imprime (pruebitas, "pruebitas como cadena :v");
+	imprime (pruebitas, "pruebitas como cadena :v", i*i);
 
 	
 	termina

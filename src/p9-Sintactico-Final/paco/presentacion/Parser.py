@@ -101,12 +101,14 @@ class Parser(object):
         self.parea(self.uami.pr.Reservadas["IMPRIME"])
         self.parea(self.uami.pr.RESTO_MUNDO)
         while (self.preanalisis["token"]!=self.uami.pr.RESTO_MUNDO):
-            if(self.preanalisis["token"]==self.uami.pr.ID):
-                self.parea(self.uami.pr.ID)
-            elif(self.preanalisis["token"]==self.uami.pr.STRINGS):
+            
+            if(self.preanalisis["token"]==self.uami.pr.STRINGS):
                 self.parea(self.uami.pr.STRINGS)
+            else:
+                self.expresion()
+            print "while impresora",self.preanalisis["lexema"], self.preanalisis["token"] 
             self.parea(self.uami.pr.RESTO_MUNDO)
-       
+          
         self.parea(self.uami.pr.RESTO_MUNDO)
 
 
@@ -154,7 +156,7 @@ class Parser(object):
         self.termino()
         
         while(self.preanalisis["token"]==self.uami.pr.ADDOP):
-            print "identificador de factor",self.preanalisis["lexema"], self.preanalisis["token"]            
+            print "while espresion simple",self.preanalisis["lexema"], self.preanalisis["token"]            
             self.parea(self.uami.pr.ADDOP)
             self.termino()
 
