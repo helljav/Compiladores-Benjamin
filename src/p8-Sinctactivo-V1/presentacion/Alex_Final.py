@@ -18,7 +18,7 @@ class Ventana(QtGui.QMainWindow):
 
         # Config Ventana
         self.setGeometry(250, 50, 880, 670)
-        self.setWindowTitle("Practica6 Analizador Lexicgrafico Final")
+        self.setWindowTitle("Analizador Lexicografico Final")
         self.setWindowIcon(QtGui.QIcon("img/logo.png"))
 
         # Evento para abrir los archivos
