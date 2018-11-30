@@ -1,7 +1,7 @@
 programa primer_programa_se;
           comienza
-                    si 1 + ( 100 - (var/2) + 1) entonces
-                              imprime(" hola %d ", 1 + ( 100 - (var/2) + 1));
+                    si hola entonces
+                              imprime(" hola %d ",hola );
                     
                     otro
                               mientras 1>0 haz
@@ -10,6 +10,6 @@ programa primer_programa_se;
 	                                 comienza
 	                                           variable = 2;
                                                             termina
-                                                  hasta 1 + ( 100 - (var/2) + 1);
+                                                  hasta hola + 1;
                                          termina
           termina

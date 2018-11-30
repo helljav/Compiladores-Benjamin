@@ -21,6 +21,8 @@ class Generador_CI(object):
         div = self.uami.pr.DIV
         relop = self.uami.pr.RELOP
         logop = self.uami.pr.LOGOP
+        IMPRIME = self.uami.pr.IMPRIME
+        write = self.uami.pr.ESCRIBE
         
         if valor_Token is halt:
             texto = halt + "\n"
@@ -89,7 +91,6 @@ class Generador_CI(object):
             self.uami.ventana.escribirAreaCI( contenidoArchivo )
 
         elif valor_Token is div:
-            print div
             texto = div + "\n"
             self.uami.escribirArchivo( urlCI, "a+", texto )
             contenidoArchivo = self.uami.getArchivoTexto( urlCI )
@@ -103,6 +104,18 @@ class Generador_CI(object):
 
         elif valor_Token is logop:
             texto = lexema + "\n"
+            self.uami.escribirArchivo( urlCI, "a+", texto )
+            contenidoArchivo = self.uami.getArchivoTexto( urlCI )
+            self.uami.ventana.escribirAreaCI( contenidoArchivo )
+
+        elif valor_Token is IMPRIME:
+            texto = IMPRIME + " " + lexema + "\n"
+            self.uami.escribirArchivo( urlCI, "a+", texto )
+            contenidoArchivo = self.uami.getArchivoTexto( urlCI )
+            self.uami.ventana.escribirAreaCI( contenidoArchivo )
+        
+        elif valor_Token is write:
+            texto = write + "\n"
             self.uami.escribirArchivo( urlCI, "a+", texto )
             contenidoArchivo = self.uami.getArchivoTexto( urlCI )
             self.uami.ventana.escribirAreaCI( contenidoArchivo )

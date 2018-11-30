@@ -75,5 +75,5 @@ class Palabras_Reservadas(object):
         self.VE_A = "goto"
         self.SI_FALSO_VE_A = "gofalse"
         self.ESCRIBE = "write"
-        self.COPIA = "print"
+        self.IMPRIME = "print"
         self.HALT = "halt"

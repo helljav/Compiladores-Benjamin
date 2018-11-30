@@ -203,7 +203,28 @@ class Parser(object):
         self.gci.emite( label, str(salida))
 
     ##
+    # BNF
     # PARA -> ID -> ASIGNACION -> <expresion> -> A -> <expresion> -> HAZ -> <enunciado>
+    #
+    # BNF CI
+    # PARA
+    #   emite(lvalue, c= lexema) 
+    # -> ID -> ASIGNACION -> <expresion>
+    #   emite(asign,null)
+    # -> A
+    #   emite(label,entrada = etiqueta++)
+    #   emite(rvalue, c)
+    # -> <expresion>
+    #   emite(Relop, LE)
+    #   emite(gofalse, salida = etiqueta++)
+    # -> HAZ -> <enunciado>
+    #   emite(lvalue,c) 
+    #   emite(rvalue,c) 
+    #   emite(push,1) 
+    #   emite(addop, mas) 
+    #   emite(asign, null) 
+    #   emite(goto,entrada) 
+    #   emite(label,salida) 
     ##
     def enunc_para(self):
         para = self.uami.pr.Reservadas["PARA"]
@@ -212,18 +233,64 @@ class Parser(object):
         a = self.uami.pr.Reservadas["A"]
         haz = self.uami.pr.Reservadas["HAZ"]
 
+        relop = self.uami.pr.RELOP
+        le = self.uami.pr.LE
+        mas = self.uami.pr.MAS
+        goto = self.uami.pr.VE_A
+        gofalse = self.uami.pr.SI_FALSO_VE_A
+        label = self.uami.pr.ETIQUETA
+        lvalue = self.uami.pr.VALOR_I
+        rvalue = self.uami.pr.VALOR_D
+        amarre = self.uami.pr.ASIGN
+        push = self.uami.pr.PUSH
+
         self.parea( para )
+
+        c = self.preanalisis["lexema"]
+        self.gci.emite( lvalue, c)
+
         self.parea( identificador )
         self.parea( asignacion )
         self.expresion()
+
+        self.gci.emite( amarre, None )
+
         self.parea( a )
+
+        self.etiqueta += 1
+        entrada = self.etiqueta
+        self.gci.emite(label,str(entrada))
+        self.gci.emite(rvalue, c)
+
         self.expresion()
+
+        self.gci.emite(relop, le)
+        self.etiqueta += 1
+        salida = self.etiqueta
+        self.gci.emite(gofalse, str(salida))
+
         self.parea( haz )
         self.enunciado()
 
+        self.gci.emite( lvalue, c ) 
+        self.gci.emite( rvalue, c ) 
+        self.gci.emite( push, str(1) ) 
+        self.gci.emite( mas, None ) 
+        self.gci.emite( amarre, None ) 
+        self.gci.emite( goto, str(entrada) )
+        self.gci.emite( label, str(salida) )
+
 
     ##
+    # BNF 
     # IMPRIME -> ( -> CADENA -> [,<expresion>]* -> ) -> ;
+    #
+    # BNF CI
+    # IMPRIME -> (
+    #   emite(print, lexema)
+    # -> CADENA -> [,<expresion>
+    #   emite(write, null)
+    # ]* -> ) -> ;
     ##
     def enunc_impresion(self):
         imprime = self.uami.pr.Reservadas["IMPRIME"]
@@ -233,14 +300,18 @@ class Parser(object):
         p_cierra = self.uami.pr.P_CIERRA
         pc = self.uami.pr.PC
 
+        IMPRIME = self.uami.pr.IMPRIME
+        write = self.uami.pr.ESCRIBE
+
         self.parea( imprime )
         self.parea( p_abre )
         
+        self.gci.emite(IMPRIME, self.preanalisis["lexema"] )
         
         if self.parea( cadena ):
             
             while self.preanalisis["lexema"] != p_cierra and \
-              self.preanalisis["lexema"] != self.uami.pr.HECHO:  
+                  self.preanalisis["lexema"] != self.uami.pr.HECHO:  
          
                 res_coma = self.parea( coma )
                 res_expresion = self.expresion()
@@ -250,7 +321,7 @@ class Parser(object):
 
         else:
             while self.preanalisis["lexema"] != p_cierra and \
-              self.preanalisis["lexema"] != self.uami.pr.HECHO:  
+                  self.preanalisis["lexema"] != self.uami.pr.HECHO:  
          
                 res_coma = self.parea( coma )
                 res_expresion = self.expresion()
@@ -258,6 +329,7 @@ class Parser(object):
                 if res_coma == False or res_expresion == False:
                     break
 
+        self.gci.emite(write, None )
         self.parea( p_cierra )
         self.parea( pc )
 
@@ -315,7 +387,7 @@ class Parser(object):
         relop = self.uami.pr.RELOP
         logop = self.uami.pr.LOGOP
 
-        self.expresion_simple()
+        res = self.expresion_simple()
         aux = self.preanalisis["lexema"]
 
         if self.preanalisis["token"] == relop:
@@ -327,6 +399,9 @@ class Parser(object):
             self.parea(logop)
             self.expresion_simple();
             self.gci.emite(logop, aux)
+
+        if res == False:
+            return False
 
     ##
     # BNF 
@@ -344,7 +419,7 @@ class Parser(object):
         mas = self.uami.pr.MAS
         menos = self.uami.pr.MENOS
 
-        self.termino()
+        res = self.termino()
         lexema = self.preanalisis["lexema"]
 
         if lexema == mas:
@@ -357,6 +432,8 @@ class Parser(object):
             self.termino()
             self.gci.emite(menos, None)
 
+        if res == False:
+            return False
 
     ##
     # BNF 
@@ -373,7 +450,7 @@ class Parser(object):
         mult = self.uami.pr.MULT
         div = self.uami.pr.DIV
 
-        self.factor()
+        res = self.factor()
         lexema = self.preanalisis["lexema"]
         
         if lexema == mult:
@@ -385,6 +462,9 @@ class Parser(object):
             self.parea( div )
             self.termino()
             self.gci.emite(div,None)
+        
+        if res == False:
+            return False
             
     ##
     # BNF 
@@ -421,6 +501,7 @@ class Parser(object):
             self.parea( identificador )
         else:
             self.uami.alex.GenErrores.errorSintactico("una expresion", self.preanalisis)
+            return False
 
     ##
     # Metodo para comparar tokens
