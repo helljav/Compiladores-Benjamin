@@ -1,0 +1,15 @@
+programa primer_programa_se;
+          comienza
+                    si hola entonces
+                              imprime(" hola %d ",hola );
+                    
+                    otro
+                              mientras 1>0 haz
+	             comienza
+	                       repite  
+	                                 comienza
+	                                           variable = 2;
+                                                            termina
+                                                  hasta hola + 1;
+                                         termina
+          termina
