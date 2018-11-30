@@ -1,0 +1,7 @@
+programa primer_programa_se;
+	comienza
+	   si entonces
+	        int = 2;
+	  otro
+	    as = 0;
+	termina

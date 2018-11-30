@@ -1,0 +1,30 @@
+* Detalles de Error de Compilacion*
+
+Linea: 3
+	TOKEN INVALIDO
+	$
+
+Linea: 3	ERROR SINTACTICO
+	Se esperaba: enunciado
+	antes de: a
+
+Linea: 3	ERROR SINTACTICO
+	Se esperaba: enunciado
+	antes de: =
+
+Linea: 3	ERROR SINTACTICO
+	Se esperaba: enunciado
+	antes de: 2
+
+Linea: 4	ERROR SINTACTICO
+	Se esperaba: enunciado
+	antes de: hasta
+
+Linea: 4	ERROR SINTACTICO
+	Se esperaba: =
+	antes de: ;
+
+Linea: 4	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: ;
+

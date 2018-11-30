@@ -1,5 +1,6 @@
 programa primer_programa_se;
 	comienza
-	     $a  = 2;
+                              repite
+	     a1  = 2;
                                hasta hola;
 	termina

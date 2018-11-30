@@ -1,0 +1,10 @@
+programa prueba;
+          comienza
+
+	a1 = 23 * 21;
+	si a1 entonces 
+	     a2=23;
+	otro
+	    a3 = 22;
+	mientras a1 haz a3 = 2;
+          termina

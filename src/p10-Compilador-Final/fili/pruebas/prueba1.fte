@@ -1,0 +1,13 @@
+programa primer_programa_se;
+	comienza
+	     comienza
+	        var1 = 8;
+	        si
+	        entonces
+	        imprime("cadena%&");
+	        ;
+	        mientras
+	        haz
+	     termina
+	     var2 = 5;
+	termina

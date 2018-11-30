@@ -1,7 +1,11 @@
+from Generador_CI import Generador_CI
+
 class Parser(object):
     
     def __init__( self, uami ):
         self.uami = uami
+        self.gci = Generador_CI(uami)
+        self.etiqueta = 0
         self.preanalisis = {
                             "lexema" : "",
                             "token" : 0
@@ -19,9 +23,8 @@ class Parser(object):
         
         self.encabezado()
         self.estructura()
-        print "fin estructura"
         self.parea(self.uami.pr.HECHO)
-        print "hecho reconocido"
+        self.gci.emite(self.uami.pr.HALT, None)
 
 
     ## 
@@ -44,8 +47,6 @@ class Parser(object):
     def estructura( self ):
         comienza = self.uami.pr.Reservadas["COMIENZA"]
         termina = self.uami.pr.Reservadas["TERMINA"]
-        hasta = self.uami.pr.Reservadas["HASTA"]
-        
 
         self.parea(comienza);
         
@@ -56,9 +57,6 @@ class Parser(object):
         self.parea(termina)
 
     def enunciado( self ):
-
-        # print self.preanalisis["token"]
-        print self.preanalisis["lexema"]
         
         # ESTRUCTURA
         if self.preanalisis["lexema"] == self.uami.pr.Reservadas["COMIENZA"]:
@@ -97,46 +95,112 @@ class Parser(object):
             self.leerToken()
 
     ##
+    # BNF 
     # ID -> ASIGNACION -> <expresion> -> ;
+    #  
+    # BNF CON CODIGO INTERMEDIO
+    # emite(lvalue, lexema)
+    # ID -> ASIGNACION -> <expresion>
+    #                               emite(asign,null)
+    #  -> ;
     ##
     def asignacion( self ):
         identificador = self.uami.pr.ID
         asignacion = self.uami.pr.IGUAL
         pc = self.uami.pr.PC
 
-        self.parea( identificador )
-        self.parea( asignacion )
+        lvalue = self.uami.pr.VALOR_I
+        amarre = self.uami.pr.ASIGN
+
+        self.gci.emite( lvalue, self.preanalisis["lexema"])
+        self.parea(identificador)
+        self.parea(asignacion)
         self.expresion()
+        self.gci.emite( amarre, None )
         self.parea( pc )
 
     ##
-    # SI -> <expresion> -> ENTONCES -> <enunciado>
+    # BNF 
+    # SI -> <expresion> -> ENTONCES -> <enunciado> -> [ OTRO <enunciado> | e] 
+    #
+    # BNF CON CODIGO INTERMEDIO
+    # SI -> <expresion>
+    #                   emite(gofalse, cond = etiqueta++) 
+    # -> ENTONCES -> <enunciado>
+    #                   emite(goto, salida = etiqueta++) 
+    # -> [ OTRO
+    #              emite(label, cond)
+    # -> <enunciado> | e ]
+    #              emite(label, salida)  
     ##
     def enunc_condicional(self):
         si = self.uami.pr.Reservadas["SI"]
         entonces = self.uami.pr.Reservadas["ENTONCES"]
         otro = self.uami.pr.Reservadas["OTRO"]
 
+        gofalse = self.uami.pr.SI_FALSO_VE_A
+        goto = self.uami.pr.VE_A
+        label = self.uami.pr.ETIQUETA
+
         self.parea( si )
         self.expresion()
+
+        self.etiqueta += 1
+        cond = self.etiqueta
+        self.gci.emite( gofalse, str(cond))
+
         self.parea( entonces )
         self.enunciado()
 
+        self.etiqueta +=1
+        salida = self.etiqueta
+        self.gci.emite( goto, str(salida))
+
         if self.preanalisis["lexema"] is otro:
+            self.gci.emite( label, str(cond))
             self.leerToken()
             self.enunciado()
+        
+        self.gci.emite( label, str(salida))
 
     ##
+    # BNF 
     # MIENTRAS -> <expresion> -> HAZ -> <enunciado>
+    #  
+    # BNF CON CODIGO INTERMEDIO
+    # MIENTRAS
+    #       emite(label, cond = etiqueta++) 
+    #  -> <expresion>
+    #       emite(gofalse, salida = etiqueta++) 
+    #  -> HAZ -> <enunciado>
+    #       emite(goto, cond)
+    #       emite(label, salida)  
     ##
     def enunc_mientras(self):
         mientras = self.uami.pr.Reservadas["MIENTRAS"]
         haz = self.uami.pr.Reservadas["HAZ"]
 
+        goto = self.uami.pr.VE_A
+        gofalse = self.uami.pr.SI_FALSO_VE_A
+        label = self.uami.pr.ETIQUETA
+
         self.parea( mientras )
+        
+        self.etiqueta += 1
+        cond = self.etiqueta
+        self.gci.emite( label, str(cond))
+        
         self.expresion()
+
+        self.etiqueta += 1
+        salida = self.etiqueta
+        self.gci.emite( gofalse, str(salida))
+
         self.parea( haz )
         self.enunciado()
+
+        self.gci.emite( goto, str(cond))
+        self.gci.emite( label, str(salida))
 
     ##
     # PARA -> ID -> ASIGNACION -> <expresion> -> A -> <expresion> -> HAZ -> <enunciado>
@@ -159,7 +223,7 @@ class Parser(object):
 
 
     ##
-    # IMPRIME -> ( -> CADENA -> , -> <expresion> -> ) -> ;
+    # IMPRIME -> ( -> CADENA -> [,<expresion>]* -> ) -> ;
     ##
     def enunc_impresion(self):
         imprime = self.uami.pr.Reservadas["IMPRIME"]
@@ -171,32 +235,80 @@ class Parser(object):
 
         self.parea( imprime )
         self.parea( p_abre )
-        self.parea( cadena )
-        self.parea( coma )
-        self.expresion()
+        
+        
+        if self.parea( cadena ):
+            
+            while self.preanalisis["lexema"] != p_cierra and \
+              self.preanalisis["lexema"] != self.uami.pr.HECHO:  
+         
+                res_coma = self.parea( coma )
+                res_expresion = self.expresion()
+
+                if res_coma == False or res_expresion == False:
+                    break
+
+        else:
+            while self.preanalisis["lexema"] != p_cierra and \
+              self.preanalisis["lexema"] != self.uami.pr.HECHO:  
+         
+                res_coma = self.parea( coma )
+                res_expresion = self.expresion()
+
+                if res_coma == False or res_expresion == False:
+                    break
+
         self.parea( p_cierra )
         self.parea( pc )
 
     ##
+    # BFN 
     # REPITE -> <enunciado> -> HASTA -> <expresion> -> ;
+    # 
+    # BFN CI
+    # REPITE
+    #   emite(label, ciclo=etiqueta++)
+    #  -> <enunciado> -> HASTA -> <expresion>
+    #   emite(gofalse,ciclo)
+    #  -> ; 
     ##
     def enunc_repite(self):
         repite = self.uami.pr.Reservadas["REPITE"]
         hasta = self.uami.pr.Reservadas["HASTA"]
         pc = self.uami.pr.PC
-        termina = self.uami.pr.Reservadas["TERMINA"]
+
+        gofalse = self.uami.pr.SI_FALSO_VE_A
+        label = self.uami.pr.ETIQUETA
 
         self.parea( repite )
+        
+        self.etiqueta += 1
+        ciclo = self.etiqueta
+        self.gci.emite(label, str(ciclo))
+
         self.enunciado()
         self.parea( hasta )
         self.expresion()
+
+        self.gci.emite(gofalse, str(ciclo))
+
         self.parea( pc )
 
 
     ##################### Expresion  #########################
 
     ##
-    # <expresion>: <expresion_simple> -> ( LOGOP <expresion_simple | RELOP <expresion_simple> | e)
+    # BFN 
+    # <expresion_simple> -> ( LOGOP <expresion_simple | RELOP <expresion_simple> | e)
+    # 
+    # BFN CI
+    #  <expresion_simple>
+    #       aux = lexema
+    #  -> ( LOGOP <expresion_simple
+    #       emite(RELOP, aux)
+    #  | RELOP <expresion_simple>
+    #       emite(LOGOP, aux)
+    #  | e) 
     ##
     def expresion( self ):
 
@@ -204,17 +316,28 @@ class Parser(object):
         logop = self.uami.pr.LOGOP
 
         self.expresion_simple()
+        aux = self.preanalisis["lexema"]
 
         if self.preanalisis["token"] == relop:
             self.parea( relop )
             self.expresion_simple();
+            self.gci.emite(relop, aux)
         
         elif self.preanalisis["token"] == logop:
             self.parea(logop)
             self.expresion_simple();
+            self.gci.emite(logop, aux)
 
     ##
-    # <exp_simple>: <termino> -> ( ADDOP <termino> | e )
+    # BNF 
+    # <termino> -> ( ADDOP <termino> | e )
+    # 
+    # BFN CI
+    # <termino>
+    #   aux = lexema
+    #  -> ( ADDOP <termino> 
+    #   emite(ADDOP, aux)
+    # | e )
     ##
     def expresion_simple( self ):
 
@@ -222,33 +345,57 @@ class Parser(object):
         menos = self.uami.pr.MENOS
 
         self.termino()
+        lexema = self.preanalisis["lexema"]
 
-        if self.preanalisis["lexema"] == mas:
+        if lexema == mas:
             self.parea( mas )
             self.termino()
-        elif self.preanalisis["lexema"] == menos:
+            self.gci.emite(mas, None)
+
+        elif lexema == menos:
             self.parea( menos )
             self.termino()
+            self.gci.emite(menos, None)
 
 
     ##
-    # <termino> : <factor> ( MULOP <termino> | e)
+    # BNF 
+    # <factor> ( MULOP <termino> | e)
+    # 
+    # BFN
+    # <factor> 
+    #   aux = lexema
+    #  ( MULOP <termino>
+    #   emite(MULOP,aux)
+    #  | e )
     ##
     def termino( self ):
         mult = self.uami.pr.MULT
         div = self.uami.pr.DIV
 
         self.factor()
+        lexema = self.preanalisis["lexema"]
         
-        if self.preanalisis["lexema"] == mult:
+        if lexema == mult:
             self.parea( mult )
             self.termino()
-        elif self.preanalisis["lexema"] == div:
+            self.gci.emite(mult,None)
+            
+        elif lexema == div:
             self.parea( div )
             self.termino()
-
+            self.gci.emite(div,None)
+            
     ##
+    # BNF 
     #<factor>: [ NUM_ENT | ID | ( -> <expresion> -> ) ]
+    # 
+    # BNF CI
+    # <factor>: [
+    #   emite(push, lexema)
+    #  NUM_ENT |
+    #   emite(rvalue, lexema) 
+    #  ID | ( -> <expresion> -> ) ]
     ##
     def factor( self ):
         p_abre = self.uami.pr.P_ABRE
@@ -256,17 +403,22 @@ class Parser(object):
         num_entero = self.uami.pr.NUM_ENT
         identificador = self.uami.pr.ID
 
+        push = self.uami.pr.PUSH
+        rvalue = self.uami.pr.VALOR_D
+        lexema = self.preanalisis["lexema"]
+
         if self.preanalisis["lexema"] == p_abre:
             self.parea( p_abre )
             self.expresion()
             self.parea( p_cierra )
         
         elif self.preanalisis["token"] == num_entero:
+            self.gci.emite(push,lexema)
             self.parea( num_entero )
         
         elif self.preanalisis["token"] == identificador:
+            self.gci.emite(rvalue,lexema)
             self.parea( identificador )
-        
         else:
             self.uami.alex.GenErrores.errorSintactico("una expresion", self.preanalisis)
 
