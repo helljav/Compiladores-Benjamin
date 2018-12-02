@@ -1,0 +1,33 @@
+programa primer_programase;
+	comienza
+
+	pruebita=10+20;
+
+	si (pruebita == 10) entonces
+		pruebita = 100;
+	otro
+		n = 5;
+	
+	mientras (pruebita<=100) haz
+		pruebita = 100+1;	
+
+	para pruebitas =  (pruebitas+20)  a 999 haz
+		pruebitas =100+1; 
+	
+	para i = 1 a pruebita haz
+	          n = i*2;
+
+	imprime ("cadena");
+
+	termina
+
+
+
+
+
+
+
+	
+
+	
+	

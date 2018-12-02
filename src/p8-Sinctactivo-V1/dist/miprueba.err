@@ -1,0 +1,10 @@
+* Detalles de Error de Compilacion*
+
+Linea: 2	ERROR SINTACTICO
+	Se esperaba: ;
+	antes de: comienza
+
+Linea: 5	ERROR SINTACTICO
+	Se esperaba: termina
+	antes de: FIN DE ARCHIVO
+

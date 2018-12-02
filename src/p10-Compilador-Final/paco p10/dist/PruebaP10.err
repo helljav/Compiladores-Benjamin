@@ -1,0 +1,46 @@
+* Detalles de Error de Compilacion*
+
+Linea: 1
+	TOKEN INVALIDO
+	P
+
+Linea: 1
+	TOKEN INVALIDO
+	G
+
+Linea: 1
+	TOKEN INVALIDO
+	C
+
+Linea: 1
+	TOKEN INVALIDO
+	I
+
+Linea: 1	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: _1
+
+Linea: 1	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: _1
+
+Linea: 1	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: ;
+
+Linea: 2	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: comienza
+
+Linea: 2	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: comienza
+
+Linea: 2	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: comienza
+
+Linea: 5	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: FIN DE ARCHIVO
+

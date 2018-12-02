@@ -1,0 +1,74 @@
+* Detalles de Error de Compilacion*
+
+Linea: 1
+	ERROR LEXICOGRAFICO
+	falto cerrar llave {programa con errores
+
+Linea: 2
+	ERROR LEXICOGRAFICO
+	falto cerrar llave {lexicograficos y sintacticos
+
+Linea: 3
+	TOKEN INVALIDO
+	S
+
+Linea: 3
+	TOKEN INVALIDO
+	E
+
+Linea: 4	ERROR SINTACTICO
+	Se esperaba: ;
+	antes de: comienza
+
+Linea: 5	ERROR SINTACTICO
+	Se esperaba: IDENTIFICADOR
+	antes de: =
+
+Linea: 7
+	TOKEN INVALIDO
+	$
+
+Linea: 7
+	TOKEN INVALIDO
+	#
+
+Linea: 7
+	TOKEN INVALIDO
+	[
+
+Linea: 7
+	TOKEN INVALIDO
+	]
+
+Linea: 7
+	TOKEN INVALIDO
+	?
+
+Linea: 7
+	TOKEN INVALIDO
+	~
+
+Linea: 11	ERROR SINTACTICO
+	Se esperaba: ;
+	antes de: var2
+
+Linea: 13	ERROR SINTACTICO
+	Se esperaba: IDENTIFICADOR
+	antes de: 1
+
+Linea: 13	ERROR SINTACTICO
+	Se esperaba: =
+	antes de: 1
+
+Linea: 13	ERROR SINTACTICO
+	Se esperaba: ;
+	antes de: =
+
+Linea: 13	ERROR SINTACTICO
+	Se esperaba: IDENTIFICADOR
+	antes de: =
+
+Linea: 14	ERROR SINTACTICO
+	Se esperaba: termina
+	antes de: FIN DE ARCHIVO
+

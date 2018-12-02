@@ -1,0 +1,10 @@
+***** En este archivo esta la generacion de codigo intermedio *****
+
+lvalue _1
+:=
+lvalue a1
+push 25
+push 10
+*
+:=
+halt
