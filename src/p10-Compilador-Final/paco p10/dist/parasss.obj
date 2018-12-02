@@ -1,0 +1,30 @@
+***** En este archivo esta la generacion de codigo intermedio *****
+
+lvalue alfa
+push 10
+push 2
+push 3
+*
++
+:=
+lvalue i
+push 1
+:=
+label 1
+rvalue i
+rvalue alfa
+<=
+gofalse 2
+lvalue n
+rvalue i
+push 2
+*
+:=
+lvalue i
+rvalue i
+push 1
++
+:=
+goto 1
+label 2
+halt

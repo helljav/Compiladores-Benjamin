@@ -1,0 +1,22 @@
+* Detalles de Error de Compilacion*
+
+Linea: 1
+	TOKEN INVALIDO
+	P
+
+Linea: 1
+	TOKEN INVALIDO
+	M
+
+Linea: 1	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: ayusculas
+
+Linea: 1	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: ;
+
+Linea: 5	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: FIN DE ARCHIVO
+

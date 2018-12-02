@@ -1,0 +1,21 @@
+programa primer_programase;
+	comienza
+
+alfa = 10;
+para i=1 a alfa haz
+n = i*2;
+
+	
+
+	termina
+
+
+
+
+
+
+
+	
+
+	
+	

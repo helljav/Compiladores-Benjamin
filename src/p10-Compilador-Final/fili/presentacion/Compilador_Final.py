@@ -17,8 +17,8 @@ class Ventana(QtGui.QMainWindow):
         self.fuenteUrl = ""
 
         # Config Ventana
-        self.setGeometry(250, 50, 880, 670)
-        self.setWindowTitle("Analizador Lexicografico Final")
+        self.setGeometry(50, 50, 1300, 670)
+        self.setWindowTitle("Compilador Uami")
         self.setWindowIcon(QtGui.QIcon("img/logo.png"))
 
         # Evento para abrir los archivos
@@ -46,7 +46,7 @@ class Ventana(QtGui.QMainWindow):
         self.EventoSaveAs.triggered.connect(self.guardarArchivoAs)
 
         # Evento para compilar
-        self.EventoCompilar = QtGui.QAction(QtGui.QIcon("img/comp.png"), 'compilar',self)
+        self.EventoCompilar = QtGui.QAction(QtGui.QIcon("img/comp.png"), 'Compilar',self)
         self.EventoCompilar.setShortcut("Ctrl+R")
         self.EventoCompilar.setStatusTip('Inicia la compilacion')
         self.EventoCompilar.triggered.connect(self.iniciarCompilacion)
@@ -93,6 +93,9 @@ class Ventana(QtGui.QMainWindow):
         self.txtAreaFileTupla  = QtGui.QTextEdit(self)
         self.txtAreaFileTupla.setGeometry(445,85,425,270)
 
+        self.txtAreaFileCI  = QtGui.QTextEdit(self)
+        self.txtAreaFileCI.setGeometry(880,85,400,565)
+
         # etiquetas (Labels)
         self.lbl_Fuente = QtGui.QLabel("CONTENIDO DEL ARCHIVO FUENTE: ",self)
         self.lbl_Fuente.setGeometry(80,40,300,60)
@@ -109,6 +112,11 @@ class Ventana(QtGui.QMainWindow):
         self.lbl_fileTupla = QtGui.QLabel("CONTENIDO DEL ARCHIVO TUPLA: ",self)
         self.lbl_fileTupla.setGeometry(550,40,300,60)
         self.lbl_fileTupla.setFont(QtGui.QFont('SansSerif', 11))
+
+        self.lbl_fileCI = QtGui.QLabel("CODIGO INTERMEDIO: ",self)
+        self.lbl_fileCI.setGeometry(880,40,300,60)
+        self.lbl_fileCI.setFont(QtGui.QFont('SansSerif', 11))
+
         self.show()
 
     ##
@@ -137,7 +145,7 @@ class Ventana(QtGui.QMainWindow):
         
         # Guardar como si no existe el archivo
         else:
-            url = str( QtGui.QFileDialog.getSaveFileName(self, 'Save As File', filter="*.fte") )
+            url = str( QtGui.QFileDialog.getSaveFileName(self, 'Guardar Archivo', filter="*.fte") )
 
             if url:
                     # Si no termina en .fte
@@ -162,7 +170,7 @@ class Ventana(QtGui.QMainWindow):
         
         # urlActual = self.fuenteUrl
 
-        url = str( QtGui.QFileDialog.getSaveFileName(self, 'Save As File', filter="*.fte") )
+        url = str( QtGui.QFileDialog.getSaveFileName(self, 'Guardar Archivo Como', filter="*.fte") )
 
         if url:
                 # Si no termina en .fte
@@ -195,14 +203,17 @@ class Ventana(QtGui.QMainWindow):
 
             urlActual = self.fuenteUrl
             # Direccion del archivo Seleccionado en el Dialogo de python
-            self.fuenteUrl = QtGui.QFileDialog.getOpenFileName(self, 'Open File', filter="*.fte")    
+            self.fuenteUrl = QtGui.QFileDialog.getOpenFileName(self, 'Abrir Archivo', filter="*.fte")    
             
             # Si se selecciono algun archivo en el dialogo
             # se imprime el contenido en la caja de texto
             # del archivo fuente
             if self.fuenteUrl:
                 archivo = open(self.fuenteUrl, "r")
-                self.txtAreaFuente.setText( archivo.read() )
+                self.escribirAreaFuente(archivo.read())
+                self.escribirAreaErrores("")
+                self.escribirAreaResultado("")
+                self.escribirAreaTupla("")
                 archivo.close()
             else:
                 self.fuenteUrl = urlActual
@@ -233,6 +244,12 @@ class Ventana(QtGui.QMainWindow):
     
     def getTextAreaTupla( self ):
         return self.txtAreaFileTupla.toPlainText()
+
+    def escribirAreaCI( self, texto ):
+        self.txtAreaFileCI.setText( texto )
+    
+    def getTextAreaCI( self ):
+        return self.txtAreaFileCI.toPlainText()
 
     
     ##

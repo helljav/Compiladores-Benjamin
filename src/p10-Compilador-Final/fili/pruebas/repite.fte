@@ -1,0 +1,6 @@
+programa primer_programa_se;
+	comienza
+                              repite
+	     a1  = 2;
+                               hasta hola;
+	termina

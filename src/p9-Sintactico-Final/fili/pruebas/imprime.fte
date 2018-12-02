@@ -1,0 +1,4 @@
+programa primer_programa_se;
+	comienza
+	     imprime ("hola %d", 1 + ( 100 - (var/2) + 1));
+	termina

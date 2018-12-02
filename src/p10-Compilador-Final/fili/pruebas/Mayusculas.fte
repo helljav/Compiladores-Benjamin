@@ -1,0 +1,29 @@
+programa prueba;
+     { Estructura }
+     comienza
+          { asignacion }
+          a1 = 23 * 21;
+
+          { Condicional }
+          si variable + 1 == 2 entonces
+               a1 = 23 * 21;
+          otro
+               a1 = 23 + 21;
+
+          { Mientras }
+          mientras 12 < 20 haz
+                a1 = 23 + 21;
+
+          { Para }
+
+          para i=0 a i==12 haz
+               a1 = 23 + 21;
+
+          { Repite }
+
+          repite a1 = 23 + 21; hasta i <= 2;
+
+          { Impresion }
+          imprime("num1 = %d, y num2 = %d", hola, 1 );
+
+     termina

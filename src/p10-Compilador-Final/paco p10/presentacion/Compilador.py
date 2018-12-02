@@ -17,8 +17,8 @@ class Ventana(QtGui.QMainWindow):
         self.fuenteUrl = ""
 
         # Config Ventana
-        self.setGeometry(250, 50, 880, 670)
-        self.setWindowTitle("Analizador Lexicografico Final")
+        self.setGeometry(50, 50, 1280, 670)
+        self.setWindowTitle("Compilador UAMITO")
         self.setWindowIcon(QtGui.QIcon("img/logo.png"))
 
         # Evento para abrir los archivos
@@ -84,6 +84,9 @@ class Ventana(QtGui.QMainWindow):
         self.txtAreaFuente = QtGui.QTextEdit(self)
         self.txtAreaFuente.setGeometry(10,85,425,270)
 
+        self.txtAreaObjeto = QtGui.QTextEdit(self)
+        self.txtAreaObjeto.setGeometry(880,85,390,565)
+
         self.txtAreaFileError = QtGui.QTextEdit(self)
         self.txtAreaFileError.setGeometry(10,380,425,270)
 
@@ -97,6 +100,10 @@ class Ventana(QtGui.QMainWindow):
         self.lbl_Fuente = QtGui.QLabel("CONTENIDO DEL ARCHIVO FUENTE: ",self)
         self.lbl_Fuente.setGeometry(80,40,300,60)
         self.lbl_Fuente.setFont(QtGui.QFont('SansSerif', 11))
+
+        self.lbl_Objeto = QtGui.QLabel("CONTENIDO DEL ARCHIVO OBJETO: ",self)
+        self.lbl_Objeto.setGeometry(970,40,300,60)
+        self.lbl_Objeto.setFont(QtGui.QFont('SansSerif', 11))
        
         self.lbl_fileError = QtGui.QLabel("CONTENIDO DEL ARCHIVO ERROR: ",self)
         self.lbl_fileError.setGeometry(80,335,300,60)
@@ -233,6 +240,12 @@ class Ventana(QtGui.QMainWindow):
     
     def getTextAreaTupla( self ):
         return self.txtAreaFileTupla.toPlainText()
+
+    def escribirAreaObjeto( self, texto ):
+        self.txtAreaObjeto.setText( texto )
+
+    def getTextAreaObjeto( self ):
+        return self.txtAreaObejto.toPlainText()
 
     
     ##

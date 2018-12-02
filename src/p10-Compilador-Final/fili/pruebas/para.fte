@@ -1,0 +1,6 @@
+programa primer_programa_se;
+	comienza
+	  para variable = 1 + ( 100 - (var/2) + 1)  a 10 
+	       haz
+ 	              i = 1;
+	termina

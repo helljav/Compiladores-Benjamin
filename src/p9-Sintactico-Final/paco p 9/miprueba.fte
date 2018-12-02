@@ -1,0 +1,30 @@
+programa primer_programase;
+	comienza
+
+	pruebita=10+20;
+
+	si (pruebita == 10) entonces
+		pruebita = 100;
+	otro
+		imprime("lo siento man, que sad ");
+	
+	mientras (pruebita<=100) haz
+		pruebita = 100+1;
+
+	imprime (pruebitas, "pruebitas como cadena :v", i*i);
+
+	para pruebitas =  (pruebitas+20)  a 999 haz
+		pruebitas =100+1; 
+
+	termina
+
+
+
+
+
+
+
+	
+
+	
+	

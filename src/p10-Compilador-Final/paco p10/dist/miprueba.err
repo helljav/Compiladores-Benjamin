@@ -1,0 +1,38 @@
+* Detalles de Error de Compilacion*
+
+Linea: 20	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: n
+
+Linea: 20	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: ,
+
+Linea: 20	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: i
+
+Linea: 20	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: *
+
+Linea: 20	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: *
+
+Linea: 20	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: )
+
+Linea: 20	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: )
+
+Linea: 20	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: ;
+
+Linea: 22	ERROR SINTACTICO
+	Se esperaba: una expresion
+	antes de: termina
+

@@ -1,0 +1,84 @@
+***** En este archivo esta la generacion de codigo intermedio *****
+
+lvalue pruebita
+push 10
+push 20
++
+:=
+rvalue pruebita
+push 10
+==
+gofalse 1
+lvalue pruebita
+push 100
+:=
+goto 2
+label 1
+lvalue n
+push 5
+:=
+label 2
+label 3
+rvalue pruebita
+push 100
+<=
+gofalse 4
+lvalue pruebita
+push 100
+push 1
++
+:=
+goto 3
+label 4
+lvalue pruebitas
+rvalue pruebitas
+push 20
++
+:=
+label 5
+rvalue pruebitas
+push 999
+<=
+gofalse 6
+lvalue pruebitas
+push 100
+push 1
++
+:=
+lvalue pruebitas
+rvalue pruebitas
+push 1
++
+:=
+goto 5
+label 6
+lvalue i
+push 1
+:=
+label 7
+rvalue i
+rvalue pruebita
+<=
+gofalse 8
+lvalue n
+rvalue i
+push 2
+*
+:=
+lvalue i
+rvalue i
+push 1
++
+:=
+goto 7
+label 8
+print "cadena"
+lvalue n
+rvalue i
+:=
+lvalue i
+rvalue n
+*
+:=
+print ;
+halt

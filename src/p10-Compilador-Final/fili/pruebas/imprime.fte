@@ -1,0 +1,4 @@
+programa primer_programa_se;
+	comienza
+	     imprime ("num1 = %d, y num2 = %d", hola, 1 );
+	termina
